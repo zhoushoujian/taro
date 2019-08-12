@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { Button, Text } from '@tarojs/components'
-import { postcss } from '@utils/style'
+import { postcss } from 'utils/style'
 import classNames from 'classnames'
 import './index.scss'
 

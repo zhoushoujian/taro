@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-import jump from '@utils/jump'
+import jump from 'utils/jump'
 import classNames from 'classnames'
 import './index.scss'
 

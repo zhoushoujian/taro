@@ -2,9 +2,9 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import md5 from 'blueimp-md5'
 import { connect } from '@tarojs/redux'
-import * as actions from '@store/user'
-import { ButtonItem, InputItem } from '@components'
-import { CDN } from '@constants/api'
+import * as actions from 'store/user'
+import { ButtonItem, InputItem } from 'components'
+import { CDN } from 'constants/api'
 import './user-login-email.scss'
 
 const LOGO = `${CDN}/6dbf208804386f12aa9e662d82abe563.png`

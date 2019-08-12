@@ -16,6 +16,7 @@ import './app.scss'
 
 const store = configStore()
 
+
 class App extends Component {
   config = {
     pages: [

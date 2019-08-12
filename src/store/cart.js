@@ -1,8 +1,8 @@
 import {
   API_CART, API_CART_NUM, API_CART_RECOMMEND,
   API_CART_ADD, API_CART_UPDATE, API_CART_UPDATE_CHECK
-} from '@constants/api'
-import { createAction } from '@utils/redux'
+} from 'constants/api'
+import { createAction } from 'utils/redux'
 import Taro from '@tarojs/taro'
 
 const CART_INFO = 'CART_INFO'

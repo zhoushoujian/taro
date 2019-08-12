@@ -1,9 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import * as actions from '@store/user'
-import { ButtonItem } from '@components'
-import { CDN } from '@constants/api'
+import * as actions from 'store/user'
+import { ButtonItem } from 'components'
+import { CDN } from 'constants/api'
 // NOTE 使用统一接口的多端文件进行跨端处理
 // auth 中有 index.js/index.weapp.js/index.alipay.js
 // 若是编译微信，则实际引入的是 index.weapp.js

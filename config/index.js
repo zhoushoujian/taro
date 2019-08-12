@@ -8,7 +8,7 @@ const sassImporter = function(url) {
     }
   }
 
-  const reg = /^@styles\/(.*)/
+  const reg = /^styles\/(.*)/
   return {
     file: reg.test(url) ? path.resolve(__dirname, '..', 'src/styles', url.match(reg)[1]) : url
   }
@@ -46,13 +46,12 @@ const config = {
   defineConstants: {
   },
   alias: {
-    '@store': path.resolve(__dirname, '..', 'src/store'),
-    '@assets': path.resolve(__dirname, '..', 'src/assets'),
-    '@components': path.resolve(__dirname, '..', 'src/components'),
-    '@constants': path.resolve(__dirname, '..', 'src/constants'),
-    '@reducers': path.resolve(__dirname, '..', 'src/reducers'),
-    '@styles': path.resolve(__dirname, '..', 'src/styles'),
-    '@utils': path.resolve(__dirname, '..', 'src/utils')
+    'store': path.resolve(__dirname, '..', 'src/store'),
+    'assets': path.resolve(__dirname, '..', 'src/assets'),
+    'components': path.resolve(__dirname, '..', 'src/components'),
+    'constants': path.resolve(__dirname, '..', 'src/constants'),
+    'styles': path.resolve(__dirname, '..', 'src/styles'),
+    'utils': path.resolve(__dirname, '..', 'src/utils')
   },
   copy: {
     patterns: [

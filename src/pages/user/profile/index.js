@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-import defaultAvatar from '@assets/default-avatar.png'
+import defaultAvatar from 'assets/default-avatar.png'
 import Vip from './vip'
 import bg from './assets/bg.png'
 import qrCode from './assets/qr-code.png'

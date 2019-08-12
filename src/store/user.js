@@ -1,5 +1,5 @@
-import { API_USER, API_USER_LOGIN } from '@constants/api'
-import { createAction } from '@utils/redux'
+import { API_USER, API_USER_LOGIN } from 'constants/api'
+import { createAction } from 'utils/redux'
 
 const USER_INFO = 'USER_INFO'
 const USER_LOGIN = 'USER_LOGIN'

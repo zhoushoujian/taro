@@ -1,7 +1,7 @@
 import {
   API_HOME, API_HOME_SEARCH_COUNT, API_HOME_RECOMMEND, API_HOME_PIN
-} from '@constants/api'
-import { createAction } from '@utils/redux'
+} from 'constants/api'
+import { createAction } from 'utils/redux'
 
 const HOME_INFO = 'HOME_INFO'
 const HOME_SEARCH_COUNT = 'HOME_SEARCH_COUNT'

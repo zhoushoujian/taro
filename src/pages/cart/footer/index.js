@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { CheckboxItem, ButtonItem } from '@components'
+import { CheckboxItem, ButtonItem } from 'components'
 import './index.scss'
 
 export default class Footer extends Component {

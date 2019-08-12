@@ -1,5 +1,5 @@
-import { API_ITEM, API_ITEM_RECOMMEND } from '@constants/api'
-import { createAction } from '@utils/redux'
+import { API_ITEM, API_ITEM_RECOMMEND } from 'constants/api'
+import { createAction } from 'utils/redux'
 
 const ITEM_INFO = 'ITEM_INFO'
 const ITEM_RECOMMEND = 'ITEM_RECOMMEND'

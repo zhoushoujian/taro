@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { API_USER, API_USER_LOGIN } from '@constants/api'
+import { API_USER, API_USER_LOGIN } from 'constants/api'
 
 const CODE_SUCCESS = '200'
 const CODE_AUTH_EXPIRED = '600'

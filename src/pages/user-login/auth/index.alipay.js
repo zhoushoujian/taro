@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
-import { ButtonItem } from '@components'
-import TaroAlipay from '@utils/taro.alipay'
+import { ButtonItem } from 'components'
+import TaroAlipay from 'utils/taro.alipay'
 
 // XXX 仅仅作为多端组件示例，实际只实现了邮箱登录
 export default class AUth extends Component {

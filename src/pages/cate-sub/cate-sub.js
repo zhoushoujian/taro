@@ -1,9 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, ScrollView, Swiper, SwiperItem } from '@tarojs/components'
-import { ItemList, Loading } from '@components'
+import { ItemList, Loading } from 'components'
 import { connect } from '@tarojs/redux'
-import * as actions from '@store/cate'
-import { getWindowHeight } from '@utils/style'
+import * as actions from 'store/cate'
+import { getWindowHeight } from 'utils/style'
 import Tab from './tab'
 import './cate-sub.scss'
 

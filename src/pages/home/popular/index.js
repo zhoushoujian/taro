@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-import { HomeTitle, Tag } from '@components'
+import { HomeTitle, Tag } from 'components'
 import imgBg from './assets/img-bg.png'
 import './index.scss'
 

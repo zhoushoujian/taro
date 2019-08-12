@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-import { Tag } from '@components'
-import defaultAvatar from '@assets/default-avatar.png'
+import { Tag } from 'components'
+import defaultAvatar from 'assets/default-avatar.png'
 import './index.scss'
 
 export default class Recommend extends Component {

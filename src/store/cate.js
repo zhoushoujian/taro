@@ -1,5 +1,5 @@
-import { API_CATE, API_CATE_SUB, API_CATE_SUB_LIST } from '@constants/api'
-import { createAction } from '@utils/redux'
+import { API_CATE, API_CATE_SUB, API_CATE_SUB_LIST } from 'constants/api'
+import { createAction } from 'utils/redux'
 
 const CATE_MENU = 'CATE_MENU'
 const CATE_SUB = 'CATE_SUB'
