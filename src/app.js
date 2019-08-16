@@ -1,6 +1,9 @@
 import '@tarojs/async-await'
 import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
+import $ from "jquery"
+import _ from "lodash"
+import axios from "axios"
 
 import Index from './pages/index'
 
@@ -16,24 +19,21 @@ import './app.scss'
 
 const store = configStore()
 
+window.$ = $
+window._ = _
+window.axios = axios
 
 class App extends Component {
   config = {
     pages: [
       'pages/home/home',
-      'pages/cate/cate',
-      'pages/cate-sub/cate-sub',
-      'pages/cart/cart',
       'pages/user/user',
-      'pages/user-login/user-login',
-      'pages/user-login-email/user-login-email',
-      'pages/item/item',
       'pages/webview/webview'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '网易严选',
+      navigationBarTitleText: '觅星峰',
       navigationBarTextStyle: 'black'
     },
     tabBar: {
@@ -45,17 +45,7 @@ class App extends Component {
         pagePath: "pages/home/home",
         iconPath: "./assets/tab-bar/home.png",
         selectedIconPath: "./assets/tab-bar/home-active.png",
-        text: "首页"
-      }, {
-        pagePath: "pages/cate/cate",
-        iconPath: "./assets/tab-bar/cate.png",
-        selectedIconPath: "./assets/tab-bar/cate-active.png",
-        text: "分类"
-      }, {
-        pagePath: "pages/cart/cart",
-        iconPath: "./assets/tab-bar/cart.png",
-        selectedIconPath: "./assets/tab-bar/cart-active.png",
-        text: "购物车"
+        text: "签到"
       }, {
         pagePath: "pages/user/user",
         iconPath: "./assets/tab-bar/user.png",

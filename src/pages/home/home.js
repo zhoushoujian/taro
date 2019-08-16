@@ -1,153 +1,96 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Image, ScrollView } from '@tarojs/components'
+import { View, Text, ScrollView } from '@tarojs/components'
 import { Loading } from 'components'
 import { connect } from '@tarojs/redux'
 import * as actions from 'store/home'
-import { dispatchCartNum } from 'store/cart'
 import { getWindowHeight } from 'utils/style'
-import Banner from './banner'
-import Policy from './policy'
-import Pin from './pin'
-import Operation from './operation'
-import Manufactory from './manufactory'
-import FlashSale from './flash-sale'
-import Popular from './popular'
-import Category from './category'
-import Recommend from './recommend'
-import searchIcon from './assets/search.png'
 import './home.scss'
 
-const RECOMMEND_SIZE = 20
-
-@connect(state => state.home, { ...actions, dispatchCartNum })
+@connect(state => state.home, { ...actions })
 class Home extends Component {
   config = {
-    navigationBarTitleText: '网易严选'
-  }
-
-  state = {
-    loaded: false,
-    loading: false,
-    lastItemId: 0,
-    hasMore: true
+    navigationBarTitleText: '觅星峰'
   }
 
   componentDidMount() {
     // NOTE 暂时去掉不适配的内容
-    Taro.showToast({
-      title: '注意，由于严选小程序首页界面、接口大幅变动，暂时去掉不相符的部分，后续再跟进改动',
-      icon: 'none',
-      duration: 6000
-    })
+    // Taro.showToast({
+    //   title: '注意，由于严选小程序首页界面、接口大幅变动，暂时去掉不相符的部分，后续再跟进改动',
+    //   icon: 'none',
+    //   duration: 6000
+    // })
 
-    this.props.dispatchHome().then(() => {
-      this.setState({ loaded: true })
-    })
-    this.props.dispatchCartNum()
-    this.props.dispatchSearchCount()
-    this.props.dispatchPin({ orderType: 4, size: 12 })
-    this.loadRecommend()
-  }
-
-  loadRecommend = () => {
-    if (!this.state.hasMore || this.state.loading) {
-      return
+    let hour = new Date().getHours();
+    if (hour < 6) {
+      document.getElementsByClassName("greetings")[0].innerHTML = "凌晨好！&nbsp;";
+    } else if (hour < 8) {
+      document.getElementsByClassName("greetings")[0].innerHTML = "早上好！&nbsp;";
+    } else if (hour < 11) {
+      document.getElementsByClassName("greetings")[0].innerHTML = "上午好！&nbsp;";
+    } else if (hour < 14) {
+      document.getElementsByClassName("greetings")[0].innerHTML = "中午好！&nbsp;";
+    } else if (hour < 17) {
+      document.getElementsByClassName("greetings")[0].innerHTML = "下午好！&nbsp;";
+    } else if (hour < 19) {
+      document.getElementsByClassName("greetings")[0].innerHTML = "傍晚好！&nbsp;";
+    } else if (hour < 24) {
+      document.getElementsByClassName("greetings")[0].innerHTML = "晚上好！&nbsp;";
     }
-
-    const payload = {
-      lastItemId: this.state.lastItemId,
-      size: RECOMMEND_SIZE
+    //update clock time
+    if (!window.timer) {
+      window.timer = true
+      setInterval(() => {
+        let minute = new Date().getMinutes(),
+          hour = new Date().getHours();
+        if (minute < 10) minute = "0" + minute;
+        if (hour < 10) hour = "0" + hour;
+        $('#now-time .hour').html(hour);
+        $('#now-time .minute').html(minute);
+        if ($('#now-time .middle').html() === ":") {
+          $('#now-time .middle').html("&nbsp;")
+        } else {
+          $('#now-time .middle').html(":")
+        }
+      }, 1000)
     }
-    this.setState({ loading: true })
-    this.props.dispatchRecommend(payload).then((res) => {
-      const lastItem = res.rcmdItemList[res.rcmdItemList.length - 1]
-      this.setState({
-        loading: false,
-        hasMore: res.hasMore,
-        lastItemId: lastItem && lastItem.id
-      })
-    }).catch(() => {
-      this.setState({ loading: false })
-    })
-  }
-
-  handlePrevent = () => {
-    // XXX 时间关系，首页只实现底部推荐商品的点击
-    Taro.showToast({
-      title: '目前只可点击底部推荐商品',
-      icon: 'none'
-    })
   }
 
   render () {
-    if (!this.state.loaded) {
-      return <Loading />
-    }
+    // if (!this.state.loaded) {
+    //   return <Loading />
+    // }
 
-    const { homeInfo, searchCount, recommend, pin } = this.props
+    const { currentLocation, username, token, alreadySignUpPersons, notSignUpPersons, lastSignUpTime, onlinePersons} = this.props;
     return (
-      <View className='home'>
-        <View className='home__search'>
-          <View className='home__search-wrap' onClick={this.handlePrevent}>
-            <Image className='home__search-img' src={searchIcon} />
-            <Text className='home__search-txt'>
-              {`搜索商品，共${searchCount}款好物`}
-            </Text>
-          </View>
-        </View>
-        <ScrollView
-          scrollY
-          className='home__wrap'
-          onScrollToLower={this.loadRecommend}
-          style={{ height: getWindowHeight() }}
-        >
-          <View onClick={this.handlePrevent}>
-            <Banner list={homeInfo.focus} />
-            <Policy list={homeInfo.policyDesc} />
-
-            {/* 免费拼团 */}
-            <Pin
-              banner={homeInfo.newUserExclusive}
-              list={pin}
-            />
-
-            {/* 不知道叫啥 */}
-            {/* <Operation
-              list={homeInfo.operationCfg}
-              sale={homeInfo.saleCenter}
-            /> */}
-
-            {/* 品牌制造 */}
-            {/* <Manufactory
-              data={homeInfo.manufactory}
-              boss={homeInfo.dingBossRcmd}
-            /> */}
-
-            {/* 限时购 */}
-            {/* <FlashSale data={homeInfo.flashSale} /> */}
-
-            {/* 人气推荐 */}
-            {/* <Popular data={homeInfo.popularItems} /> */}
-
-            {/* 类目热销榜 */}
-            {/* <Category data={homeInfo.hotCategory} /> */}
-          </View>
-
-          {/* 为你推荐 */}
-          <Recommend list={recommend} />
-
-          {this.state.loading &&
-            <View className='home__loading'>
-              <Text className='home__loading-txt'>正在加载中...</Text>
-            </View>
-          }
-          {!this.state.hasMore &&
-            <View className='home__loading home__loading--not-more'>
-              <Text className='home__loading-txt'>更多内容，敬请期待</Text>
-            </View>
-          }
-        </ScrollView>
-      </View>
+      <View className="sign-main">
+        <View className="header">
+					<Text className="greetings"></Text>
+					<Text className="user">{username}</Text>
+				</View>
+				<View className="body">
+        		<View className="sign-area">
+        			<View className="sign" onClick={() => this.signIn()}>
+						    <Text className="sign-text">签到</Text>
+						    <View id="now-time"><span className="hour"></span><span className="middle">:</span><span className="minute"></span></View>
+						  </View>
+						  {/* {currentLocation ? <div id="position-location" style={{"marginTop":"20px"}}>您当前的位置: {typeof(currentLocation) === 'object' ? currentLocation.formatted_address : currentLocation}</div> : ""} */}
+        			<Text className="last-sign-time">上一次签到时间：<Text className="last-sign">{lastSignUpTime}</Text></Text>
+						  <View className="online-persons">
+						  	<Text className="text">当前</Text>
+						  	<Text className="persons">{onlinePersons}</Text>
+						  	<Text className="text">人在线</Text>
+						  </View>
+        		</View>
+        		<View className="count-area">
+        		  	<View className="signed"><Text className="signed-text">已签到:</Text>
+        		  	  	<ScrollView className="signed-persons">{alreadySignUpPersons}</ScrollView>
+        		  	</View>
+        		  	<View className="not-signed"><Text className="not-signed-text">未签到:</Text>
+        		  	  	<ScrollView className="not-signed-persons">{notSignUpPersons}</ScrollView>
+        		  	</View>
+        		</View>
+        	</View>
+  		</View>
     )
   }
 }

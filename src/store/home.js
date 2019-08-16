@@ -1,95 +1,64 @@
-import {
-  API_HOME, API_HOME_SEARCH_COUNT, API_HOME_RECOMMEND, API_HOME_PIN
-} from 'constants/api'
-import { createAction } from 'utils/redux'
-
-const HOME_INFO = 'HOME_INFO'
-const HOME_SEARCH_COUNT = 'HOME_SEARCH_COUNT'
-const HOME_PIN = 'HOME_PIN'
-const HOME_RECOMMEND = 'HOME_RECOMMEND'
+const SHOW_UPDATE_BANNER = "sign/showUpdateBanner";
+const IS_SIGNED_UP = "sign/isSignedUp";
+const LAST_SIGN_UP_TIME = "sign/lastSignUpTime";
+const ALREADY_SIGN_UP_PERSONS = "sign/alreadySignUpPersons";
+const NOT_SIGN_UP_PERSONS = "sign/notSignUpPersons";
+const ONLINE_PERSONS = "sign/onlinePersons"
 
 
 const INITIAL_STATE = {
-  homeInfo: {},
-  searchCount: 0,
-  pin: [],
-  recommend: []
+  showUpdateBanner: false,
+  isSignedUp: false,
+  lastSignUpTime: "",
+  alreadySignUpPersons: "",
+	notSignUpPersons: "",
+	onlinePersons: 0
 }
 
 export const home = function (state = INITIAL_STATE, action) {
-  switch(action.type) {
-    case HOME_INFO: {
-      return {
-        ...state,
-        homeInfo: action.payload
-      }
-    }
-    case HOME_SEARCH_COUNT: {
-      return {
-        ...state,
-        searchCount: action.payload.count
-      }
-    }
-    case HOME_PIN: {
-      // 每3个分成一组
-      const pin = []
-      action.payload.forEach((item, index) => {
-        const groupIndex = parseInt(index / 3)
-        if (!pin[groupIndex]) {
-          pin[groupIndex] = []
-        }
-        pin[groupIndex].push(item)
-      })
-      return { ...state, pin }
-    }
-    case HOME_RECOMMEND: {
-      return {
-        ...state,
-        recommend: state.recommend.concat(action.payload.rcmdItemList)
-      }
-    }
+  switch (action.type) {
+    case SHOW_UPDATE_BANNER:
+      return Object.assign({}, state, { showUpdateBanner: action.data });
+    case IS_SIGNED_UP:
+      return Object.assign({}, state, { isSignedUp: action.data });
+    case LAST_SIGN_UP_TIME:
+      return Object.assign({}, state, { lastSignUpTime: action.data });
+    case ALREADY_SIGN_UP_PERSONS:
+      return Object.assign({}, state, { alreadySignUpPersons: action.data });
+    case NOT_SIGN_UP_PERSONS:
+      return Object.assign({}, state, { notSignUpPersons: action.data });
+    case ONLINE_PERSONS:
+      return Object.assign({}, state, { onlinePersons: action.data });
     default:
-      return state
+      return state;
   }
 }
 
+export const updateShowUpdateBanner = data => ({
+  type: SHOW_UPDATE_BANNER,
+  data
+});
 
-/**
- * 首页数据
- * @param {*} payload
- */
-export const dispatchHome = payload => createAction({
-  url: API_HOME,
-  type: HOME_INFO,
-  payload
-})
+export const updateSignUpStatus = data => ({
+  type: IS_SIGNED_UP,
+  data
+});
 
-/**
- * 商品总数
- * @param {*} payload
- */
-export const dispatchSearchCount = payload => createAction({
-  url: API_HOME_SEARCH_COUNT,
-  type: HOME_SEARCH_COUNT,
-  payload
-})
+export const updateLastSignUpTime = data => ({
+  type: LAST_SIGN_UP_TIME,
+  data
+});
+export const updateAlreadySignUpPersons = data => ({
+  type: ALREADY_SIGN_UP_PERSONS,
+  data
+});
 
-/**
- * 拼团
- * @param {*} payload
- */
-export const dispatchPin = payload => createAction({
-  url: API_HOME_PIN,
-  type: HOME_PIN,
-  payload
-})
+export const updateNotSignUpPersons = data => ({
+  type: NOT_SIGN_UP_PERSONS,
+  data
+});
 
-/**
- * 推荐商品
- * @param {*} payload
- */
-export const dispatchRecommend = payload => createAction({
-  url: API_HOME_RECOMMEND,
-  type: HOME_RECOMMEND,
-  payload
-})
+export const updateOnlinePersons = data => ({
+  type: ONLINE_PERSONS,
+  data
+});
