@@ -1,0 +1,274 @@
+.first-page {
+  height: 100vh;
+  position: relative;
+
+  .pic-blur {
+    background-size: cover;
+    background-image: url(./assets/background.jpg);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-filter: blur(0.7rem);
+    filter: blur(0.7rem);
+  }
+
+  .top {
+    color: #fff;
+    margin-left: 2rem;
+    margin-bottom: 2.8rem;
+    padding-top: 1.5rem;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .sign-text {
+      font-size: 1.5rem;
+    }
+
+    .record-life {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  .index {
+    display: flex;
+    width: 100vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .head {
+      text-align: center;
+      color: #000;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .main {
+      display: flex;
+      height: 8rem;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+
+      .input-content {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+        height: 2rem;
+
+        .content {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 75vw;
+          height: 1.8rem;
+          font-size: 0.8rem;
+          position: relative;
+
+          .form {
+            display: flex;
+            width: 100%;
+            outline: 0;
+            height: 1.6rem;
+            font-size: 0.8rem;
+            border: 0 none;
+            padding-right: 50px;
+            background-image: linear-gradient(#fff, #fff), linear-gradient(#1f3144, #1f3144);
+            background-size: 0px 2px, 100% 1px;
+            background-repeat: no-repeat;
+            background-position: center bottom, center calc(100% - 1px);
+            background-color: rgba(0, 0, 0, 0);
+
+            &:focus {
+              background-size: 100% 2px, 100% 1px;
+              transition: all .5s;
+              border: none;
+              outline: none;
+            }
+
+            &:focus~.login-center-input-text {
+              top: 0;
+              z-index: 3;
+              opacity: 1;
+              margin-top: -0.4rem;
+            }
+          }
+
+          .login-center-input-text {
+            padding: 0;
+            position: absolute;
+            z-index: 0;
+            opacity: 0;
+            height: 0.4rem;
+            line-height: 0.4rem;
+            top: 50%;
+            margin-top: -10px;
+            font-size: 0.4rem;
+            left: 0px;
+            color: #fff;
+            transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            /* Firefox 4 */
+            -webkit-transition: all 0.5s;
+            /* Safari å’Œ Chrome */
+            -o-transition: all 0.5s;
+            /* Opera */
+          }
+        }
+      }
+
+      .login-btn {
+        width: 75vw;
+
+        .button {
+          display: flex;
+          width: 100%;
+          height: 1.5rem;
+          font-size: 0.8rem;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
+          border: 0.05rem solid #fff;
+          border-radius: 0.2rem;
+        }
+
+        #loginButton.active {
+          background-color: #5189DE;
+        }
+      }
+    }
+
+    .foot {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 4rem;
+      width: 75vw;
+
+      .register-text,
+      .reset-password {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  .back-btn {
+    color: black;
+    margin: 0 auto 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    height: 2rem;
+    font-size: 0.75rem;
+  }
+}
+
+.register-area,
+.reset-password-area {
+
+  .input-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: 2.5rem;
+    margin: 0 1.5rem;
+
+    &:nth-child(2) {
+      margin-top: 1rem;
+    }
+
+    .content {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      height: 1.8rem;
+      font-size: 0.8rem;
+
+      .form {
+        display: flex;
+        height: 1.5rem;
+        width: 100%;
+        border: none;
+        outline: 0;
+        padding: 0 0.2rem;
+        border: 0 none;
+        background-image: linear-gradient(#7FFF00, #7FFF00), linear-gradient(#1f3144, #1f3144);
+        background-size: 0px 2px, 100% 1px;
+        background-repeat: no-repeat;
+        background-position: center bottom, center calc(100% - 1px);
+        background-color: rgba(0, 0, 0, 0);
+
+        &:focus {
+          background-size: 100% 2px, 100% 1px;
+          transition: all .5s;
+          border: none;
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .register-btn,
+  .reset-password-btn {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 2rem;
+      width: 100%;
+      margin: 0 1.5rem;
+      font-size: 0.8rem;
+      border: 0.02rem solid #ccc;
+      border-radius: 0.2rem;
+      background-color: #81AFED;
+      color: #fff;
+    }
+    .button.active{
+      background-color: #4682B4;
+    }
+  }
+
+  .line-out {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.2rem 1.5rem 0.6rem 1.5rem;
+    width: 80%;
+    height: 0.1rem;
+    background-color: #878787;
+  }
+
+  .tips-container {
+    display: flex;
+    color: #878787;
+    margin-left: 1.5rem;
+    font-size: 0.7rem;
+  }
+}
+
+
+@media screen and (max-height:660px) and (min-height: 560px) {
+  .parent .first-page .top {
+    top: 25px;
+  }
+}
+
+@media screen and (max-height:560px) {
+  .parent .first-page .top {
+    display: none;
+  }
+}

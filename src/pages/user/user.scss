@@ -163,48 +163,6 @@
   }
 }
 
-.about-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  .about-content {
-    width: 93%;
-
-    .show-version {
-      margin-top: 25px;
-      margin-left: 7%;
-      color: #ccc;
-    }
-  }
-}
-
-.system-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .system-content {
-    width: 100%;
-    padding-top: 26px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .am-list {
-      width: 100%;
-    }
-
-    .quit-button {
-      width: 86%;
-      margin-top: 25px;
-    }
-  }
-}
-
 .set-user-info-component-content {
   display: flex;
   justify-content: center;
@@ -234,28 +192,6 @@
   }
 
   .save-user-info {
-    margin-top: 15px;
-    width: 93%;
-  }
-}
-
-.feedback-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 25px;
-
-  .feedback-textarea {
-    width: 89%;
-    height: 120px;
-    display: flex;
-    padding: 2%;
-    border-radius: 5px;
-  }
-
-  .submit-feedback {
-    color: #ccc;
     margin-top: 15px;
     width: 93%;
   }

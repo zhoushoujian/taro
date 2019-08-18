@@ -12,6 +12,17 @@ class Home extends Component {
     navigationBarTitleText: '觅星峰'
   }
 
+  constructor(props){
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  componentWillMount(){
+
+  }
+
   componentDidMount() {
     // NOTE 暂时去掉不适配的内容
     // Taro.showToast({
@@ -19,6 +30,7 @@ class Home extends Component {
     //   icon: 'none',
     //   duration: 6000
     // })
+    this.showTime();
 
     let hour = new Date().getHours();
     if (hour < 6) {
@@ -36,23 +48,34 @@ class Home extends Component {
     } else if (hour < 24) {
       document.getElementsByClassName("greetings")[0].innerHTML = "晚上好！&nbsp;";
     }
-    //update clock time
-    if (!window.timer) {
-      window.timer = true
-      setInterval(() => {
-        let minute = new Date().getMinutes(),
-          hour = new Date().getHours();
-        if (minute < 10) minute = "0" + minute;
-        if (hour < 10) hour = "0" + hour;
-        $('#now-time .hour').html(hour);
-        $('#now-time .minute').html(minute);
-        if ($('#now-time .middle').html() === ":") {
-          $('#now-time .middle').html("&nbsp;")
-        } else {
-          $('#now-time .middle').html(":")
-        }
-      }, 1000)
+
+    this.intervalTimer = setInterval(() => {
+      this.showTime()
+    }, 1000);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.intervalTimer)
+  }
+
+  showTime = () => {
+    let minute = new Date().getMinutes(),
+      hour = new Date().getHours();
+    if (minute < 10) minute = "0" + minute;
+    if (hour < 10) hour = "0" + hour;
+    $('#now-time .hour').html(hour);
+    $('#now-time .minute').html(minute);
+    if ($('#now-time .middle').html() === ":") {
+      $('#now-time .middle').html("&nbsp;")
+    } else {
+      $('#now-time .middle').html(":")
     }
+  }
+
+  signIn = () => {
+    Taro.navigateTo({
+      url: '/pages/login/login'
+    })
   }
 
   render () {
@@ -69,7 +92,7 @@ class Home extends Component {
 				</View>
 				<View className="body">
         		<View className="sign-area">
-        			<View className="sign" onClick={() => this.signIn()}>
+        			<View className="sign" onClick={this.signIn}>
 						    <Text className="sign-text">签到</Text>
 						    <View id="now-time"><span className="hour"></span><span className="middle">:</span><span className="minute"></span></View>
 						  </View>

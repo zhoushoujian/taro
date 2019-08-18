@@ -33,7 +33,7 @@ class User extends Component {
 
   gotoSystemSetup = () => {
     Taro.navigateTo({
-      url: '/pages/system-setup/system-setup'
+      url: '/pages/systemSetup/systemSetup'
     })
   }
 

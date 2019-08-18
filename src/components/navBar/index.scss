@@ -1,0 +1,27 @@
+.navbar-container{
+  display: flex;
+  background-color: #81AFED;
+  width: 100vw;
+  height: 2.5rem;
+  font-size: 0.75rem;
+  justify-content: flex-start;
+  align-items: center;
+  .nav-back-arrow{
+    height: 0.85rem;
+    width: 0.45rem;
+    margin-left: 1.5rem;
+  }
+  .center-text{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      max-width: 60%;
+      text-align: left;
+      color: #fff;
+      margin-left: 1rem;
+  }
+  .other-text{
+      flex-basis: 20%;
+      flex-shrink: 1;
+  }
+}

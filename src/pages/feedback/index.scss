@@ -1,0 +1,19 @@
+.feedback-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 25px;
+  .feedback-textarea{
+      width: 89%;
+      height: 120px;
+      display: flex;
+      padding: 2%;
+      border-radius: 5px;
+  }
+  .submit-feedback{
+      color: #ccc;
+      margin-top: 15px;
+      width: 93%;
+  }
+}

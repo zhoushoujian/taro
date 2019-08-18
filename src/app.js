@@ -22,12 +22,28 @@ const store = configStore()
 window.$ = $
 window._ = _
 window.axios = axios
+// window.goRoute = (url) => {
+//   Taro.navigateTo({
+//     url
+//   })
+// }
 
 class App extends Component {
   config = {
     pages: [
       'pages/home/home',
       'pages/user/user',
+      'pages/login/login',
+      'pages/login/register',
+      'pages/login/resetPwd',
+      'pages/about/about',
+      'pages/about/licence',
+      'pages/about/privacy',
+      'pages/about/serviceList',
+      'pages/about/userAgreement',
+      'pages/systemSetup/systemSetup',
+      // 'pages/about/userAgreement',
+      'pages/feedback/feedback',
       'pages/webview/webview'
     ],
     window: {
