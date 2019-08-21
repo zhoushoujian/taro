@@ -22,11 +22,39 @@ const store = configStore()
 window.$ = $
 window._ = _
 window.axios = axios
+window.logger = console
 // window.goRoute = (url) => {
 //   Taro.navigateTo({
 //     url
 //   })
 // }
+
+// axios.interceptors.request.use(function (config) {
+//   let token = window.$getState().login.token
+//   if (token) {
+//         config.headers.Authorization = token;
+//   }
+//   return config;
+// }, function (err) {
+//   return Promise.reject(err);
+// })
+// axios.interceptors.response.use(
+// response => {
+//   return response
+// },
+// error => {
+//   if (error.response) {
+//     switch (error.response.data.result.errCode) {
+//       case 401:
+//         window.$dispatch(updateToken(""));
+//         if(!window.isCordova){
+//           window.localStorage.removeItem("tk");
+//         }
+//         alert('token已过期')
+//     }
+//   }
+//   return Promise.reject(error.response && error.response.data) // 返回接口返回的错误信息
+// })
 
 class App extends Component {
   config = {

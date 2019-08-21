@@ -1,8 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Input } from '@tarojs/components'
+import { connect } from '@tarojs/redux'
+import * as actions from '../../store/login'
 import NavBar from "../../components/navBar"
+import { registerUsername } from "./logic"
 import './index.scss'
 
+@connect(state => state.login, { ...actions })
 class Register extends Component {
 
   componentDidMount() {
@@ -25,7 +29,7 @@ class Register extends Component {
   }
 
   register = () => {
-      // registerUsername(this);
+      registerUsername(this.props.updateUsername, this.props.updatePassword);
   }
 
   goBack = () => {

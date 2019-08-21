@@ -1,53 +1,39 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Input } from '@tarojs/components'
+import { connect } from '@tarojs/redux'
+import { loginApp } from "./logic"
+import * as actions from '../../store/login'
 import './index.scss'
 
-// import { loginApp, registerUsername, resetPasswordFunc} from "../logic/login";
-
+@connect(state => state.login, { ...actions })
 class Login extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-          usernamePlaceholder: "请输入用户名",
-			    passwordPlaceholder: "请输入密码",
-			    username: "",
-			    password: "",
-			    showAsPassword: "password"
-        }
-    }
+  constructor(props){
+      super(props);
+      this.state = {
+        usernamePlaceholder: "请输入用户名",
+		    passwordPlaceholder: "请输入密码",
+		    username: "",
+		    password: "",
+		    showAsPassword: "password"
+      }
+  }
 
-    componentDidMount() {
-      $('.login-btn .button').on("touchstart", function () {
-        $(this).addClass("active");
-      });
-      $('.login-btn .button').on("touchend", function () {
-        $(this).removeClass("active");
-      })
-    }
+  componentDidMount() {
+    $('.login-btn .button').on("touchstart", function () {
+      $(this).addClass("active");
+    });
+    $('.login-btn .button').on("touchend", function () {
+      $(this).removeClass("active");
+    })
+  }
 
-    componentWillUnmount(){
+  componentWillUnmount(){
 
-    }
+  }
 
-    login = () => {
-        // loginApp(this);
-    }
-
-	setUsername = (e) => {
-		let username = ""
-		if(e) username = e.target.value;
-		if(username){
-			$("i.fa-times-circle-o").fadeIn()
-		}
-		this.setState({
-			username
-		}, () => {
-			if(!e){
-				$("#login-username").click();
-				$("i.fa-times-circle-o").fadeOut()
-			}
-		})
+  login = () => {
+    loginApp(this.props.updateUsername, this.props.updatePassword);
   }
 
   gotoRegister = () => {
