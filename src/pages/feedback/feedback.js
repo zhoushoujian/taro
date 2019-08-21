@@ -1,7 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Textarea } from '@tarojs/components'
+import { View, Textarea } from '@tarojs/components'
+import { AtButton } from 'taro-ui'
 import NavBar from "../../components/navBar"
 import { HTTP_URL } from "../../constants/api";
+import "taro-ui/dist/style/components/button.scss";
 import './index.scss'
 
 
@@ -47,7 +49,7 @@ class Feedback extends Component {
           <View className="feedback-content">
               <Textarea className="feedback-textarea" placeholder="请详细描述你遇到的问题或建议" />
               <View className="submit-feedback">
-                  <Text className="button" value="提交" onClick={this.submitFeedback}>提交</Text>
+                <AtButton className="button" type='primary' size="small" full>提交</AtButton>
               </View>
           </View>
       </View>

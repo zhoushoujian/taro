@@ -42,8 +42,9 @@ class App extends Component {
       'pages/about/serviceList',
       'pages/about/userAgreement',
       'pages/systemSetup/systemSetup',
-      // 'pages/about/userAgreement',
       'pages/feedback/feedback',
+      'pages/history/history',
+      'pages/nickname/nickname',
       'pages/webview/webview'
     ],
     window: {

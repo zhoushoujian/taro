@@ -6,10 +6,16 @@
   font-size: 0.75rem;
   justify-content: flex-start;
   align-items: center;
-  .nav-back-arrow{
-    height: 0.85rem;
-    width: 0.45rem;
-    margin-left: 1.5rem;
+  .nav-back-area{
+    height:100%;
+    width: 2.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .nav-back-arrow{
+      height: 0.85rem;
+      width: 0.45rem;
+    }
   }
   .center-text{
       overflow:hidden;

@@ -10,7 +10,9 @@ class NavBar extends Component {
     return (
         <View>
             <View className="navbar-container">
-              <Image className="nav-back-arrow" src={Arrow} onClick={backFun}></Image>
+              <View className="nav-back-area" onClick={backFun}>
+                <Image className="nav-back-arrow" src={Arrow} ></Image>
+              </View>
               <Text className="center-text">{centerText}</Text>
             </View>
         </View>

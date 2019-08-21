@@ -21,7 +21,7 @@ class User extends Component {
 
   searchHistory = () => {
     Taro.navigateTo({
-      url: '/pages/search-user-history/search-user-history'
+      url: '/pages/history/history'
     })
   }
 
@@ -38,20 +38,14 @@ class User extends Component {
   }
 
   setNickname = () => {
-    // Taro.navigateTo({
-    //   url: '/pages/set-nickname/set-nickname'
-    // })
+    Taro.navigateTo({
+      url: '/pages/nickname/nickname'
+    })
   }
 
   gotoFeedbackPage = () => {
     Taro.navigateTo({
       url: '/pages/feedback/feedback'
-    })
-  }
-
-  gotoUserProfile = () => {
-    Taro.navigateTo({
-      url: '/pages/userProfile/userProfile'
     })
   }
 
@@ -70,7 +64,7 @@ class User extends Component {
       setSystemSetupDot = setSystemSetupDot ? "inline-block" : "none";
       return (
           <View className="myInfo-container">
-              {token ? <View className="user-info" onClick={this.gotoUserProfile}>
+              {token ? <View className="user-info">
                           <View className="user-pic">
                             {setHeadPic ? <Image className="user-info-head-pic" src={headPicAddress} /> :  <Image className="fa fa-user-circle"></Image>}
                           </View>
@@ -89,42 +83,42 @@ class User extends Component {
                           </View>
                         </View>}
               <View className="user-menu">
-                  <View className="menu-block">
-                      <View className="set-nickname menu-item" onClick={this.setNickname}>
-                        <Image className="menu-ico" src={nicknamePic}></Image>
-                        <Text className="menu-text">设置昵称</Text>
-                        <Text className="menu-arrow">></Text>
-                      </View>
+                <View className="menu-block">
+                  <View className="set-nickname menu-item" onClick={this.setNickname}>
+                    <Image className="menu-ico" src={nicknamePic}></Image>
+                    <Text className="menu-text">设置昵称</Text>
+                    <Text className="menu-arrow">></Text>
                   </View>
-                  <View className="interval"></View>
-                  <View className="menu-block">
-                      <View className="sign-history menu-item" onClick={this.searchHistory}>
-                        <Image className="menu-ico" src={historyPic}></Image>
-                        <Text className="menu-text">签到历史</Text>
-                        <Text className="menu-arrow">></Text>
-                      </View>
+                </View>
+                <View className="interval"></View>
+                <View className="menu-block">
+                  <View className="sign-history menu-item" onClick={this.searchHistory}>
+                    <Image className="menu-ico" src={historyPic}></Image>
+                    <Text className="menu-text">签到历史</Text>
+                    <Text className="menu-arrow">></Text>
                   </View>
-                  <View className="interval"></View>
-                  <View className="menu-block">
-                      <View className="feedback menu-item" onClick={this.gotoFeedbackPage}>
-                        <Image className="menu-ico" src={feedbackPic}></Image>
-                        <Text className="menu-text">反馈</Text>
-                        <Text className="menu-arrow">></Text>
-                      </View>
-                      <View className="about menu-item" onClick={this.gotoAboutPage}>
-                        <Image className="menu-ico" src={aboutPic}></Image>
-                        <Text className="menu-text">关于</Text>
-                        <Text className="menu-arrow">></Text>
-                      </View>
-                      <View className="system menu-item" onClick={this.gotoSystemSetup} >
-                        <Image className="menu-ico" src={systemPic}></Image>
-                        <Text className="menu-text">系统设置</Text>
-                        <Text className="menu-arrow">></Text>
-                      </View>
+                </View>
+                <View className="interval"></View>
+                <View className="menu-block">
+                  <View className="feedback menu-item" onClick={this.gotoFeedbackPage}>
+                    <Image className="menu-ico" src={feedbackPic}></Image>
+                    <Text className="menu-text">反馈</Text>
+                    <Text className="menu-arrow">></Text>
                   </View>
+                  <View className="about menu-item" onClick={this.gotoAboutPage}>
+                    <Image className="menu-ico" src={aboutPic}></Image>
+                    <Text className="menu-text">关于</Text>
+                    <Text className="menu-arrow">></Text>
+                  </View>
+                  <View className="system menu-item" onClick={this.gotoSystemSetup} >
+                    <Image className="menu-ico" src={systemPic}></Image>
+                    <Text className="menu-text">系统设置</Text>
+                    <Text className="menu-arrow">></Text>
+                  </View>
+                </View>
               </View>
               <View className="signature-show-container">
-                  <Text className="signature-show">{signature}</Text>
+                <Text className="signature-show">{signature}</Text>
               </View>
           </View>
       );

@@ -3,17 +3,24 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 25px;
+  margin-top: 0.8rem;
   .feedback-textarea{
       width: 89%;
-      height: 120px;
+      height: 2.8rem;
       display: flex;
       padding: 2%;
-      border-radius: 5px;
+      border-radius: 0.2rem;
+      outline: none;
   }
   .submit-feedback{
-      color: #ccc;
-      margin-top: 15px;
-      width: 93%;
+    margin-top: 1.2rem;
+    width: 95%;
+    .button{
+      height: 2rem;
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      border-radius: 0.2rem;
+    }
   }
 }
