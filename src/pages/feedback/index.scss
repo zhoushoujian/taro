@@ -5,12 +5,22 @@
   flex-direction: column;
   margin-top: 0.8rem;
   .feedback-textarea{
-      width: 89%;
-      height: 2.8rem;
-      display: flex;
-      padding: 2%;
-      border-radius: 0.2rem;
-      outline: none;
+    width: 89%;
+    display: flex;
+    padding: 2%;
+    border-radius: 0.2rem;
+    outline: none;
+    font-size: 0.8rem;
+    flex-direction: column;
+    .at-textarea__textarea{
+      font-size: 0.8rem;
+    }
+    .at-textarea__counter{
+      font-size: 0.6rem;
+    }
+  }
+  .feedback-textarea::-webkit-input-placeholder {
+    font-size: 0.8rem;
   }
   .submit-feedback{
     margin-top: 1.2rem;
@@ -24,3 +34,4 @@
     }
   }
 }
+

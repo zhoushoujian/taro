@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Input } from '@tarojs/components'
 import NavBar from "../../components/navBar"
+import { resetPasswordFunc } from "./logic"
 import './index.scss'
 
 class RestPassword extends Component {
@@ -26,7 +27,7 @@ class RestPassword extends Component {
   }
 
   resetPassword = () => {
-      // resetPasswordFunc(this);
+      resetPasswordFunc();
   }
 
   goBack = () => {

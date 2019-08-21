@@ -256,7 +256,9 @@
     display: flex;
     color: #878787;
     margin-left: 1.5rem;
-    font-size: 0.7rem;
+    .tips{
+      font-size: 0.55rem;
+    }
   }
 }
 
