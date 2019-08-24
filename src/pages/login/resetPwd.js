@@ -6,6 +6,10 @@ import './index.scss'
 
 class RestPassword extends Component {
 
+  config = {
+    navigationBarTitleText: '重置密码'
+  }
+
   componentDidMount() {
     $('.reset-password-btn .button').on("touchstart", function () {
       $(this).addClass("active");

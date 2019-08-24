@@ -5,11 +5,15 @@ import { View, Text } from '@tarojs/components'
 
 class ServiceList extends Component {
 
-  componentDidMount(){
-      window.axios.get(HTTP_URL.getServiceList)
-          .then((response) => {
-              window.$("#service-list .service-list-content").html(response.data.result);
-          })
+  config = {
+    navigationBarTitleText: '服务条款'
+  }
+
+  componentDidMount() {
+    window.axios.get(HTTP_URL.getServiceList)
+      .then((response) => {
+        window.$("#service-list .service-list-content").html(response.data.result);
+      })
   }
 
   goBack = () => {

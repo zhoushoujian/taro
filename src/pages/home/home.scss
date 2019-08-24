@@ -23,6 +23,8 @@
 
     .user {
       color: red;
+      font-size: 0.8rem;
+      padding-right: 0.5rem;
     }
 
     .greetings {
@@ -74,7 +76,7 @@
         color: #EEB422;
         cursor: pointer;
         flex-direction: column;
-        box-shadow: 0 0 10px #EEB422;
+        box-shadow: 0 0 0.08rem #EEB422;
 
         &:active {
           color: #EEEE00;
@@ -134,7 +136,6 @@
         max-height: 11.5rem;
 
         .signed-text {
-          // width: 65px;
           display: flex;
           flex-shrink: 0;
           font-size: 0.7rem;
@@ -162,7 +163,6 @@
         max-height: 11.5rem;
 
         .not-signed-text {
-          // width: 65px;
           display: flex;
           flex-shrink: 0;
         }

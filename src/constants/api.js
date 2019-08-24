@@ -15,5 +15,5 @@ export const HTTP_URL = {
 	"getServiceList": hostname + "/get_service_list",
 	"getUserAgreement": hostname + "/get_user_agreement",
 	"heartBeat": hostname + "/heart_beat",
-	"signRecordTypeahead": hostname + "/sign_record_typeahead?query={query}"
+	"replaceSocketLink": hostname + "/replace_socket_link"
 }

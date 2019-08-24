@@ -1,13 +1,10 @@
-import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
-import { AtToast } from "taro-ui"
+import { setOthersSignInfo } from "../home/logic"
 import { updateOnlinePersons } from "../../store/home"
 import "taro-ui/dist/style/components/toast.scss";
-import "taro-ui/dist/style/components/icon.scss";
-import "taro-ui/dist/style/components/modal.scss";
 
 export const networkErr = (err) => {
   if(err === undefined){
-    return <AtToast isOpened text="请检查网络连接" ></AtToast>
+    alert("请检查网络连接")
   } else {
 		if(Object.prototype.toString.call(err) === '[object Error]'){
 			console.error("networkErr" , err.stack || err.toString())
@@ -77,14 +74,14 @@ export const incomingMessage = (data) => {
 				logger.info(data.data);
 				break;
 			case "get-sign-array":
-				// setOthersSignInfo(data.data)
+				setOthersSignInfo(data.data)
 				logger.info(data);
 				break;
 			case "heart-beat":
 				logger.info(data);
 				break;
 			case "online-persons":
-				updateOnlinePersons(data.data);
+				window.$dispatch(updateOnlinePersons(data.data));
 				logger.info(`当前在线人数: ${data.data}`);
 				break;
 			default:

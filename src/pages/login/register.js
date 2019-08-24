@@ -9,6 +9,10 @@ import './index.scss'
 @connect(state => state.login, { ...actions })
 class Register extends Component {
 
+  config = {
+    navigationBarTitleText: '注册新用户'
+  }
+
   componentDidMount() {
     $('.register-btn .button').on("touchstart", function () {
       $(this).addClass("active");

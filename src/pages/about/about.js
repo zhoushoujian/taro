@@ -5,57 +5,61 @@ import './index.scss'
 
 class About extends Component {
 
-    userAgreement = () => {
-      Taro.navigateTo({
-        url: '/pages/about/userAgreement'
-      })
-    }
+  config = {
+    navigationBarTitleText: '关于'
+  }
 
-    privacy = () => {
-      Taro.navigateTo({
-        url: '/pages/about/privacy'
-      })
-    }
+  userAgreement = () => {
+    Taro.navigateTo({
+      url: '/pages/about/userAgreement'
+    })
+  }
 
-    serviceList = () => {
-      Taro.navigateTo({
-        url: '/pages/about/serviceList'
-      })
-    }
+  privacy = () => {
+    Taro.navigateTo({
+      url: '/pages/about/privacy'
+    })
+  }
 
-    openSource = () => {
-      Taro.navigateTo({
-        url: '/pages/about/licence'
-      })
-    }
+  serviceList = () => {
+    Taro.navigateTo({
+      url: '/pages/about/serviceList'
+    })
+  }
 
-    goBack = () => {
-      Taro.navigateTo({
-        url: '/pages/user/user'
-      })
-    }
+  openSource = () => {
+    Taro.navigateTo({
+      url: '/pages/about/licence'
+    })
+  }
 
-    render() {
-      return (
-        <View className="about-container">
-          <NavBar centerText="关于" backFun={this.goBack} ></NavBar>
-          <View className="about-content">
-            <View className="user-agreement" onClick={this.userAgreement}>
-                <Text >用户协议</Text>
-            </View>
-            <View className="service-list" onClick={this.serviceList}>
-                <Text >服务条款</Text>
-            </View>
-            <View className="privacy" onClick={this.privacy}>
-                <Text >隐私条款</Text>
-            </View>
-            <View className="open-source" onClick={this.openSource}>
-                <Text >开源声明</Text>
-            </View>
+  goBack = () => {
+    Taro.navigateTo({
+      url: '/pages/user/user'
+    })
+  }
+
+  render() {
+    return (
+      <View className="about-container">
+        <NavBar centerText="关于" backFun={this.goBack} ></NavBar>
+        <View className="about-content">
+          <View className="user-agreement" onClick={this.userAgreement}>
+              <Text >用户协议</Text>
+          </View>
+          <View className="service-list" onClick={this.serviceList}>
+              <Text >服务条款</Text>
+          </View>
+          <View className="privacy" onClick={this.privacy}>
+              <Text >隐私条款</Text>
+          </View>
+          <View className="open-source" onClick={this.openSource}>
+              <Text >开源声明</Text>
           </View>
         </View>
-      );
-    }
+      </View>
+    );
+  }
 }
 
 export default About;

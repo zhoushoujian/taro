@@ -5,11 +5,15 @@ import { HTTP_URL } from "../../constants/api";
 
 class UserAgreement extends Component {
 
-  componentDidMount(){
-      window.axios.get(HTTP_URL.getUserAgreement)
-          .then((response) => {
-              window.$("#user-agreement .user-agreement-content").html(response.data.result);
-          })
+  config = {
+    navigationBarTitleText: '用户协议'
+  }
+
+  componentDidMount() {
+    window.axios.get(HTTP_URL.getUserAgreement)
+      .then((response) => {
+        window.$("#user-agreement .user-agreement-content").html(response.data.result);
+      })
   }
 
   goBack = () => {

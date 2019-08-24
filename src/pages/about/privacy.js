@@ -5,11 +5,15 @@ import { HTTP_URL } from "../../constants/api"
 
 class Privacy extends Component {
 
-  componentDidMount(){
-      window.axios.get(HTTP_URL.getPrivacy)
-          .then((response) => {
-              window.$("#privacy-statement .privacy-statement-content").html(response.data.result);
-          })
+  config = {
+    navigationBarTitleText: '隐私条款'
+  }
+
+  componentDidMount() {
+    window.axios.get(HTTP_URL.getPrivacy)
+      .then((response) => {
+        window.$("#privacy-statement .privacy-statement-content").html(response.data.result);
+      })
   }
 
   goBack = () => {

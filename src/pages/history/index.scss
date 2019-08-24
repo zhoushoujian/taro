@@ -32,7 +32,7 @@
         background-repeat: no-repeat;
         background-position: center bottom, center calc(100% - 1px);
         background-color: rgba(0, 0, 0, 0);
-        padding-left: 8px;
+        padding-left: 0.04rem;
 
         &:focus {
           background-size: 100% 2px, 100% 1px;
@@ -42,44 +42,6 @@
         }
       }
 
-      .ul {
-        position: absolute;
-        list-style: none;
-        width: 85%;
-        top: 60px;
-        background-color: rgba(255, 255, 255, 01);
-        z-index: 99;
-
-        .auto-suggest-name {
-          height: 36px;
-          line-height: 36px;
-          font-size: 24px;
-          cursor: pointer;
-
-          &:hover {
-            background-color: #eaeaea;
-          }
-
-          b {
-            color: #81AFED;
-          }
-        }
-      }
-
-      // .typeahead.dropdown-menu {
-      //   width: 85%;
-      //   position: absolute;
-      //   list-style-type: none;
-      //   // background-color: #FAFFF0;
-      //   background-color: #fff;
-      //   z-index: 99;
-
-      //   li {
-      //     padding-left: 10px;
-      //     line-height: 40px;
-      //     height: 40px;
-      //   }
-      // }
     }
 
     .search-button {
@@ -102,17 +64,15 @@
 
   .record-list-container {
     width: 83%;
-    height: calc(100vh-1.6rem);
     overflow-y: scroll;
-    margin: 10px auto 0 auto;
+    margin: 0.4rem auto 0 auto;
+    font-size: 0.6rem;
 
     .record-container {
-      margin: 10px 0;
+      margin: 0.5rem 0;
       width: 100%;
-
-      .date-record {}
-
-      .location-record {}
+      display: flex;
+      flex-direction: column;
     }
 
     .show-more {
@@ -130,13 +90,13 @@
       user-select: none;
 
       span:nth-child(1) {
-        margin-top: -12px;
-        margin-right: 12px;
+        margin-top: -0.08rem;
+        margin-right: 0.08rem;
       }
 
       span:nth-child(2) {
-        margin-top: -12px;
-        margin-left: 12px;
+        margin-top: -0.08rem;
+        margin-left: 0.08rem;
       }
     }
 

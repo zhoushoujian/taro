@@ -1,11 +1,9 @@
 import Taro from '@tarojs/taro'
 import { HTTP_URL } from "../../constants/api"
-import { networkErr } from "../common/logic"
-import { updateToken, updateIsFromLoginPage, updateLogOutFlag } from "../../store/login"
-import { updateSetNickname, updateSetHeadPic} from "../../store/user"
+import { networkErr, initWebsocket } from "../common/logic"
+import { logoutApp } from "../systemSetup/logic"
 
-
-export const resetPasswordFunc = (token) => {
+export const resetPasswordFunc = (token, value, updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic) => {
     let data = {};
     if(!token){
       let usernameValue = $('.reset-password-username1').val(),
@@ -28,7 +26,7 @@ export const resetPasswordFunc = (token) => {
           newPwd: newPasswordValue1
       });
     } else {
-        let newPwd = $('.reset-password-password3').val();
+        const newPwd = value;
         if(!newPwd) {
             return;
         } else if (!/^(?=(?=.*[a-z])(?=.*[A-Z])|(?=.*[a-z])(?=.*\d)|(?=.*[A-Z])(?=.*\d))[^]{6,16}$/.test(newPwd)) { //密码至少包含一个数字和一个字母
@@ -55,7 +53,9 @@ export const resetPasswordFunc = (token) => {
               alert('身份已过期，请重新登录');
           } else if(response.data.result.result === "reset_success"){
               alert('重置成功');
-              // logoutApp(self);
+              setTimeout(() => {
+                logoutApp(updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic);
+              }, 300)
           } else {
               alert(response.data);
               console.error("resetPasswordFunc response.data", response.data)
@@ -104,9 +104,9 @@ export const registerUsername = (updateUsername, updatePassword) => {
                   document.getElementsByName("register-password-again")[0].value = "";
                   updateUsername(usernameValue);
                   updatePassword(pwdValue);
-                  // Taro.navigateTo({
-                  //   url: '/pages/login/login'
-                  // })
+                  Taro.navigateTo({
+                    url: '/pages/login/login'
+                  })
               });
           } else if(response.data.result === "register_fail"){
               alert('注册失败');
@@ -117,23 +117,17 @@ export const registerUsername = (updateUsername, updatePassword) => {
       })
 }
 
-export const loginApp = (updateUsername, updatePassword) => {
+export const loginApp = (updateUsername, updatePassword, updateToken, updateSetNickname, updateSetHeadPic, updateIsFromLoginPage, updateLogOutFlag, updateAlreadySignUpPersons, updateNotSignUpPersons, updateOnlinePersons, username, password) => {
   let loginFlag;
   if(loginFlag) return;
   loginFlag = true;
-  let usernameValue = document.getElementsByName("username")[0].value;
-  updateUsername(usernameValue);
-  let pwdValue = document.getElementsByName("password")[0].value;
-  updatePassword(pwdValue);
-  let data = Object.assign({}, {
-      username: usernameValue
-  }, {
-      pwd: pwdValue
-  })
-  if (!usernameValue) {
+  updateUsername(username);
+  updatePassword(password);
+  let data = Object.assign({}, { username }, { pwd: password })
+  if (!username) {
       alert("用户名不能为空");
       return;
-  } else if (!pwdValue) {
+  } else if (!password) {
       alert("密码不能为空");
       return;
   }
@@ -152,37 +146,43 @@ export const loginApp = (updateUsername, updatePassword) => {
       } else if(response.data.result.token){
         let result = response.data.result;
         let userProfile = result.userProfile || {};
-        updateUsername(result.username);
         updateToken(result.token);
         updateSetNickname(userProfile.nickname);
         updateSetHeadPic(userProfile.user_pic);
         updateIsFromLoginPage(true);
         updateLogOutFlag(false);
-        // const original = window.localStorage.getItem("userId");
-        // const newOne = result.username
-        // clearInterval(window.checkSocketState)
-        // window.ws.close()
-        // window.localStorage.setItem("userId", newOne);
-        // const data = {
-        //   original,
-        //   newOne
-        // }
-        // return axios.post(HTTP_URL.replaceSocketLink, data)
-        //   .then(async res => {
-        //     if (res.data.result === "success"){
-        //       initWebsocket()
-        //       window.localStorage.setItem("tk", result.token);
-              Taro.navigateTo({
-                url: '/pages/home/home'
-              })
-        //     }
-        //   })
-        //   .catch(err => {
-        //       console.error(`login  catch`, err);
-        //       document.getElementById('loginButton').innerText = "登录"
-        //       networkErr(err);
-        //   })
+        const original = window.localStorage.getItem("userId");
+        const newOne = result.username
+        clearInterval(window.checkSocketState)
+        window.ws.close()
+        window.localStorage.setItem("userId", newOne);
+        const data = {
+          original,
+          newOne
+        }
+        return axios.post(HTTP_URL.replaceSocketLink, data)
+          .then(async res => {
+            if (res.data.result === "success"){
+              initWebsocket()
+              window.localStorage.setItem("tk", result.token);
+            }
+          })
+          .catch(err => {
+              console.error(`login  catch`, err);
+              document.getElementById('loginButton').innerText = "登录"
+              networkErr(err);
+          })
+          .finally(() => {
+            Taro.navigateTo({
+              url: '/pages/home/home'
+            })
+          })
       }
     })
+    .catch(err => {
+      console.error(`login  catch`, err);
+      document.getElementById('loginButton').innerText = "登录"
+      networkErr(err);
+  })
 }
 

@@ -6,9 +6,12 @@ import _ from "lodash"
 import axios from "axios"
 
 import Index from './pages/index'
-
 import configStore from './store'
+import { updateToken } from "./store/login"
+// import { initWebsocket } from "./pages/common/logic"
+const { initWebsocket } = require("./pages/common/logic")
 
+import './styles/reset.scss'
 import './app.scss'
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -23,38 +26,42 @@ window.$ = $
 window._ = _
 window.axios = axios
 window.logger = console
-// window.goRoute = (url) => {
-//   Taro.navigateTo({
-//     url
-//   })
-// }
+window.$dispatch = store.dispatch;
+window.alert = (title) => {
+  Taro.showToast({
+    title,
+    icon: 'none',
+    duration: 2000
+  })
+}
 
-// axios.interceptors.request.use(function (config) {
-//   let token = window.$getState().login.token
-//   if (token) {
-//         config.headers.Authorization = token;
-//   }
-//   return config;
-// }, function (err) {
-//   return Promise.reject(err);
-// })
-// axios.interceptors.response.use(
-// response => {
-//   return response
-// },
-// error => {
-//   if (error.response) {
-//     switch (error.response.data.result.errCode) {
-//       case 401:
-//         window.$dispatch(updateToken(""));
-//         if(!window.isCordova){
-//           window.localStorage.removeItem("tk");
-//         }
-//         alert('token已过期')
-//     }
-//   }
-//   return Promise.reject(error.response && error.response.data) // 返回接口返回的错误信息
-// })
+axios.interceptors.request.use(function (config) {
+  let token = store.getState().login.token
+  if (token) {
+    config.headers.Authorization = token;
+  }
+  return config;
+}, function (err) {
+  return Promise.reject(err);
+})
+
+axios.interceptors.response.use(
+  response => {
+    return response
+  },
+  error => {
+    if (error.response) {
+      switch (error.response.data.result.errCode) {
+        case 401:
+          store.dispatch(updateToken(""));
+          if (!window.isCordova) {
+            window.localStorage.removeItem("tk");
+          }
+          alert('token已过期')
+      }
+    }
+    return Promise.reject(error.response && error.response.data) // 返回接口返回的错误信息
+  })
 
 class App extends Component {
   config = {
@@ -73,6 +80,7 @@ class App extends Component {
       'pages/feedback/feedback',
       'pages/history/history',
       'pages/nickname/nickname',
+      'pages/systemSetup/resetPasswordSys',
       'pages/webview/webview'
     ],
     window: {
@@ -100,7 +108,13 @@ class App extends Component {
     }
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+    initWebsocket()
+    let url = window.location.href;
+    if(url.split("/#/")[1]){
+        window.location.href = url.split("/#/")[0]
+    }
+  }
 
   componentDidShow () {}
 
@@ -110,8 +124,6 @@ class App extends Component {
 
   componentDidCatchError () {}
 
-  // 在 App 类中的 render() 函数没有实际作用
-  // 请勿修改此函数
   render () {
     return (
       <Provider store={store}>
