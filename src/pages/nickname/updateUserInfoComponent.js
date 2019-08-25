@@ -2,8 +2,9 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Input } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import { HTTP_URL } from "../../constants/api";
-import { networkErr } from "../common/logic";
+import { networkErr } from "../../utils/utils"
 import "taro-ui/dist/style/components/button.scss";
+import "./index.scss"
 
 class UpdateUserInfoComponent extends Component {
 
@@ -19,7 +20,11 @@ class UpdateUserInfoComponent extends Component {
     let {infoLength, infoErrorTip, updateUserInfoDispatch, name, backToMainPage, username, token} = this.props;
     let value = inputText;
     if(value.length > infoLength) {
-      return alert(infoErrorTip)
+      return Taro.showToast({
+        title: infoErrorTip,
+        icon: 'none',
+        duration: 2000
+      })
     } else if(!value){
       return;
     }
@@ -29,13 +34,22 @@ class UpdateUserInfoComponent extends Component {
       })
     }
     let data = Object.assign({}, {username, token, userInfo: { [name]: value } })
-    window.axios.post(HTTP_URL.updateUserInfo, data)
+    axios.post(HTTP_URL.updateUserInfo, data)
       .then((response) => {
         if(response.data.result === "modify_success"){
-          alert("保存成功")
+          Taro.showToast({
+            title: "保存成功",
+            icon: 'none',
+            duration: 2000
+          })
           updateUserInfoDispatch(value);
         } else {
-          alert("设置失败")
+          Taro.showToast({
+            title: "设置失败",
+            icon: 'none',
+            duration: 2000
+          })
+
         }
       })
       .catch(err => {
@@ -45,7 +59,7 @@ class UpdateUserInfoComponent extends Component {
 
   keyDownEvent = (e) => {
     if (e.keyCode === 13) {
-      window.$(".set-user-info-component-content input")[0].blur()
+      document.querySelector(".set-user-info-component-content input")[0].blur()
       return this.saveUserInfo();
     }
   }

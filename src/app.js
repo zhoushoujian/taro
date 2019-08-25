@@ -1,15 +1,13 @@
 import '@tarojs/async-await'
 import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
-import $ from "jquery"
-import _ from "lodash"
-import axios from "axios"
 
 import Index from './pages/index'
 import configStore from './store'
 import { updateToken } from "./store/login"
 // import { initWebsocket } from "./pages/common/logic"
-const { initWebsocket } = require("./pages/common/logic")
+const { initWebsocket } = require("./utils/utils")
+import { set as setGlobalData } from "./global_data"
 
 import './styles/reset.scss'
 import './app.scss'
@@ -22,46 +20,24 @@ import './app.scss'
 
 const store = configStore()
 
-window.$ = $
-window._ = _
-window.axios = axios
-window.logger = console
-window.$dispatch = store.dispatch;
-window.alert = (title) => {
+setGlobalData('config', {
+  domain: "http://94.191.67.225",
+  // domain: "http://localhost",
+  host: "94.191.67.225",
+  // host: "localhost",
+  port: "8000",
+  socketPort: "8001",
+  version: "1.0.0"
+})
+setGlobalData("$dispatch", store.dispatch)
+setGlobalData("alert", (title) => {
   Taro.showToast({
     title,
     icon: 'none',
     duration: 2000
   })
-}
-
-axios.interceptors.request.use(function (config) {
-  let token = store.getState().login.token
-  if (token) {
-    config.headers.Authorization = token;
-  }
-  return config;
-}, function (err) {
-  return Promise.reject(err);
 })
 
-axios.interceptors.response.use(
-  response => {
-    return response
-  },
-  error => {
-    if (error.response) {
-      switch (error.response.data.result.errCode) {
-        case 401:
-          store.dispatch(updateToken(""));
-          if (!window.isCordova) {
-            window.localStorage.removeItem("tk");
-          }
-          alert('token已过期')
-      }
-    }
-    return Promise.reject(error.response && error.response.data) // 返回接口返回的错误信息
-  })
 
 class App extends Component {
   config = {
@@ -110,10 +86,11 @@ class App extends Component {
 
   componentDidMount () {
     initWebsocket()
-    let url = window.location.href;
-    if(url.split("/#/")[1]){
-        window.location.href = url.split("/#/")[0]
-    }
+    // let url = window.location.href;
+    // if(url.split("/#/")[1]){
+    //     window.location.href = url.split("/#/")[0]
+    // }
+    console.log('current environment: ',process.env.TARO_ENV)
   }
 
   componentDidShow () {}

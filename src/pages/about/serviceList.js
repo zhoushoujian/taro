@@ -1,7 +1,8 @@
-import { HTTP_URL } from "../../constants/api";
 import Taro, { Component } from '@tarojs/taro'
-import NavBar from "../../components/navBar"
 import { View, Text } from '@tarojs/components'
+import { HTTP_URL } from "../../constants/api";
+import NavBar from "../../components/navBar"
+import { networkErr, fetch } from "../../utils/utils"
 
 class ServiceList extends Component {
 
@@ -9,10 +10,23 @@ class ServiceList extends Component {
     navigationBarTitleText: '服务条款'
   }
 
+  constructor(props){
+    super(props);
+    this.state = {
+      result: ""
+    }
+  }
+
   componentDidMount() {
-    window.axios.get(HTTP_URL.getServiceList)
+    const self = this;
+    fetch(HTTP_URL.getServiceList)
       .then((response) => {
-        window.$("#service-list .service-list-content").html(response.data.result);
+        self.setState({
+          result: response.data.result
+        })
+      })
+      .catch(err => {
+        networkErr(err)
       })
   }
 
@@ -26,7 +40,7 @@ class ServiceList extends Component {
     return (
       <View id="service-list">
         <NavBar centerText="服务条款" backFun={this.goBack}></NavBar>
-        <Text className="service-list-content"></Text>
+        <Text className="service-list-content" dangerouslySetInnerHTML={{ __html: this.state.result }}></Text>
       </View>
     );
   }

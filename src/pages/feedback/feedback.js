@@ -4,7 +4,7 @@ import { AtButton, AtTextarea } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import NavBar from "../../components/navBar"
 import { HTTP_URL } from "../../constants/api";
-import { networkErr } from "../common/logic"
+import { networkErr, fetch } from "../../utils/utils"
 import "taro-ui/dist/style/components/button.scss";
 import "taro-ui/dist/style/components/textarea.scss";
 import './index.scss'
@@ -38,14 +38,24 @@ class Feedback extends Component {
   submitFeedback = () => {
     const arr = [];
     const feedbackContent = this.state.value;
-    if(feedbackContent.length > 200) return alert("不允许超过200个字");
+    if(feedbackContent.length > 200){
+      return Taro.showToast({
+        title: "不允许超过200个字",
+        icon: 'none',
+        duration: 2000
+      })
+    }
     arr.push(new Date().format("yyyy-MM-dd hh:mm:ss"));
     arr.push(feedbackContent);
     const { username } = this.props;
     const data = Object.assign({}, { username }, { feedbackContent: arr })
-    window.axios.post(HTTP_URL.feedback, data)
+    fetch(HTTP_URL.feedback, data, 'post')
       .then(() => {
-        alert('提交成功')
+        Taro.showToast({
+          title: "提交成功",
+          icon: 'none',
+          duration: 2000
+        })
       })
       .catch(err => {
         return networkErr(err);
@@ -81,3 +91,22 @@ class Feedback extends Component {
 }
 
 export default Feedback;
+
+Date.prototype.format = function (fmt) {
+  var o = {
+    "M+": this.getMonth() + 1, //月份
+    "d+": this.getDate(), //日
+    "h+": this.getHours(), //小时
+    "m+": this.getMinutes(), //分
+    "s+": this.getSeconds(), //秒
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+    "S": this.getMilliseconds() //毫秒
+  };
+  if (/(y+)/.test(fmt))
+    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt))
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k])
+      .length)));
+  return fmt;
+}

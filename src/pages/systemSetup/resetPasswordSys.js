@@ -33,7 +33,7 @@ class resetPasswordSys extends Component {
   resetPasswordKeyDownEvent = (evt) => {
     var e = evt;
     if (e.keyCode === 13) {
-      window.$('.reset-password-password3').blur();
+      document.querySelector('.reset-password-password3').blur();
       this.resetPassword()
     }
   }

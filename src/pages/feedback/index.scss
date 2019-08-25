@@ -4,6 +4,12 @@
   align-items: center;
   flex-direction: column;
   margin-top: 0.8rem;
+  margin: 0 auto;
+
+  at-textarea{
+    width: 100%;
+    margin-left: 10%;
+  }
   .feedback-textarea{
     width: 89%;
     display: flex;

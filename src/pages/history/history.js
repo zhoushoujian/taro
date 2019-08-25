@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Input } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
+import _ from "lodash"
 import NavBar from "../../components/navBar"
 import { connect } from '@tarojs/redux'
 import UserRecordList from './userRecordList';
@@ -39,7 +40,7 @@ searchRecord = (slice = 30) => {
       }
       this.signDataCount = result.totalCount
       if (this.signDataCount) {
-        result = window._.orderBy(result.signData, ['date'], ['desc'])
+        result = _.orderBy(result.signData, ['date'], ['desc'])
         this.setState({
           recordList: result || [],
           showMoreText: "查看更多"
@@ -48,7 +49,7 @@ searchRecord = (slice = 30) => {
             this.checkBottomText = false;
             if (this.signDataCount <= (30 * this.state.clickShowMoreCount)) {
               setTimeout(() => {
-                $(".bottom").css("display", "flex");
+                // document.querySelector(".bottom").style.display = "flex"
               })
             }
           }
@@ -66,7 +67,7 @@ searchRecord = (slice = 30) => {
 keyDownEvent = (evt) => {
   var e = evt;
   if (e.keyCode === 13) {
-    window.$('.search-input-content')[0].blur();
+    // document.querySelector('.search-input-content')[0].blur()
     this.setState({
       clickShowMoreCount: 1
     })

@@ -1,12 +1,12 @@
 import { HTTP_URL } from "../../constants/api";
-import { networkErr } from "../common/logic";
+import { networkErr, fetch } from "../../utils/utils"
 
 export const searchRecordFunc = (username, slice) => {
   if (!username) return Promise.resolve();
-  window.logger.info("userClick searchString", username);
-  return axios.get(HTTP_URL.searchRecord + username + '&slice=' + slice)
+  console.info("userClick searchString", username);
+  return fetch(HTTP_URL.searchRecord + username, JSON.stringify({payload: slice}))
     .then(response => {
-      window.logger.info("searchRecord  response.data", response.data);
+      console.info("searchRecord  response.data", response.data);
       return Promise.resolve(response.data.result);
     })
     .catch(err => {

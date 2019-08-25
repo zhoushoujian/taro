@@ -1,9 +1,10 @@
 import Taro from '@tarojs/taro'
 import { HTTP_URL } from "../../constants/api"
-import { initWebsocket, networkErr } from "../common/logic"
+import { networkErr, initWebsocket, fetch } from "../../utils/utils"
+import { getStorage, removeStorage, setStorage } from "../../utils/utils"
 
-export const logoutApp = (updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic) => {
-  window.localStorage.removeItem("tk");
+export const logoutApp = async (updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic) => {
+  await removeStorage("tk");
   updateIsFromLoginPage(true);
   updateToken("");
   updateLastSignUpTime("");
@@ -13,30 +14,28 @@ export const logoutApp = (updateIsFromLoginPage, updateToken, updateLastSignUpTi
   updateLogOutFlag(true);
   updateSetNickname("");
   updateSetHeadPic("");
-  const original = window.localStorage.getItem("userId");
-  const newOne = window.localStorage ?
-    "ls" + String(Date.now() + (Math.random() * 10000).toFixed(0)) :
-    "no_ls" + String(Date.now() + (Math.random() * 10000).toFixed(0))
-  window.localStorage.removeItem("userId");
-  window.localStorage.setItem("userId", newOne);
-  clearInterval(window.checkSocketState)
-  window.ws.close();
-  const data = {
-    original,
-    newOne
-  }
-  axios.post(HTTP_URL.replaceSocketLink, data)
-    .then(response => {
-      if (response.data.result === "success") {
-        initWebsocket()
-      }
-    })
-    .catch(err => {
-      networkErr(err)
-    })
-    .finally(() => {
-      Taro.navigateTo({
-        url: '/pages/login/login'
-      })
-    })
+  // const original = await getStorage("userId");
+  // const newOne = "ls" + String(Date.now() + (Math.random() * 10000).toFixed(0))
+  // await removeStorage("userId");
+  // await setStorage("userId", newOne);
+  // clearInterval(window.checkSocketState)
+  // window.ws.close();
+  // const data = {
+  //   original,
+  //   newOne
+  // }
+  // fetch(HTTP_URL.replaceSocketLink, data, 'post')
+  //   .then(response => {
+  //     if (response.data.result === "success") {
+  //       initWebsocket()
+  //     }
+  //   })
+  //   .catch(err => {
+  //     networkErr(err)
+  //   })
+  //   .finally(() => {
+  //     Taro.navigateTo({
+  //       url: '/pages/login/login'
+  //     })
+  //   })
 }

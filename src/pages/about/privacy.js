@@ -2,6 +2,8 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import NavBar from "../../components/navBar"
 import { HTTP_URL } from "../../constants/api"
+import { networkErr, fetch } from "../../utils/utils"
+
 
 class Privacy extends Component {
 
@@ -9,10 +11,23 @@ class Privacy extends Component {
     navigationBarTitleText: '隐私条款'
   }
 
+  constructor(props){
+    super(props);
+    this.state = {
+      result: ""
+    }
+  }
+
   componentDidMount() {
-    window.axios.get(HTTP_URL.getPrivacy)
+    const self = this;
+    fetch(HTTP_URL.getPrivacym)
       .then((response) => {
-        window.$("#privacy-statement .privacy-statement-content").html(response.data.result);
+        self.setState({
+          result: response.data.result
+        })
+      })
+      .catch(err => {
+        networkErr(err)
       })
   }
 
@@ -26,7 +41,7 @@ class Privacy extends Component {
     return (
       <View id="privacy-statement">
         <NavBar centerText="隐私条款" backFun={this.goBack}></NavBar>
-          <Text className="privacy-statement-content"></Text>
+          <Text className="privacy-statement-content"  dangerouslySetInnerHTML={{ __html: this.state.result }}></Text>
       </View>
     );
   }

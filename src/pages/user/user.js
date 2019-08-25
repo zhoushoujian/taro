@@ -8,6 +8,7 @@ import historyPic from './assets/history.png'
 import feedbackPic from './assets/feedback.png'
 import aboutPic from './assets/about.png'
 import systemPic from './assets/system.png'
+import { get as getGlobalData } from '../../global_data'
 
 import "taro-ui/dist/style/components/avatar.scss";
 import './user.scss'
@@ -65,34 +66,34 @@ class User extends Component {
     let avatarText = setNickname || username
     setNickname = setNickname || "昵称未设置";
     if(!token) username = "";
-    let headPicAddress = setHeadPic ? (window.config.domain + ":" + window.config.port + "/" + setHeadPic) : "";
+    let headPicAddress = setHeadPic ? (getGlobalData('config').domain + ":" + getGlobalData('config').port + "/" + setHeadPic) : "";
     return (
       <View className="myInfo-container">
           {token ? <View className="user-info">
-                      <View className="user-pic">
-                        {setHeadPic
-                        ? <Image className="user-info-head-pic" src={headPicAddress} />
-                        : <AtAvatar circle text={avatarText}></AtAvatar>}
-                      </View>
-                      <View className="user-name">
-                          <Text className="nickname">{setNickname}</Text>
-                          <Text className="username">账号: {username}</Text>
-                      </View>
-                    </View>
-                  : <View className="not-login-user" onClick={this.gotoLoginPage}>
-                      <View className="not-login-circus">
-                          <View className="not-login-inner-circus"></View>
-                          <Text className="not-login-text">登录</Text>
-                      </View>
-                    </View>}
+            <View className="user-pic">
+              {setHeadPic
+              ? <Image className="user-info-head-pic" src={headPicAddress} />
+              : <AtAvatar circle text={avatarText}></AtAvatar>}
+            </View>
+            <View className="user-name">
+                <Text className="nickname">{setNickname}</Text>
+                <Text className="username">账号: {username}</Text>
+            </View>
+          </View>
+          : <View className="not-login-user" onClick={this.gotoLoginPage}>
+            <View className="not-login-circus">
+                <View className="not-login-inner-circus"></View>
+                <Text className="not-login-text">登录</Text>
+            </View>
+          </View>}
           <View className="user-menu">
-            <View className="menu-block">
+            {process.env.TARO_ENV !== 'weapp' && <View className="menu-block">
               <View className="set-nickname menu-item" onClick={this.setNickname}>
                 <Image className="menu-ico" src={nicknamePic}></Image>
                 <Text className="menu-text">设置昵称</Text>
                 <Text className="menu-arrow">></Text>
               </View>
-            </View>
+            </View>}
             <View className="interval"></View>
             <View className="menu-block">
               <View className="sign-history menu-item" onClick={this.searchHistory}>
@@ -113,11 +114,12 @@ class User extends Component {
                 <Text className="menu-text">关于</Text>
                 <Text className="menu-arrow">></Text>
               </View>
-              <View className="system menu-item" onClick={this.gotoSystemSetup} >
-                <Image className="menu-ico" src={systemPic}></Image>
-                <Text className="menu-text">系统设置</Text>
-                <Text className="menu-arrow">></Text>
-              </View>
+              {process.env.TARO_ENV !== 'weapp' && <View className="system menu-item" onClick={this.gotoSystemSetup} >
+                  <Image className="menu-ico" src={systemPic}></Image>
+                  <Text className="menu-text">系统设置</Text>
+                  <Text className="menu-arrow">></Text>
+                </View>
+              }
             </View>
           </View>
       </View>

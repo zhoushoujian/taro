@@ -3,6 +3,8 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Text, ScrollView } from '@tarojs/components'
 import NavBar from "../../components/navBar"
 import PackageLists from "../../components/packageLists";
+import { networkErr, fetch } from "../../utils/utils"
+import "./index.scss"
 
 class Licence extends Component {
 
@@ -18,11 +20,14 @@ class Licence extends Component {
   }
 
   componentDidMount() {
-    window.axios.get(HTTP_URL.getLicence)
+    fetch(HTTP_URL.getLicence)
       .then((response) => {
         this.setState({
           packageList: response.data.result.licence
         })
+      })
+      .catch(err => {
+        networkErr(err)
       })
   }
 

@@ -1,10 +1,11 @@
-import Taro, { Component, getLogManager } from '@tarojs/taro'
+import Taro, { Component } from '@tarojs/taro'
 import { View, Text, ScrollView } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import * as actions from '../../store/home'
-import { greetings, signed, autoLogin, retrieveOthers, retrieveLastLoginTime, signInApp } from "./logic"
 import { updateToken, updateIsFromLoginPage, updateUsername } from "../../store/login"
 import { updateSetNickname, updateSetHeadPic } from "../../store/user"
+import { getStorage } from "../../utils/utils"
+import { signed, autoLogin, retrieveOthers, retrieveLastLoginTime, signInApp } from "./logic"
 import './home.scss'
 
 
@@ -23,7 +24,10 @@ export default class Home extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
-			websocketOnlinePersons: []
+      hour: "",
+      minute: "",
+      middle: ":",
+      greeting: ""
 		}
 	}
 
@@ -33,17 +37,32 @@ export default class Home extends Component {
       this.intervalTimer = setInterval(() => {
         this.showTime()
       }, 1000);
-      greetings()
-      let { token, username, isFromLoginPage, isSignedUp, updateToken, updateIsFromLoginPage, updateUsername, updateSetNickname, updateSetHeadPic, updateAlreadySignUpPersons, updateNotSignUpPersons, updateLastSignUpTime, updateSignUpStatus } = this.props;
+      this.greetings()
+      let {
+        token,
+        username,
+        isFromLoginPage,
+        isSignedUp,
+        updateToken,
+        updateIsFromLoginPage,
+        updateUsername,
+        updateSetNickname,
+        updateSetHeadPic,
+        updateAlreadySignUpPersons,
+        updateNotSignUpPersons,
+        updateLastSignUpTime,
+        updateSignUpStatus,
+        updateSignedFlag
+      } = this.props;
       if(username && !isFromLoginPage){
         if(isSignedUp){
-          return signed(updateSignUpStatus);
+          return signed(updateSignUpStatus, updateSignedFlag);
         }
       } else {
         if(!token){
-          token = window.localStorage.getItem('tk');
+          token = await getStorage('tk');
         }
-        if (token) {
+        if (token && !isFromLoginPage) {
           updateToken(token);
           await autoLogin(token, updateUsername, updateSetNickname, updateSetHeadPic);
         }
@@ -52,7 +71,7 @@ export default class Home extends Component {
         updateIsFromLoginPage(false);
       }
     } catch (err){
-      logger.error("home componentDidMount", err.stack || err.toString())
+      console.error("home componentDidMount", err)
     }
   }
 
@@ -65,12 +84,37 @@ export default class Home extends Component {
       hour = new Date().getHours();
     if (minute < 10) minute = "0" + minute;
     if (hour < 10) hour = "0" + hour;
-    $('#now-time .hour').html(hour);
-    $('#now-time .minute').html(minute);
-    if ($('#now-time .middle').html() === ":") {
-      $('#now-time .middle').html("&nbsp;")
+    this.setState({
+      hour,
+      minute
+    })
+    if (this.state.middle === ":") {
+      this.setState({
+        middle: " "
+      })
     } else {
-      $('#now-time .middle').html(":")
+      this.setState({
+        middle: ":"
+      })
+    }
+  }
+
+  greetings = () => {
+    let hour = new Date().getHours();
+    if (hour < 6) {
+      this.setState({ greeting: "凌晨好！" })
+    } else if (hour < 8) {
+      this.setState({ greeting: "早上好！" })
+    } else if (hour < 11) {
+      this.setState({ greeting: "上午好！" })
+    } else if (hour < 14) {
+      this.setState({ greeting: "中午好！" })
+    } else if (hour < 17) {
+      this.setState({ greeting: "下午好！" })
+    } else if (hour < 19) {
+      this.setState({ greeting: "傍晚好！" })
+    } else if (hour < 24) {
+      this.setState({ greeting: "晚上好！" })
     }
   }
 
@@ -86,18 +130,19 @@ export default class Home extends Component {
   }
 
   render () {
-    const { username, alreadySignUpPersons, notSignUpPersons, lastSignUpTime, onlinePersons} = this.props;
+    const { hour, minute, middle, greeting } = this.state;
+    const { username, alreadySignUpPersons, notSignUpPersons, lastSignUpTime, onlinePersons, signedFlag, isSignedUp} = this.props;
     return (
       <View className="sign-main">
         <View className="header">
-					<Text className="greetings"></Text>
+					<Text className="greetings">{greeting}</Text>
 					<Text className="user">{username}</Text>
 				</View>
 				<View className="body">
         	<View className="sign-area">
-        		<View className="sign" onClick={this.signIn}>
-					    <Text className="sign-text">签到</Text>
-					    <View id="now-time"><span className="hour"></span><span className="middle">:</span><span className="minute"></span></View>
+        		<View className={`sign ${signedFlag}`} onClick={this.signIn}>
+					    <Text className="sign-text">{isSignedUp ? '已签到' : '签到'}</Text>
+					    <View id="now-time"><span className="hour">{hour}</span><span className="middle">{middle}</span><span className="minute">{minute}</span></View>
 					  </View>
         		<Text className="last-sign-time">上一次签到时间：<Text className="last-sign">{lastSignUpTime}</Text></Text>
 					  <View className="online-persons">
@@ -108,10 +153,10 @@ export default class Home extends Component {
         	</View>
         	<View className="count-area">
         	  <View className="signed"><Text className="signed-text">已签到:</Text>
-        	    	<ScrollView className="signed-persons">{alreadySignUpPersons}</ScrollView>
+        	    	<ScrollView className="signed-persons" enableFlex={true}>{alreadySignUpPersons}</ScrollView>
         	  </View>
         	  <View className="not-signed"><Text className="not-signed-text">未签到:</Text>
-        	    	<ScrollView className="not-signed-persons">{notSignUpPersons}</ScrollView>
+        	    	<ScrollView className="not-signed-persons" enableFlex={true}>{notSignUpPersons}</ScrollView>
         	  </View>
         	</View>
         </View>

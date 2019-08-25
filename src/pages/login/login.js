@@ -5,6 +5,7 @@ import { loginApp } from "./logic"
 import * as actions from '../../store/login'
 import { updateSetNickname, updateSetHeadPic } from "../../store/user";
 import { updateAlreadySignUpPersons, updateNotSignUpPersons, updateOnlinePersons } from "../../store/home"
+import Background from "./assets/background.jpg";
 import './index.scss'
 
 @connect(state => state.login, { ...actions, updateSetNickname, updateSetHeadPic, updateAlreadySignUpPersons, updateNotSignUpPersons, updateOnlinePersons })
@@ -25,12 +26,12 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    $('.login-btn .button').on("touchstart", function () {
-      $(this).addClass("active");
-    });
-    $('.login-btn .button').on("touchend", function () {
-      $(this).removeClass("active");
-    })
+    // $('.login-btn .button').on("touchstart", function () {
+    //   $(this).addClass("active");
+    // });
+    // $('.login-btn .button').on("touchend", function () {
+    //   $(this).removeClass("active");
+    // })
   }
 
   login = () => {
@@ -72,17 +73,18 @@ class Login extends Component {
   keyDownEvent = (evt) => {
     var e = evt;
     if (e.keyCode === 13) {
-        window.$('#login-username').blur();
-        window.$('#login-password').blur();
+        // window.$('#login-username').blur();
+        // window.$('#login-password').blur();
         this.login();
     }
   }
 
   render() {
     const { usernamePlaceholder, passwordPlaceholder, username, password } = this.state;
+    const isWeApp = process.env.TARO_ENV === 'weapp';
     return (
       <View className="first-page">
-        <View className="pic-blur"></View>
+        <Image className="pic-blur" src={Background} />
         <View className="top">
             <Text className="sign-text">签到</Text>
             <Text className="record-life">记录生活每一天</Text>
@@ -124,11 +126,11 @@ class Login extends Component {
               </Text>
             </View>
         </View>
-        <View className="back-btn" >
+        {!isWeApp && <View className="back-btn" >
           <Text className="go-back" onClick={this.goBack}>
             返回
           </Text>
-        </View>
+        </View>}
       </View>
     );
   }

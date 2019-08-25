@@ -1,0 +1,27 @@
+.licence-line{
+  display: flex;
+  align-items: center;
+  height: 1.8rem;
+  flex-shrink: 0;
+  .licence-row1{
+      width: 50%;
+      align-items: center;
+      display: flex;
+  }
+  .licence-row2{
+      width: 30%;
+      align-items: center;
+      display: flex;
+  }
+  .licence-row3{
+      width: 20%;
+      align-items: center;
+      display: flex;
+  }
+}
+.licence-line:nth-child(odd){
+  background-color: #FFF;
+}
+.licence-line:nth-child(even){
+  background-color: #F5F5F5;
+}
