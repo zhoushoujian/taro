@@ -92,12 +92,6 @@
               outline: none;
             }
 
-            &:focus~.login-center-input-text {
-              top: 0;
-              z-index: 3;
-              opacity: 1;
-              margin-top: -0.4rem;
-            }
           }
 
           .login-center-input-text {
