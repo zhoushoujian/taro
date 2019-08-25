@@ -119,7 +119,7 @@ render(){
           </View>
         </View>
         <View className="record-list-container">
-          {recordListLength ? recordList.map((item, index) => <UserRecordList item={item} key={index}/>)  : null}
+          {recordListLength ? recordList.map((item, index) => <UserRecordList item={item} key={item.date}/>)  : null}
           {this.signDataCount > (30*clickShowMoreCount)
             ? <Text className="show-more" onClick={this.showMore}>{showMoreText}</Text>
             : <View className="show-more bottom"><Text>______________</Text>我是有底线的<Text>______________</Text></View>}

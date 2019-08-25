@@ -43,7 +43,7 @@ class Licence extends Component {
               <Text className='header-item2'>许可证</Text>
               <Text className='header-item3'>经过修改</Text>
             </View>
-            {packageList.map((item, index) => <PackageLists key={index} name={item.name} src={item.src} licence={item.licence} modified={item.modified} gotoChildPackage={this.gotoChildPackage}/>)}
+            {packageList.map((item, index) => <PackageLists key={item.name} name={item.name} src={item.src} licence={item.licence} modified={item.modified} gotoChildPackage={this.gotoChildPackage}/>)}
             <View className="licence-footer"><Text>______________</Text>我是有底线的<Text>______________</Text></View>
           </ScrollView>
       </View>
