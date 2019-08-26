@@ -6,6 +6,7 @@ import { updateToken, updateIsFromLoginPage, updateUsername } from "../../store/
 import { updateSetNickname, updateSetHeadPic } from "../../store/user"
 import { getStorage } from "../../utils/utils"
 import { signed, autoLogin, retrieveOthers, retrieveLastLoginTime, signInApp } from "./logic"
+import { onLoginByWeapp } from "../../utils/taro.login";
 import './home.scss'
 
 
@@ -118,14 +119,17 @@ export default class Home extends Component {
     }
   }
 
-  signIn = async () => {
+  signIn = async (e) => {
     const { isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime } = this.props;
     if(token) {
       await signInApp(isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime);
     } else {
-      Taro.navigateTo({
-        url: '/pages/login/login'
-      })
+      // Taro.navigateTo({
+      //   url: '/pages/login/login'
+      // })
+      if(process.env.TARO_ENV === "weapp"){
+        onLoginByWeapp(e)
+      }
     }
   }
 

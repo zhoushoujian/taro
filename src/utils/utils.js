@@ -24,11 +24,11 @@ export const networkErr = (err) => {
 
 export const initWebsocket = async () => {
 	let userId = 'no-ls-' + String(Date.now() + (Math.random()*10000).toFixed(0))
-	if(await Taro.getStorage({key: "userId"})){
-		userId = await Taro.getStorage({key: "userId"})
+	if(await getStorage("userId")){
+		userId = await getStorage("userId")
 	} else {
 		userId = "ls" + String(Date.now() + (Math.random()*10000).toFixed(0))
-		await Taro.setStorage({key: "userId", data: userId});
+		await setStorage("userId", userId);
 	}
 	if(WebSocket){
 		window.ws = new WebSocket(`ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`);
@@ -52,11 +52,13 @@ export const initWebsocket = async () => {
     if(process.env.TARO_ENV === "weapp"){
       wx.connectSocket({
         url: `ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`,
+        header:{
+          'content-type': 'application/json'
+        }
       })
 
       wx.onSocketOpen(() => {
-        console.log("wx", wx)
-        openWS(wx.readyState, userId)
+        return openWS(wx.readyState, userId)
       })
 
       wx.onSocketError(function (res) {
@@ -75,13 +77,19 @@ export const openWS = (readyState, userId) => {
 		type:'try-connect',
 		userId,
 		date: Date.now()
-	})
-	window.ws.send(JSON.stringify(msg));
+  })
+  if(window){
+    window.ws.send(JSON.stringify(msg));
+  } else {
+    console.log('msg', msg)
+    wx.sendSocketMessage({data: msg})
+  }
 }
 
 export const incomingMessage = (data) => {
 	try {
-		data = JSON.parse(data.data);
+    data = JSON.parse(data.data);
+    console.log('data', data)
 		switch(data.type){
 			case "response-date":
 				console.info(`Roundtrip time: ${Date.now() - data.data} ms`);
@@ -124,7 +132,7 @@ export const getStorage = (key, isSync = false) => {
         key:key.trim(),
         success: function (res) {
           let result = res.data;
-            resolve(result)
+          resolve(result)
         },
         fail(error){
           resolve(null);
