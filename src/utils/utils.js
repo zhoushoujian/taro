@@ -82,7 +82,7 @@ export const openWS = (readyState, userId) => {
     window.ws.send(JSON.stringify(msg));
   } else {
     console.log('msg', msg)
-    wx.sendSocketMessage({data: msg})
+    wx.sendSocketMessage({data: JSON.stringify(msg)})
   }
 }
 
