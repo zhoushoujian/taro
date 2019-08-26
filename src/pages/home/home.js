@@ -124,11 +124,12 @@ export default class Home extends Component {
     if(token) {
       await signInApp(isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime);
     } else {
-      // Taro.navigateTo({
-      //   url: '/pages/login/login'
-      // })
       if(process.env.TARO_ENV === "weapp"){
         onLoginByWeapp(e)
+      } else {
+        Taro.navigateTo({
+          url: '/pages/login/login'
+        })
       }
     }
   }
