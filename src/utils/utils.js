@@ -209,9 +209,14 @@ export const removeStorage = (key = "", isSync = false) => {
   })
 }
 
-export const fetch = async (url, payload, method = 'GET', showToast = true) => {
-  const token = await getStorage('tk')
-  const header = token ? { 'WX-PIN-SESSION': token, 'X-WX-3RD-Session': token, Authorization: token } : {}
+export const fetch = async (url, payload, method = 'GET') => {
+  let token;
+  if(payload && payload.token){
+    token = payload.token
+  } else {
+    token = await getStorage('tk')
+  }
+  const header = token ? { Authorization: token } : {}
   method = method.toUpperCase()
   if (method === 'POST') {
     header['content-type'] = 'application/json'

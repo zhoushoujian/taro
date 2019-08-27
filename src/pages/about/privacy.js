@@ -20,7 +20,7 @@ class Privacy extends Component {
 
   componentDidMount() {
     const self = this;
-    fetch(HTTP_URL.getPrivacym)
+    fetch(HTTP_URL.getPrivacy)
       .then((response) => {
         self.setState({
           result: response.data.result

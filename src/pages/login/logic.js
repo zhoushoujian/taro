@@ -140,31 +140,31 @@ export const loginApp = async (updateUsername, updatePassword, updateToken, upda
         updateSetHeadPic(userProfile.user_pic);
         updateIsFromLoginPage(true);
         updateLogOutFlag(false);
-        // const original = await getStorage("userId");
-        // const newOne = result.username
-        // clearInterval(window.checkSocketState)
-        // window.ws.close()
-        // await setStorage("userId", newOne);
-        // const data = {
-        //   original,
-        //   newOne
-        // }
-        // return axios.post(HTTP_URL.replaceSocketLink, data)
-        //   .then(async res => {
-        //     if (res.data.result === "success"){
-        //       initWebsocket()
-        //       await setStorage("tk", result.token);
-        //     }
-        //   })
-        //   .catch(err => {
-        //       console.error(`login  catch`, err);
-        //       networkErr(err);
-        //   })
-        //   .finally(() => {
+        const original = await getStorage("userId");
+        const newOne = result.username
+        clearInterval(window.checkSocketState)
+        window.ws.close()
+        await setStorage("userId", newOne);
+        const data = {
+          original,
+          newOne
+        }
+        return fetch(HTTP_URL.replaceSocketLink, data, 'post')
+          .then(async res => {
+            if (res.data.result === "success"){
+              initWebsocket()
+              await setStorage("tk", result.token);
+            }
+          })
+          .catch(err => {
+              console.error(`login  catch`, err);
+              networkErr(err);
+          })
+          .finally(() => {
             Taro.navigateTo({
               url: '/pages/home/home'
             })
-          // })
+          })
       }
     })
     .catch(err => {

@@ -1,6 +1,7 @@
 import { get as getGlobalData } from '../global_data'
 
-const hostname = `http://94.191.67.225:8000`
+// const hostname = `http://94.191.67.225:8000`
+const hostname = `http://localhost:8000`
 export const HTTP_URL = {
 	"resetPassword": `${hostname}/reset_password`,
 	"loginVerify": `${hostname}/login_verify`,

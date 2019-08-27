@@ -68,7 +68,7 @@ export default class Home extends Component {
           await autoLogin(token, updateUsername, updateSetNickname, updateSetHeadPic);
         }
         await retrieveOthers(token, updateAlreadySignUpPersons, updateNotSignUpPersons);  //retrieve others status
-        await retrieveLastLoginTime(token, updateLastSignUpTime, updateSignUpStatus);  //get last sign time
+        await retrieveLastLoginTime(token, updateLastSignUpTime, updateSignUpStatus, updateSignedFlag);  //get last sign time
         updateIsFromLoginPage(false);
       }
     } catch (err){
@@ -136,12 +136,12 @@ export default class Home extends Component {
 
   render () {
     const { hour, minute, middle, greeting } = this.state;
-    const { username, alreadySignUpPersons, notSignUpPersons, lastSignUpTime, onlinePersons, signedFlag, isSignedUp} = this.props;
+    const { username, token, alreadySignUpPersons, notSignUpPersons, lastSignUpTime, onlinePersons, signedFlag, isSignedUp} = this.props;
     return (
       <View className="sign-main">
         <View className="header">
 					<Text className="greetings">{greeting}</Text>
-					<Text className="user">{username}</Text>
+					<Text className="user">{token ? username : ""}</Text>
 				</View>
 				<View className="body">
         	<View className="sign-area">

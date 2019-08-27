@@ -84,7 +84,7 @@ class Login extends Component {
     const isWeApp = process.env.TARO_ENV === 'weapp';
     return (
       <View className="first-page">
-        <Image className="pic-blur" src={Background} />
+        {isWeApp ? <Image className="pic-blur" src={Background} /> : <div className="pic-blur" /> }
         <View className="top">
             <Text className="sign-text">签到</Text>
             <Text className="record-life">记录生活每一天</Text>

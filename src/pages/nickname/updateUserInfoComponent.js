@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Input } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import { HTTP_URL } from "../../constants/api";
-import { networkErr } from "../../utils/utils"
+import { networkErr, fetch } from "../../utils/utils"
 import "taro-ui/dist/style/components/button.scss";
 import "./index.scss"
 
@@ -34,7 +34,7 @@ class UpdateUserInfoComponent extends Component {
       })
     }
     let data = Object.assign({}, {username, token, userInfo: { [name]: value } })
-    axios.post(HTTP_URL.updateUserInfo, data)
+    return fetch(HTTP_URL.updateUserInfo, data, 'post')
       .then((response) => {
         if(response.data.result === "modify_success"){
           Taro.showToast({

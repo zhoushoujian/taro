@@ -4,7 +4,6 @@ import { Provider } from '@tarojs/redux'
 
 import Index from './pages/index'
 import configStore from './store'
-import { updateToken } from "./store/login"
 // import { initWebsocket } from "./pages/common/logic"
 const { initWebsocket } = require("./utils/utils")
 import { set as setGlobalData } from "./global_data"
@@ -21,10 +20,10 @@ import './app.scss'
 const store = configStore()
 
 setGlobalData('config', {
-  domain: "http://94.191.67.225",
-  // domain: "http://localhost",
-  host: "94.191.67.225",
-  // host: "localhost",
+  // domain: "http://94.191.67.225",
+  domain: "http://localhost",
+  // host: "94.191.67.225",
+  host: "localhost",
   port: "8000",
   socketPort: "8001",
   version: "1.0.0"
@@ -86,10 +85,12 @@ class App extends Component {
 
   componentDidMount () {
     initWebsocket()
-    // let url = window.location.href;
-    // if(url.split("/#/")[1]){
-    //     window.location.href = url.split("/#/")[0]
-    // }
+    if(window){
+      let url = window.location.href;
+      if(url.split("/#/")[1]){
+          window.location.href = url.split("/#/")[0]
+      }
+    }
     console.log('current environment: ',process.env.TARO_ENV)
   }
 

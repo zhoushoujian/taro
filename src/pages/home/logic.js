@@ -49,7 +49,10 @@ export const retrieveOthers = (token, updateAlreadySignUpPersons, updateNotSignU
 			.then((response) => {
 				const responseText = response.data;
 				setOthersSignInfo(responseText.result, updateAlreadySignUpPersons, updateNotSignUpPersons)
-			})
+      })
+      .catch(err => {
+        networkErr(err);
+		  })
 	}
 }
 
@@ -78,7 +81,7 @@ export const setOthersSignInfo = (data, updateAlreadySignUpPersonsParam, updateN
 }
 
 
-export const retrieveLastLoginTime = (token, updateLastSignUpTime, updateSignUpStatus) => {
+export const retrieveLastLoginTime = (token, updateLastSignUpTime, updateSignUpStatus, updateSignedFlag) => {
 	if(token){
 		const data = Object.assign({}, { token });
     return fetch(HTTP_URL.lastSign, data, 'post')
@@ -86,9 +89,12 @@ export const retrieveLastLoginTime = (token, updateLastSignUpTime, updateSignUpS
 				console.info(`retrieveLastLoginTime  response`, response.data)
 				let date = new Date().format("yyyy-MM-dd");
 				let lastSignUpTime = response.data.result.lastDay;
-				if(lastSignUpTime.split(" ")[0] === date) signed(updateSignUpStatus);
+				if(lastSignUpTime.split(" ")[0] === date) signed(updateSignUpStatus, updateSignedFlag);
 				updateLastSignUpTime(lastSignUpTime);
-			})
+      })
+      .catch(err => {
+        networkErr(err);
+		  })
 	}
 }
 
@@ -132,7 +138,7 @@ export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPer
 			})
 			.catch(err => {
         networkErr(err);
-		})
+		  })
 	}
 }
 
