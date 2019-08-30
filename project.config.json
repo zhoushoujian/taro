@@ -1,8 +1,8 @@
 {
 	"miniprogramRoot": "dist/",
-	"projectname": "taro",
-	"description": "Taro 多端实践之网易严选（微信小程序 + H5 + React Native）",
-	"appid": "touristappid",
+	"projectname": "mixingfeng",
+	"description": "mixingfeng for sign（微信小程序 + H5 + React Native）",
+	"appid": "wx1d8443d22cf62060",
 	"setting": {
 		"urlCheck": false,
 		"es6": false,
