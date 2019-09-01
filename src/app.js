@@ -20,12 +20,12 @@ import './app.scss'
 const store = configStore()
 
 setGlobalData('config', {
-  // domain: "http://94.191.67.225",
+  domain: "http://94.191.67.225",
   // domain: "http://localhost",
-  domain: "http://192.168.199.162",
-  // host: "94.191.67.225",
+  // domain: "http://192.168.199.162",
+  host: "94.191.67.225",
   // host: "localhost",
-  host: "192.168.199.162",
+  // host: "192.168.199.162",
   port: "8000",
   socketPort: "8001",
   version: "1.0.0"

@@ -1,22 +1,43 @@
 import Taro, { Component } from '@tarojs/taro'
 import { fetch } from "./utils"
 import { HTTP_URL } from "../constants/api"
-import { setStorage } from './utils'
+import { get as getGlobalData } from '../global_data'
+import { setStorage, getStorage, networkErr, initWebsocket } from './utils'
 
 // 微信登录
-export const onLoginByWeapp = (updateUsername, updateToken) => {
+export const onLoginByWeapp = async (updateUsername, updateToken) => {
   Taro.login({
     success: function(res) {
       if (res.code) {
         const code = {code: res.code}
         //用户登录凭证（有效期五分钟）。开发者需要在开发者服务器后台调用 api，使用 code 换取 openid 和 session_key 等信息
+        console.log("code", code)
         return fetch(HTTP_URL.weiXinLogin, code, 'get')
-          .then((response) => {
+          .then(async (response) => {
             const data = response.data;
             if(data.status === 'SUCCESS'){
               updateUsername(data.result.username)
               updateToken(data.result.token)
               setStorage('tk', data.result.token)
+              // replace websocket connection id
+              const original = await getStorage("userId", true);
+              const newOne = data.result.username
+              getGlobalData("socketTask").close()
+              await setStorage('userId', data.result.username, true)
+              const obj = {
+                original,
+                newOne
+              }
+              return fetch(HTTP_URL.replaceSocketLink, obj, 'post')
+                .then(async res => {
+                  if (res.data.result === "success"){
+                    initWebsocket()
+                  }
+                })
+                .catch(err => {
+                    console.error(`login  catch`, err);
+                    networkErr(err);
+                })
             }
           })
       } else {

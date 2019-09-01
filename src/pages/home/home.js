@@ -63,9 +63,7 @@ export default class Home extends Component {
       } else {
         if(!token){
           token = await getStorage('tk');
-          onLoginByWeapp(updateUsername, updateToken)
-        } else {
-
+          await onLoginByWeapp(updateUsername, updateToken)
         }
         if (token && !isFromLoginPage) {
           updateToken(token);
@@ -85,8 +83,13 @@ export default class Home extends Component {
                     const { avatarUrl, nickName, gender } = userInfo;
                     updateSetNickname(nickName);
                     updateSetHeadPic(avatarUrl);
+                  },
+                  fail() {
+                    getGlobalData('alert')("请手动点击签到登录");
                   }
                 })
+              } else {
+                getGlobalData('alert')("请手动点击签到登录");
               }
             },
             fail() {
@@ -171,14 +174,14 @@ export default class Home extends Component {
 
   render () {
     const { hour, minute, middle, greeting } = this.state;
-    let { username, token, alreadySignUpPersons=[], notSignUpPersons=[], lastSignUpTime, onlinePersons, signedFlag, isSignedUp} = this.props;
+    let { username, token, alreadySignUpPersons=[], notSignUpPersons=[], lastSignUpTime, onlinePersons, signedFlag, isSignedUp, setNickname} = this.props;
     alreadySignUpPersons = alreadySignUpPersons ? alreadySignUpPersons : []
     notSignUpPersons = notSignUpPersons ? notSignUpPersons : []
     return (
       <View className="sign-main">
         <View className="header">
 					<Text className="greetings">{greeting}</Text>
-					<Text className="user">{token ? username : ""}</Text>
+					<Text className="user">{token ? setNickname ? setNickname : username : ""}</Text>
 				</View>
 				<View className="body">
         	<View className="sign-area">

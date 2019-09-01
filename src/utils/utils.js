@@ -50,12 +50,14 @@ export const initWebsocket = async () => {
 		window.ws.onmessage = (data) => incomingMessage(data);
 	} else {
     if(process.env.TARO_ENV === 'weapp'){
-      wx.connectSocket({
+      const socketTask = wx.connectSocket({
         url: `ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`,
         header:{
           'content-type': 'application/json'
         }
       })
+
+      setGlobalData('socketTask', socketTask)
 
       wx.onSocketOpen(() => {
         return openWS(wx.readyState, userId)
