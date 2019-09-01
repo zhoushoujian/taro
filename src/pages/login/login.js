@@ -81,10 +81,9 @@ class Login extends Component {
 
   render() {
     const { usernamePlaceholder, passwordPlaceholder, username, password } = this.state;
-    const isWeApp = process.env.TARO_ENV === 'weapp';
     return (
       <View className="first-page">
-        {isWeApp ? <Image className="pic-blur" src={Background} /> : <div className="pic-blur" /> }
+        {process.env.TARO_ENV === 'weapp' ? <Image className="pic-blur" src={Background} /> : <div className="pic-blur" /> }
         <View className="top">
             <Text className="sign-text">签到</Text>
             <Text className="record-life">记录生活每一天</Text>
@@ -126,7 +125,7 @@ class Login extends Component {
               </Text>
             </View>
         </View>
-        {!isWeApp && <View className="back-btn" >
+        {process.env.TARO_ENV !== 'weapp' && <View className="back-btn" >
           <Text className="go-back" onClick={this.goBack}>
             返回
           </Text>

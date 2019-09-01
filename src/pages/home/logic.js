@@ -44,7 +44,7 @@ export const autoLogin = function(token, updateUsername, updateSetNickname, upda
 
 export const retrieveOthers = (token, updateAlreadySignUpPersons, updateNotSignUpPersons) => {
 	if(token){
-		const data = Object.assign({}, { token });
+		const data = { token };
     return fetch(HTTP_URL.retrieveOthers, data, 'post')
 			.then((response) => {
 				const responseText = response.data;
@@ -57,25 +57,30 @@ export const retrieveOthers = (token, updateAlreadySignUpPersons, updateNotSignU
 }
 
 export const setOthersSignInfo = (data, updateAlreadySignUpPersonsParam, updateNotSignUpPersonsParam) => {
+  if(!data) return  //this api is from websocket now, so it maybe undefined from rest api
 	let date = new Date().format("yyyy-MM-dd"),
 	  info = data,
 		signedArray = [],
-		unsignedArray = [];
+    unsignedArray = [];
 	for (let i = 0, l = info.length; i < l; i++) {
 		if (info[i].date && info[i].date.split(' ')[0] === date) {
-			signedArray.push(info[i].username);
+			signedArray.push({
+        username: info[i].username,
+        origin: info[i].origin
+      });
 		} else {
-			unsignedArray.push(info[i].username);
+			unsignedArray.push({
+        username: info[i].username,
+        origin: info[i].origin
+      });
 		}
 	}
-	let signedPersons = String(signedArray).replace(/,/g,", ");
-  let unsignedPersons = String(unsignedArray).replace(/,/g,", ");
   if(!updateAlreadySignUpPersonsParam && !updateNotSignUpPersonsParam){
-    getGlobalData('$dispatch')(updateAlreadySignUpPersons(signedPersons));
-    getGlobalData('$dispatch')(updateNotSignUpPersons(unsignedPersons));
+    getGlobalData('$dispatch')(updateAlreadySignUpPersons(signedArray));
+    getGlobalData('$dispatch')(updateNotSignUpPersons(unsignedArray));
   } else {
-    updateAlreadySignUpPersonsParam(signedPersons);
-    updateNotSignUpPersonsParam(unsignedPersons);
+    updateAlreadySignUpPersonsParam(signedArray);
+    updateNotSignUpPersonsParam(unsignedArray);
   }
 
 }
@@ -98,7 +103,7 @@ export const retrieveLastLoginTime = (token, updateLastSignUpTime, updateSignUpS
 	}
 }
 
-export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime) => {
+export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag) => {
 	if(isSignedUp) return;
   let signFlag;
 	if (signFlag) return;
@@ -115,7 +120,7 @@ export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPer
 				console.info(`signIn  response`, response.data);
 				if (response.data.result.str === "already_signed") {
 					getGlobalData('alert')("已签到");
-					signed(updateSignUpStatus);
+					signed(updateSignUpStatus, updateSignedFlag);
 					return;
 				} else if (response.data.result.str === "token_expired"){
 					console.error(`身份已过期,请重新登录页`);
@@ -124,7 +129,7 @@ export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPer
 					//更新token
 					updateToken(response.data.result.token);
 					getGlobalData('alert')("签到成功");
-					signed(updateSignUpStatus);
+					signed(updateSignUpStatus, updateSignedFlag);
           retrieveLastLoginTime(token, updateLastSignUpTime, updateSignUpStatus)
 					retrieveOthers(token, updateAlreadySignUpPersons, updateNotSignUpPersons);
 					return;

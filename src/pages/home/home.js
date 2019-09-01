@@ -1,12 +1,13 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, ScrollView } from '@tarojs/components'
+import { View, Text, ScrollView, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import * as actions from '../../store/home'
 import { updateToken, updateIsFromLoginPage, updateUsername } from "../../store/login"
 import { updateSetNickname, updateSetHeadPic } from "../../store/user"
 import { getStorage } from "../../utils/utils"
 import { signed, autoLogin, retrieveOthers, retrieveLastLoginTime, signInApp } from "./logic"
-import { onLoginByWeapp } from "../../utils/taro.login";
+import { onLoginByWeapp } from "../../utils/taro.login"
+import { get as getGlobalData } from '../../global_data'
 import './home.scss'
 
 
@@ -62,6 +63,9 @@ export default class Home extends Component {
       } else {
         if(!token){
           token = await getStorage('tk');
+          onLoginByWeapp(updateUsername, updateToken)
+        } else {
+
         }
         if (token && !isFromLoginPage) {
           updateToken(token);
@@ -70,6 +74,26 @@ export default class Home extends Component {
         await retrieveOthers(token, updateAlreadySignUpPersons, updateNotSignUpPersons);  //retrieve others status
         await retrieveLastLoginTime(token, updateLastSignUpTime, updateSignUpStatus, updateSignedFlag);  //get last sign time
         updateIsFromLoginPage(false);
+        if(process.env.TARO_ENV === 'weapp'){
+          wx.getSetting({
+            success (res){
+              if (res.authSetting['scope.userInfo']) {
+                // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                wx.getUserInfo({
+                  success: function(res) {
+                    const userInfo = res.userInfo;
+                    const { avatarUrl, nickName, gender } = userInfo;
+                    updateSetNickname(nickName);
+                    updateSetHeadPic(avatarUrl);
+                  }
+                })
+              }
+            },
+            fail() {
+              getGlobalData('alert')("请手动点击签到登录");
+            }
+          })
+        }
       }
     } catch (err){
       console.error("home componentDidMount", err)
@@ -120,13 +144,16 @@ export default class Home extends Component {
   }
 
   signIn = async (e) => {
-    const { isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime } = this.props;
+    const { isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag, setNickname } = this.props;
     if(token) {
-      await signInApp(isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime);
+      if(process.env.TARO_ENV === 'weapp'){
+        if(!setNickname){
+          return
+        }
+      }
+      await signInApp(isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag);
     } else {
-      if(process.env.TARO_ENV === "weapp"){
-        onLoginByWeapp(e)
-      } else {
+      if(process.env.TARO_ENV !== 'weapp'){
         Taro.navigateTo({
           url: '/pages/login/login'
         })
@@ -134,9 +161,19 @@ export default class Home extends Component {
     }
   }
 
+  toBegin = (e) => {
+    const { updateSetNickname,  updateSetHeadPic } = this.props;
+    const userInfo = e.target.userInfo;
+    const { avatarUrl, nickName, gender } = userInfo;
+    updateSetNickname(nickName);
+    updateSetHeadPic(avatarUrl);
+  }
+
   render () {
     const { hour, minute, middle, greeting } = this.state;
-    const { username, token, alreadySignUpPersons, notSignUpPersons, lastSignUpTime, onlinePersons, signedFlag, isSignedUp} = this.props;
+    let { username, token, alreadySignUpPersons=[], notSignUpPersons=[], lastSignUpTime, onlinePersons, signedFlag, isSignedUp} = this.props;
+    alreadySignUpPersons = alreadySignUpPersons ? alreadySignUpPersons : []
+    notSignUpPersons = notSignUpPersons ? notSignUpPersons : []
     return (
       <View className="sign-main">
         <View className="header">
@@ -145,10 +182,10 @@ export default class Home extends Component {
 				</View>
 				<View className="body">
         	<View className="sign-area">
-        		<View className={`sign ${signedFlag}`} onClick={this.signIn}>
+        		<Button className={`sign ${signedFlag}`} onClick={this.signIn}  openType='getUserInfo' onGetUserInfo={this.toBegin}>
 					    <Text className="sign-text">{isSignedUp ? '已签到' : '签到'}</Text>
 					    <View id="now-time"><span className="hour">{hour}</span><span className="middle">{middle}</span><span className="minute">{minute}</span></View>
-					  </View>
+					  </Button>
         		<Text className="last-sign-time">上一次签到时间：<Text className="last-sign">{lastSignUpTime}</Text></Text>
 					  <View className="online-persons">
 					  	<Text className="text">当前</Text>
@@ -158,10 +195,10 @@ export default class Home extends Component {
         	</View>
         	<View className="count-area">
         	  <View className="signed"><Text className="signed-text">已签到:</Text>
-        	    	<ScrollView className="signed-persons" enableFlex={true}>{alreadySignUpPersons}</ScrollView>
+        	    	<ScrollView className="signed-persons" enableFlex={true} >{alreadySignUpPersons.map(item => <Text key={item.username} className={item.origin === 'weixin' ? "weapp" : "h5"}>{item.username + `, `}</Text>)}</ScrollView>
         	  </View>
         	  <View className="not-signed"><Text className="not-signed-text">未签到:</Text>
-        	    	<ScrollView className="not-signed-persons" enableFlex={true}>{notSignUpPersons}</ScrollView>
+        	    	<ScrollView className="not-signed-persons" enableFlex={true}>{notSignUpPersons.map(item => <Text key={item.username} className={item.origin === 'weixin' ? "weapp" : "h5"}>{item.username + `, `}</Text>)}</ScrollView>
         	  </View>
         	</View>
         </View>

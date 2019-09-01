@@ -56,9 +56,19 @@ class User extends Component {
   }
 
   gotoLoginPage = () => {
-    Taro.navigateTo({
-      url: '/pages/login/login'
-    })
+    if(process.env.TARO_ENV !== 'weapp'){
+      Taro.navigateTo({
+        url: '/pages/login/login'
+      })
+    }
+  }
+
+  toBegin = (e) => {
+    const { updateSetNickname,  updateSetHeadPic } = this.props;
+    const userInfo = e.target.userInfo;
+    const { avatarUrl, nickName, gender } = userInfo;
+    updateSetNickname(nickName);
+    updateSetHeadPic(avatarUrl);
   }
 
   render() {
@@ -66,7 +76,7 @@ class User extends Component {
     let avatarText = setNickname || username
     setNickname = setNickname || "昵称未设置";
     if(!token) username = "";
-    let headPicAddress = setHeadPic ? (getGlobalData('config').domain + ":" + getGlobalData('config').port + "/" + setHeadPic) : "";
+    let headPicAddress = setHeadPic ? process.env.TARO_ENV === 'weapp' ? setHeadPic : (getGlobalData('config').domain + ":" + getGlobalData('config').port + "/" + setHeadPic) : "";
     return (
       <View className="myInfo-container">
           {token ? <View className="user-info">
@@ -80,12 +90,12 @@ class User extends Component {
                 <Text className="username">账号: {username}</Text>
             </View>
           </View>
-          : <View className="not-login-user" onClick={this.gotoLoginPage}>
-            <View className="not-login-circus">
-                <View className="not-login-inner-circus"></View>
-                <Text className="not-login-text">登录</Text>
-            </View>
-          </View>}
+          : <Button className="not-login-user" onClick={this.gotoLoginPage} openType='getUserInfo' onGetUserInfo={this.toBegin} >
+              <View className="not-login-circus">
+                  <View className="not-login-inner-circus"></View>
+                  <Text className="not-login-text">登录</Text>
+              </View>
+            </Button>}
           <View className="user-menu">
             {process.env.TARO_ENV !== 'weapp' && <View className="menu-block">
               <View className="set-nickname menu-item" onClick={this.setNickname}>
@@ -109,17 +119,18 @@ class User extends Component {
                 <Text className="menu-text">反馈</Text>
                 <Text className="menu-arrow">></Text>
               </View>
-              <View className="about menu-item" onClick={this.gotoAboutPage}>
-                <Image className="menu-ico" src={aboutPic}></Image>
-                <Text className="menu-text">关于</Text>
-                <Text className="menu-arrow">></Text>
-              </View>
-              {process.env.TARO_ENV !== 'weapp' && <View className="system menu-item" onClick={this.gotoSystemSetup} >
-                  <Image className="menu-ico" src={systemPic}></Image>
-                  <Text className="menu-text">系统设置</Text>
+              {
+                process.env.TARO_ENV !== 'weapp' && <View className="about menu-item" onClick={this.gotoAboutPage}>
+                  <Image className="menu-ico" src={aboutPic}></Image>
+                  <Text className="menu-text">关于</Text>
                   <Text className="menu-arrow">></Text>
                 </View>
               }
+              <View className="system menu-item" onClick={this.gotoSystemSetup} >
+                  <Image className="menu-ico" src={systemPic}></Image>
+                  <Text className="menu-text">系统设置</Text>
+                  <Text className="menu-arrow">></Text>
+              </View>
             </View>
           </View>
       </View>

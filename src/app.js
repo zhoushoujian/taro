@@ -4,7 +4,7 @@ import { Provider } from '@tarojs/redux'
 
 import Index from './pages/index'
 import configStore from './store'
-// import { initWebsocket } from "./pages/common/logic"
+// import { initWebsocket } from "./utils/utils"
 const { initWebsocket } = require("./utils/utils")
 import { set as setGlobalData } from "./global_data"
 
@@ -21,9 +21,11 @@ const store = configStore()
 
 setGlobalData('config', {
   // domain: "http://94.191.67.225",
-  domain: "http://localhost",
+  // domain: "http://localhost",
+  domain: "http://192.168.199.162",
   // host: "94.191.67.225",
-  host: "localhost",
+  // host: "localhost",
+  host: "192.168.199.162",
   port: "8000",
   socketPort: "8001",
   version: "1.0.0"

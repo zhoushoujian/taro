@@ -50,14 +50,16 @@ export const resetPasswordFunc = (token, value, updateIsFromLoginPage, updateTok
               getGlobalData('alert')('身份已过期，请重新登录');
           } else if(response.data.result.result === "reset_success"){
               getGlobalData('alert')('重置成功');
-              setTimeout(() => {
-                Taro.navigateTo({
-                  url: '/pages/login/login'
-                })
-                if(token){
-                  logoutApp(updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic);
-                }
-              }, 300)
+              if(process.env.TARO_ENV !== 'weapp'){
+                setTimeout(() => {
+                  Taro.navigateTo({
+                    url: '/pages/login/login'
+                  })
+                  if(token){
+                    logoutApp(updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic);
+                  }
+                }, 300)
+              }
           } else {
               getGlobalData('alert')(response.data);
               console.error("resetPasswordFunc response.data", response.data)

@@ -44,18 +44,15 @@ class About extends Component {
       <View className="about-container">
         <NavBar centerText="关于" backFun={this.goBack} ></NavBar>
         <View className="about-content">
-          {
-            process.env.TARO_ENV !== 'weapp'&& <View><View className="user-agreement" onClick={this.userAgreement}>
-                <Text >用户协议</Text>
-              </View>
-              <View className="service-list" onClick={this.serviceList}>
-                  <Text >服务条款</Text>
-              </View>
-              <View className="privacy" onClick={this.privacy}>
-                  <Text >隐私条款</Text>
-              </View>
-            </View>
-          }
+          <View className="user-agreement" onClick={this.userAgreement}>
+            <Text >用户协议</Text>
+          </View>
+          <View className="service-list" onClick={this.serviceList}>
+              <Text >服务条款</Text>
+          </View>
+          <View className="privacy" onClick={this.privacy}>
+              <Text >隐私条款</Text>
+          </View>
           <View className="open-source" onClick={this.openSource}>
               <Text >开源声明</Text>
           </View>

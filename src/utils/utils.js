@@ -49,7 +49,7 @@ export const initWebsocket = async () => {
 		};
 		window.ws.onmessage = (data) => incomingMessage(data);
 	} else {
-    if(process.env.TARO_ENV === "weapp"){
+    if(process.env.TARO_ENV === 'weapp'){
       wx.connectSocket({
         url: `ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`,
         header:{
@@ -236,3 +236,5 @@ export const fetch = async (url, payload, method = 'GET') => {
     return Promise.reject(err)
   })
 }
+
+export const isWeapp = () => process.env.TARO_ENV === 'weapp'

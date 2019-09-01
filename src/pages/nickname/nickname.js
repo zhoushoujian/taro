@@ -6,7 +6,12 @@ import UpdateUserInfoComponent from "./updateUserInfoComponent"
 import  * as actions  from "../../store/user"
 import './index.scss'
 
-@connect(state => (state.login), { ...actions })
+@connect(state => {
+  return {
+    ...state.login,
+    ...state.user
+  }
+}, { ...actions })
 export default class Nickname extends Component {
 
   config = {

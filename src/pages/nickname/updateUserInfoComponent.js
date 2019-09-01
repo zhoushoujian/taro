@@ -11,13 +11,13 @@ class UpdateUserInfoComponent extends Component {
   constructor(props){
     super(props)
     this.state = {
-      inputText: ""
+      inputText: this.props.placeholder === "最多10个字" ? "" : this.props.placeholder
     }
   }
 
   saveUserInfo = () => {
     const { inputText } = this.state;
-    let {infoLength, infoErrorTip, updateUserInfoDispatch, name, backToMainPage, username, token} = this.props;
+    let {infoLength, infoErrorTip, updateUserInfoDispatch, name, username, token} = this.props;
     let value = inputText;
     if(value.length > infoLength) {
       return Taro.showToast({
@@ -71,12 +71,12 @@ class UpdateUserInfoComponent extends Component {
   }
 
   render() {
-    let { inputText } = this.state;
-    let {placeholder} = this.props;
+    const { inputText } = this.state;
+    const {placeholder} = this.props;
     return (
       <View className="set-user-info-component-container">
         <View className="set-user-info-component-content">
-          <Input className="set-user-info-input" placeholder={placeholder} onKeyDown={this.keyDownEvent} value={inputText} onChange={this.type} />
+          <Input className="set-user-info-input"  placeholder={placeholder} onKeyDown={this.keyDownEvent} value={inputText} onChange={this.type} />
           <View className="save-user-info">
             <AtButton type="primary" className="button" value="保存" onClick={this.saveUserInfo}>保存</AtButton>
           </View>

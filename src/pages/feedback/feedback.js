@@ -38,6 +38,7 @@ class Feedback extends Component {
   submitFeedback = () => {
     const arr = [];
     const feedbackContent = this.state.value;
+    if(!feedbackContent) return;
     if(feedbackContent.length > 200){
       return Taro.showToast({
         title: "不允许超过200个字",
