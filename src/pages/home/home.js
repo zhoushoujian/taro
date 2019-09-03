@@ -187,7 +187,7 @@ export default class Home extends Component {
         	<View className="sign-area">
         		<Button className={`sign ${signedFlag}`} onClick={this.signIn}  openType='getUserInfo' onGetUserInfo={this.toBegin}>
 					    <Text className="sign-text">{isSignedUp ? '已签到' : '签到'}</Text>
-					    <View id="now-time"><span className="hour">{hour}</span><span className="middle">{middle}</span><span className="minute">{minute}</span></View>
+					    <View id="now-time"><Text className="hour">{hour}</Text><Text className="middle">{middle}</Text><Text className="minute">{minute}</Text></View>
 					  </Button>
         		<Text className="last-sign-time">上一次签到时间：<Text className="last-sign">{lastSignUpTime}</Text></Text>
 					  <View className="online-persons">
