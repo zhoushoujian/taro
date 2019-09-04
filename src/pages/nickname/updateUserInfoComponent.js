@@ -1,9 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Input } from '@tarojs/components'
-import { AtButton } from 'taro-ui'
+import { View, Input, Button } from '@tarojs/components'
+// import { AtButton } from 'taro-ui'
 import { HTTP_URL } from "../../constants/api";
 import { networkErr, fetch } from "../../utils/utils"
-import "taro-ui/dist/style/components/button.scss";
+//import "taro-ui/dist/style/components/button.scss";
 import "./index.scss"
 
 class UpdateUserInfoComponent extends Component {
@@ -78,7 +78,7 @@ class UpdateUserInfoComponent extends Component {
         <View className="set-user-info-component-content">
           <Input className="set-user-info-input"  placeholder={placeholder} onKeyDown={this.keyDownEvent} value={inputText} onChange={this.type} />
           <View className="save-user-info">
-            <AtButton type="primary" className="button" value="保存" onClick={this.saveUserInfo}>保存</AtButton>
+            <Button type="default" className="button" value="保存" onClick={this.saveUserInfo}>保存</Button>
           </View>
         </View>
       </View>

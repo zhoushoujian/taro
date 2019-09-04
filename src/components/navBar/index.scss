@@ -3,7 +3,6 @@
   background-color: #81AFED;
   width: 100vw;
   height: 2.5rem;
-  font-size: 0.75rem;
   justify-content: flex-start;
   align-items: center;
   .nav-back-area{
@@ -18,13 +17,14 @@
     }
   }
   .center-text{
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      max-width: 60%;
-      text-align: left;
-      color: #fff;
-      margin-left: 1rem;
+    font-size: 0.75rem;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    max-width: 60%;
+    text-align: left;
+    color: #fff;
+    margin-left: 1rem;
   }
   .other-text{
       flex-basis: 20%;

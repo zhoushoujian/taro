@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image , Button} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { AtAvatar } from 'taro-ui'
+// import { AtAvatar } from 'taro-ui'
 import * as actions from '../../store/user'
 import nicknamePic from './assets/nickname.png'
 import historyPic from './assets/history.png'
@@ -10,7 +10,7 @@ import aboutPic from './assets/about.png'
 import systemPic from './assets/system.png'
 import { get as getGlobalData } from '../../global_data'
 
-import "taro-ui/dist/style/components/avatar.scss";
+//import "taro-ui/dist/style/components/avatar.scss";
 import './user.scss'
 
 
@@ -83,7 +83,7 @@ class User extends Component {
             <View className="user-pic">
               {setHeadPic
               ? <Image className="user-info-head-pic" src={headPicAddress} />
-              : <AtAvatar circle text={avatarText}></AtAvatar>}
+              : <Image circle text={avatarText}></Image>}
             </View>
             <View className="user-name">
                 <Text className="nickname">{setNickname}</Text>

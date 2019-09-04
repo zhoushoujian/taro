@@ -15,12 +15,6 @@ scroll-view {
   box-sizing: border-box;
 }
 
-button {
-  &:after {
-    display: none;
-  }
-}
-
 /* h5 */
 /*postcss-pxtransform rn eject enable*/
 div {
@@ -32,12 +26,18 @@ textarea{
 }
 
 button {
-  outline: none;
-  height: 2rem;
+  height: 2.2rem;
   font-size: .9rem;
   display: flex;
   align-items: center;
+  justify-content: center;
+  outline: none;
   border-radius: 0.2rem;
+  color: #fff;
+  background-color: #81AFED;
+  &:after {
+    display: none;
+  }
 }
 
 input {

@@ -1,12 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
-import { AtButton, AtTextarea } from 'taro-ui'
+import { View, Button, Textarea } from '@tarojs/components'
+// import { AtButton, AtTextarea } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import NavBar from "../../components/navBar"
 import { HTTP_URL } from "../../constants/api";
 import { networkErr, fetch } from "../../utils/utils"
-import "taro-ui/dist/style/components/button.scss";
-import "taro-ui/dist/style/components/textarea.scss";
+//import "taro-ui/dist/style/components/button.scss";
+//import "taro-ui/dist/style/components/textarea.scss";
 import './index.scss'
 
 @connect(state => state.login, {  })
@@ -74,7 +74,7 @@ class Feedback extends Component {
       <View className="feedback-container">
         <NavBar centerText="反馈" backFun={this.goBack} ></NavBar>
           <View className="feedback-content">
-            <AtTextarea
+            <Textarea
               className="feedback-textarea"
               value={this.state.value}
               onChange={this.handleChange.bind(this)}
@@ -83,7 +83,7 @@ class Feedback extends Component {
               showConfirmBar
             />
             <View className="submit-feedback">
-              <AtButton className="button" type='primary' size="small" full onClick={this.submitFeedback} >提交</AtButton>
+              <Button className="button" type='default' size="default" full onClick={this.submitFeedback} >提交</Button>
             </View>
           </View>
       </View>
