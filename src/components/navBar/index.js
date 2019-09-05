@@ -8,9 +8,10 @@ export default class NavBar extends Component {
   render() {
     let { centerText="", backFun } = this.props;
     const isWeApp = process.env.TARO_ENV === 'weapp';
+    const isAliPay = process.env.TARO_ENV === 'alipay';
     return (
       <View>
-        {!isWeApp && <View className="navbar-container">
+        {(!isWeApp && !isAliPay) && <View className="navbar-container">
           <View className="nav-back-area" onClick={backFun}>
             <Image className="nav-back-arrow" src={Arrow} ></Image>
           </View>

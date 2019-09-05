@@ -47,7 +47,7 @@ class SystemSetup extends Component {
           <View className="reset-password" onClick={this.resetPassword}>
             <Text >重置密码</Text>
           </View>
-          { token && process.env.TARO_ENV !== 'weapp' && <View className="logout" onClick={this.logoutApp}>
+          { token && process.env.TARO_ENV !== 'weapp'  && process.env.TARO_ENV !== 'alipay' && <View className="logout" onClick={this.logoutApp}>
             <Text >退出登录</Text>
           </View> }
         </View>

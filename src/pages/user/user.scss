@@ -20,42 +20,41 @@
     position: relative;
 
     .user-pic {
-      margin: 20px 35px;
+      margin: 10px 35px;
       justify-content: center;
       align-items: center;
-      font-size: 24px;
+      font-size: 48px;
       color: #fff;
       display: flex;
+      height: 72px;
+      width: 72px;
 
-      .at-avatar{
-        width: 50px;
-        height: 50px;
-        color: #FFF;
-        font-size: 24px;
-        line-height: 36px;
+      .taro-img{
+        width: auto;
+        height: auto
       }
 
       .user-info-head-pic {
-        width: 64px;
-        height: 64px;
+        // height: 72px;
+        // width: 72px;
       }
     }
 
     .user-name {
       display: flex;
       flex-direction: column;
-      height: 48px;
+      height: 100px;
       color: #fff;
 
       .nickname {
-        height: 32px;
-        line-height: 32px;
-        font-size: 24px;
+        height: 54px;
+        line-height: 54px;
+        font-size: 36px;
       }
 
       .username {
-        height: 32px;
-        line-height: 32px;
+        height: 54px;
+        line-height: 54px;
         font-size: 24px;
       }
     }
@@ -64,6 +63,8 @@
 
   .not-login-user {
     justify-content: center;
+    border-radius: 10px;
+    height: 245px;
 
     .not-login-circus {
       width: 150px;
@@ -135,7 +136,7 @@
 
   .interval {
     width: 100%;
-    height: 10px;
+    height: 18px;
     background-color: #eaeaea;
   }
 

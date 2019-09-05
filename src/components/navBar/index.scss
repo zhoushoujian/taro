@@ -2,29 +2,29 @@
   display: flex;
   background-color: #81AFED;
   width: 100vw;
-  height: 2.5rem;
+  height: 100px;
   justify-content: flex-start;
   align-items: center;
   .nav-back-area{
     height:100%;
-    width: 2.4rem;
+    width: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
     .nav-back-arrow{
-      height: 0.85rem;
-      width: 0.45rem;
+      height: 24px;
+      width: 24px;
     }
   }
   .center-text{
-    font-size: 0.75rem;
+    font-size: 32px;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
     max-width: 60%;
     text-align: left;
     color: #fff;
-    margin-left: 1rem;
+    // margin-left: 10px;
   }
   .other-text{
       flex-basis: 20%;

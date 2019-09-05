@@ -8,6 +8,7 @@ import historyPic from './assets/history.png'
 import feedbackPic from './assets/feedback.png'
 import aboutPic from './assets/about.png'
 import systemPic from './assets/system.png'
+import headPic from "./assets/user.png"
 import { get as getGlobalData } from '../../global_data'
 
 //import "taro-ui/dist/style/components/avatar.scss";
@@ -81,9 +82,12 @@ class User extends Component {
       <View className="myInfo-container">
           {token ? <View className="user-info">
             <View className="user-pic">
-              {setHeadPic
+              {
+                setHeadPic
               ? <Image className="user-info-head-pic" src={headPicAddress} />
-              : <Image circle text={avatarText}></Image>}
+              // : <Image src={headPic}></Image>
+              : <Text className="user-head-text">{avatarText.slice(0,1).toUpperCase()}</Text>
+              }
             </View>
             <View className="user-name">
                 <Text className="nickname">{setNickname}</Text>
@@ -97,13 +101,15 @@ class User extends Component {
               </View>
             </Button>}
           <View className="user-menu">
-            {process.env.TARO_ENV !== 'weapp' && <View className="menu-block">
-              <View className="set-nickname menu-item" onClick={this.setNickname}>
-                <Image className="menu-ico" src={nicknamePic}></Image>
-                <Text className="menu-text">设置昵称</Text>
-                <Text className="menu-arrow">></Text>
+            {
+              (process.env.TARO_ENV !== 'weapp' && process.env.TARO_ENV !== 'alipay') && <View className="menu-block">
+                <View className="set-nickname menu-item" onClick={this.setNickname}>
+                  <Image className="menu-ico" src={nicknamePic}></Image>
+                  <Text className="menu-text">设置昵称</Text>
+                  <Text className="menu-arrow">></Text>
+                </View>
               </View>
-            </View>}
+            }
             <View className="interval"></View>
             <View className="menu-block">
               <View className="sign-history menu-item" onClick={this.searchHistory}>
@@ -120,7 +126,7 @@ class User extends Component {
                 <Text className="menu-arrow">></Text>
               </View>
               {
-                process.env.TARO_ENV !== 'weapp' && <View className="about menu-item" onClick={this.gotoAboutPage}>
+                (process.env.TARO_ENV !== 'weapp' && process.env.TARO_ENV !== 'alipay') && <View className="about menu-item" onClick={this.gotoAboutPage}>
                   <Image className="menu-ico" src={aboutPic}></Image>
                   <Text className="menu-text">关于</Text>
                   <Text className="menu-arrow">></Text>
