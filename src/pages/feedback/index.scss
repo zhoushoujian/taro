@@ -15,15 +15,9 @@
     height: 200px;
     max-height: 80%;
     flex-direction: column;
-    .at-textarea__textarea{
-      font-size: 0.8rem;
-    }
-    .at-textarea__counter{
-      font-size: 0.6rem;
-    }
   }
   .feedback-textarea::-webkit-input-placeholder {
-    font-size: 36px;
+    font-size: 18px;
   }
   .submit-feedback{
     margin-top: 25px;

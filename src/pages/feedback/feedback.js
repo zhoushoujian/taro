@@ -1,12 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Textarea } from '@tarojs/components'
-// import { AtButton, AtTextarea } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import NavBar from "../../components/navBar"
 import { HTTP_URL } from "../../constants/api";
 import { networkErr, fetch } from "../../utils/utils"
-//import "taro-ui/dist/style/components/button.scss";
-//import "taro-ui/dist/style/components/textarea.scss";
 import './index.scss'
 
 @connect(state => state.login, {  })

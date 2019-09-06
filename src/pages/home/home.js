@@ -7,7 +7,7 @@ import { updateSetNickname, updateSetHeadPic } from "../../store/user"
 import { getStorage } from "../../utils/utils"
 import { signed, autoLogin, retrieveOthers, retrieveLastLoginTime, signInApp } from "./logic"
 import { onLoginByWeapp } from "../../utils/taro.login"
-import { get as getGlobalData } from '../../global_data'
+import { remindWeAppUser, dealWithALiPay } from "../../utils/common"
 import './home.scss'
 
 
@@ -61,42 +61,25 @@ export default class Home extends Component {
           return signed(updateSignUpStatus, updateSignedFlag);
         }
       } else {
-        if(!token){
-          token = await getStorage('tk');
-          await onLoginByWeapp(updateUsername, updateToken)
-        }
         if (token && !isFromLoginPage) {
           updateToken(token);
           await autoLogin(token, updateUsername, updateSetNickname, updateSetHeadPic);
         }
+        if(process.env.TARO_ENV === 'weapp'){
+          remindWeAppUser(updateSetNickname, updateSetHeadPic)
+          if(!token){
+            token = await getStorage('tk');
+            await onLoginByWeapp(updateUsername, updateToken)
+          }
+        } else if(process.env.TARO_ENV === 'alipay'){
+          await dealWithALiPay(updateToken, updateUsername, updateSetNickname, updateSetHeadPic)
+        }
+        if(!token){
+          token = await getStorage("tk", true);
+        }
         await retrieveOthers(token, updateAlreadySignUpPersons, updateNotSignUpPersons);  //retrieve others status
         await retrieveLastLoginTime(token, updateLastSignUpTime, updateSignUpStatus, updateSignedFlag);  //get last sign time
         updateIsFromLoginPage(false);
-        if(process.env.TARO_ENV === 'weapp'){
-          wx.getSetting({
-            success (res){
-              if (res.authSetting['scope.userInfo']) {
-                // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-                wx.getUserInfo({
-                  success: function(res) {
-                    const userInfo = res.userInfo;
-                    const { avatarUrl, nickName, gender } = userInfo;
-                    updateSetNickname(nickName);
-                    updateSetHeadPic(avatarUrl);
-                  },
-                  fail() {
-                    getGlobalData('alert')("请手动点击签到登录");
-                  }
-                })
-              } else {
-                getGlobalData('alert')("请手动点击签到登录");
-              }
-            },
-            fail() {
-              getGlobalData('alert')("请手动点击签到登录");
-            }
-          })
-        }
       }
     } catch (err){
       console.error("home componentDidMount", err)
@@ -156,7 +139,7 @@ export default class Home extends Component {
       }
       await signInApp(isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag);
     } else {
-      if(process.env.TARO_ENV !== 'weapp'){
+      if(process.env.TARO_ENV !== 'weapp' && process.env.TARO_ENV !== 'alipay'){
         Taro.navigateTo({
           url: '/pages/login/login'
         })

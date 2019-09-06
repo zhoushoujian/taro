@@ -1,12 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Input, Button } from '@tarojs/components'
-// import { AtButton } from 'taro-ui'
 import _ from "lodash"
 import NavBar from "../../components/navBar"
 import { connect } from '@tarojs/redux'
 import UserRecordList from './userRecordList';
 import { searchRecordFunc } from './logic'
-//import "taro-ui/dist/style/components/button.scss";
 import './index.scss'
 
 @connect(state => state.login, { })
@@ -47,11 +45,6 @@ searchRecord = (slice = 30) => {
         }, () => {
           if (this.checkBottomText) {
             this.checkBottomText = false;
-            if (this.signDataCount <= (30 * this.state.clickShowMoreCount)) {
-              setTimeout(() => {
-                // document.querySelector(".bottom").style.display = "flex"
-              })
-            }
           }
         })
       } else {
@@ -67,7 +60,6 @@ searchRecord = (slice = 30) => {
 keyDownEvent = (evt) => {
   var e = evt;
   if (e.keyCode === 13) {
-    // document.querySelector('.search-input-content')[0].blur()
     this.setState({
       clickShowMoreCount: 1
     })

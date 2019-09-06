@@ -21,6 +21,27 @@ export const networkErr = (err) => {
 	}
 }
 
+const initMiniProgramSocket = (platform, userId, name) => {
+  const socketTask = platform['connectSocket']({
+    url: `ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`,
+    header: {
+      'content-type': 'application/json'
+    }
+  })
+
+  setGlobalData('socketTask', socketTask)
+
+  platform['onSocketOpen'](() => {
+    return openWS(name, userId)
+  })
+
+  platform['onSocketError'](function (res) {
+    console.error('WebSocket连接打开失败，请检查！', res)
+  })
+
+  platform['onSocketMessage']((data) => incomingMessage(data))
+}
+
 export const initWebsocket = async () => {
 	let userId = 'no-ls-' + String(Date.now() + (Math.random()*10000).toFixed(0))
 	if(await getStorage("userId")){
@@ -49,24 +70,10 @@ export const initWebsocket = async () => {
 		window.ws.onmessage = (data) => incomingMessage(data);
 	} else {
     if(process.env.TARO_ENV === 'weapp'){
-      const socketTask = wx.connectSocket({
-        url: `ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`,
-        header:{
-          'content-type': 'application/json'
-        }
-      })
+      initMiniProgramSocket(my, userId, "weapp")
 
-      setGlobalData('socketTask', socketTask)
-
-      wx.onSocketOpen(() => {
-        return openWS(wx.readyState, userId)
-      })
-
-      wx.onSocketError(function (res) {
-        console.error('WebSocket连接打开失败，请检查！')
-      })
-
-      wx.onSocketMessage((data) => incomingMessage(data))
+    } else if (process.env.TARO_ENV === 'alipay') {
+      initMiniProgramSocket(my, userId, "alipay")
     }
 	}
 }
@@ -81,9 +88,10 @@ export const openWS = (readyState, userId) => {
   })
   if(window){
     window.ws.send(JSON.stringify(msg));
-  } else {
-    console.log('msg', msg)
+  } else if(process.env.TARO_ENV === 'weapp'){
     wx.sendSocketMessage({data: JSON.stringify(msg)})
+  } else if(process.env.TARO_ENV === 'alipay'){
+    my.sendSocketMessage({data: JSON.stringify(msg)})
   }
 }
 
@@ -238,4 +246,3 @@ export const fetch = async (url, payload, method = 'GET') => {
   })
 }
 
-export const isWeapp = () => process.env.TARO_ENV === 'weapp'

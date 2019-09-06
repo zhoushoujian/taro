@@ -57,7 +57,7 @@ class User extends Component {
   }
 
   gotoLoginPage = () => {
-    if(process.env.TARO_ENV !== 'weapp'){
+    if(process.env.TARO_ENV !== 'weapp' && process.env.TARO_ENV !== 'alipay'){
       Taro.navigateTo({
         url: '/pages/login/login'
       })
@@ -85,7 +85,6 @@ class User extends Component {
               {
                 setHeadPic
               ? <Image className="user-info-head-pic" src={headPicAddress} />
-              // : <Image src={headPic}></Image>
               : <Text className="user-head-text">{avatarText.slice(0,1).toUpperCase()}</Text>
               }
             </View>
