@@ -3,7 +3,6 @@ import { View, Text, Input, Button } from '@tarojs/components'
 import _ from "lodash"
 import NavBar from "../../components/navBar"
 import { connect } from '@tarojs/redux'
-import UserRecordList from './userRecordList';
 import { searchRecordFunc } from './logic'
 import './index.scss'
 

@@ -1,17 +1,13 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image , Button} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-// import { AtAvatar } from 'taro-ui'
 import * as actions from '../../store/user'
 import nicknamePic from './assets/nickname.png'
 import historyPic from './assets/history.png'
 import feedbackPic from './assets/feedback.png'
 import aboutPic from './assets/about.png'
 import systemPic from './assets/system.png'
-import headPic from "./assets/user.png"
 import { get as getGlobalData } from '../../global_data'
-
-//import "taro-ui/dist/style/components/avatar.scss";
 import './user.scss'
 
 
@@ -32,21 +28,9 @@ class User extends Component {
     })
   }
 
-  gotoAboutPage = () => {
-    Taro.navigateTo({
-      url: '/pages/about/about'
-    })
-  }
-
   gotoSystemSetup = () => {
     Taro.navigateTo({
       url: '/pages/systemSetup/systemSetup'
-    })
-  }
-
-  setNickname = () => {
-    Taro.navigateTo({
-      url: '/pages/nickname/nickname'
     })
   }
 
@@ -54,14 +38,6 @@ class User extends Component {
     Taro.navigateTo({
       url: '/pages/feedback/feedback'
     })
-  }
-
-  gotoLoginPage = () => {
-    if(process.env.TARO_ENV !== 'weapp' && process.env.TARO_ENV !== 'alipay'){
-      Taro.navigateTo({
-        url: '/pages/login/login'
-      })
-    }
   }
 
   toBegin = (e) => {
@@ -101,15 +77,6 @@ class User extends Component {
             </Button>}
           <View className="user-menu">
             {
-              (process.env.TARO_ENV !== 'weapp' && process.env.TARO_ENV !== 'alipay') && <View className="menu-block">
-                <View className="set-nickname menu-item" onClick={this.setNickname}>
-                  <Image className="menu-ico" src={nicknamePic}></Image>
-                  <Text className="menu-text">设置昵称</Text>
-                  <Text className="menu-arrow">></Text>
-                </View>
-              </View>
-            }
-            {
               process.env.TARO_ENV !== 'alipay' ? <View>
                 <View className="interval"></View>
                 <View className="menu-block">
@@ -126,13 +93,6 @@ class User extends Component {
                     <Text className="menu-text">反馈</Text>
                     <Text className="menu-arrow">></Text>
                   </View>
-                  {
-                    (process.env.TARO_ENV !== 'weapp') && <View className="about menu-item" onClick={this.gotoAboutPage}>
-                      <Image className="menu-ico" src={aboutPic}></Image>
-                      <Text className="menu-text">关于</Text>
-                      <Text className="menu-arrow">></Text>
-                    </View>
-                  }
                   <View className="system menu-item" onClick={this.gotoSystemSetup} >
                       <Image className="menu-ico" src={systemPic}></Image>
                       <Text className="menu-text">系统设置</Text>

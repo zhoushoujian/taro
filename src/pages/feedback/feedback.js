@@ -26,12 +26,6 @@ class Feedback extends Component {
     })
   }
 
-  goBack = () => {
-    Taro.navigateTo({
-      url: '/pages/user/user'
-    })
-  }
-
   submitFeedback = () => {
     const arr = [];
     const feedbackContent = this.state.value;

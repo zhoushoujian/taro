@@ -25,15 +25,6 @@ class Login extends Component {
     navigationBarTitleText: '登录'
   }
 
-  componentDidMount() {
-    // $('.login-btn .button').on("touchstart", function () {
-    //   $(this).addClass("active");
-    // });
-    // $('.login-btn .button').on("touchend", function () {
-    //   $(this).removeClass("active");
-    // })
-  }
-
   login = () => {
     const { username, password } = this.state;
     const { updateUsername, updatePassword, updateToken, updateSetNickname, updateSetHeadPic, updateIsFromLoginPage, updateLogOutFlag, updateAlreadySignUpPersons, updateNotSignUpPersons, updateOnlinePersons } = this.props;
@@ -73,8 +64,6 @@ class Login extends Component {
   keyDownEvent = (evt) => {
     var e = evt;
     if (e.keyCode === 13) {
-        // window.$('#login-username').blur();
-        // window.$('#login-password').blur();
         this.login();
     }
   }
@@ -116,14 +105,6 @@ class Login extends Component {
               <Text type="primary" className="button" id="loginButton" value="登录" onClick={this.login}>登录</Text>
             </View>
           </View>
-            <View className="foot">
-              <Text className="register-text" onClick={this.gotoRegister}>
-                  注册用户名
-              </Text>
-              <Text className="reset-password" onClick={this.gotoResetPwd}>
-                  重置密码
-              </Text>
-            </View>
         </View>
         {process.env.TARO_ENV !== 'weapp' && <View className="back-btn" >
           <Text className="go-back" onClick={this.goBack}>

@@ -15,19 +15,10 @@ class SystemSetup extends Component {
     navigationBarTitleText: '设置'
   }
 
-  logoutApp = () => {
-    let { updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic, updateSignedFlag } = this.props;
-    logoutApp(updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic, updateSignedFlag);
-  }
-
 	resetPassword = () => {
     if(this.props.token){
       Taro.navigateTo({
         url: '/pages/systemSetup/resetPasswordSys'
-      })
-    } else {
-      Taro.navigateTo({
-        url: '/pages/login/resetPwd'
       })
     }
   }
@@ -47,9 +38,6 @@ class SystemSetup extends Component {
           <View className="reset-password" onClick={this.resetPassword}>
             <Text >重置密码</Text>
           </View>
-          { token && process.env.TARO_ENV !== 'weapp'  && process.env.TARO_ENV !== 'alipay' && <View className="logout" onClick={this.logoutApp}>
-            <Text >退出登录</Text>
-          </View> }
         </View>
       </View>
     );

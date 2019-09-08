@@ -59,6 +59,7 @@ export default class Home extends Component {
       }, 1000);
       this.greetings()
       if(username && !isFromLoginPage){
+        // 从除登录页外来的页面将不再请求接口，直接更新签到状态
         if(isSignedUp){
           return signed(updateSignUpStatus, updateSignedFlag);
         }
@@ -86,7 +87,6 @@ export default class Home extends Component {
             await onLoginByAlipay(updateUsername, updateToken)
           }
         }
-        // if(!token) token = await getStorage("tk", true);
         if(!token) token = this.props.token
         await retrieveOthers(token, updateAlreadySignUpPersons, updateNotSignUpPersons);  //retrieve others status
         await retrieveLastLoginTime(token, updateLastSignUpTime, updateSignUpStatus, updateSignedFlag);  //get last sign time

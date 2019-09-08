@@ -1,14 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Input, Text, Button } from '@tarojs/components'
-// import { AtButton } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import NavBar from "../../components/navBar"
-import { resetPasswordFunc } from "../login/logic"
+import { resetPasswordFunc } from "./logic"
 import * as action1 from "../../store/home"
 import * as action2 from "../../store/login"
 import * as action3 from "../../store/user"
-//import "taro-ui/dist/style/components/button.scss";
-import "../login/index.scss"
+import "./index.scss"
 
 @connect(state => (state.login), { ...action1, ...action2, ...action3 })
 class resetPasswordSys extends Component {

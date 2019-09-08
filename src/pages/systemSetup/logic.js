@@ -1,52 +1,44 @@
-import Taro from '@tarojs/taro'
 import { HTTP_URL } from "../../constants/api"
-import { networkErr, initWebsocket, fetch } from "../../utils/utils"
-import { getStorage, removeStorage, setStorage } from "../../utils/utils"
+import { networkErr, fetch } from "../../utils/utils"
+import { get as getGlobalData } from "../../global_data"
 
-export const logoutApp = async (updateIsFromLoginPage,
-  updateToken,
-  updateLastSignUpTime,
-  updateAlreadySignUpPersons,
-  updateNotSignUpPersons,
-  updateSignUpStatus,
-  updateLogOutFlag,
-  updateSetNickname,
-  updateSetHeadPic,
-  updateSignedFlag
-) => {
-  await removeStorage("tk");
-  updateIsFromLoginPage(true);
-  updateToken("");
-  updateLastSignUpTime("");
-  updateAlreadySignUpPersons("");
-  updateNotSignUpPersons("");
-  updateSignUpStatus(false);
-  updateLogOutFlag(true);
-  updateSetNickname("");
-  updateSetHeadPic("");
-  updateSignedFlag("")
-  const original = await getStorage("userId");
-  const newOne = "ls" + String(Date.now() + (Math.random() * 10000).toFixed(0))
-  await removeStorage("userId");
-  await setStorage("userId", newOne);
-  clearInterval(window.checkSocketState)
-  window.ws.close();
-  const data = {
-    original,
-    newOne
-  }
-  fetch(HTTP_URL.replaceSocketLink, data, 'post')
-    .then(response => {
-      if (response.data.result === "success") {
-        initWebsocket()
+export const resetPasswordFunc = (token, value) => {
+  let data = {};
+  if(!token){
+    getGlobalData('alert')('非法请求！');
+  } else {
+      const newPwd = value;
+      if(!newPwd) {
+          return;
+      } else if (!/^(?=(?=.*[a-z])(?=.*[A-Z])|(?=.*[a-z])(?=.*\d)|(?=.*[A-Z])(?=.*\d))[^]{6,16}$/.test(newPwd)) { //密码至少包含一个数字和一个字母
+          getGlobalData('alert')("密码至少包含大小写字母和数字中的两种");
+          return;
+      } else {
+          data = Object.assign({}, {newPwd, token});
       }
+  }
+  fetch(HTTP_URL.resetPassword, data, 'post')
+    .then((response) => {
+        console.info(`reset password response`, response.data);
+        if (response.data.result === "lack_field") {
+            getGlobalData('alert')('缺少字段');
+            return;
+        } else if(response.data.result === "username_not_exist") {
+            getGlobalData('alert')('用户名不存在');
+        } else if(response.data.result === "wrong_password") {
+            getGlobalData('alert')('原密码错误');
+        } else if(response.data.result === "reset_fail") {
+            getGlobalData('alert')('重置失败');
+        } else if(response.data.result === "token_expired") {
+            getGlobalData('alert')('身份已过期，请重新登录');
+        } else if(response.data.result.result === "reset_success"){
+            getGlobalData('alert')('重置成功');
+        } else {
+            getGlobalData('alert')(response.data);
+            console.error("resetPasswordFunc response.data", response.data)
+        }
     })
     .catch(err => {
-      networkErr(err)
-    })
-    .finally(() => {
-      Taro.navigateTo({
-        url: '/pages/login/login'
-      })
+        networkErr(err);
     })
 }
