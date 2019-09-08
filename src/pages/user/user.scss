@@ -7,8 +7,7 @@
   flex-direction: column;
   background-color: #eaeaea;
 
-  .user-info,
-  .not-login-user {
+  .user-info {
     width: 100%;
     height: 200px;
     display: flex;
@@ -26,8 +25,10 @@
       font-size: 48px;
       color: #fff;
       display: flex;
-      height: 72px;
-      width: 72px;
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+      border: 2px solid #fff;
 
       .taro-img{
         width: auto;
@@ -35,8 +36,8 @@
       }
 
       .user-info-head-pic {
-        // height: 72px;
-        // width: 72px;
+        height: 80px;
+        width: 80px;
       }
     }
 
@@ -50,9 +51,12 @@
 
       .nickname {
         font-size: 36px;
+        align-self: flex-start;
+        font-weight: 600;
       }
 
       .username {
+        margin-top:12px;
         font-size: 24px;
       }
     }
@@ -128,6 +132,18 @@
           color: #ccc;
           align-items: center;
         }
+      }
+    }
+
+    .alipay-empty{
+      display:flex;
+      height: calc(100vh - 200px);
+      align-items:center;
+      justify-content:center;
+      .empty-text{
+        font-weight: 600;
+        font-size: 32px;
+        color: #1890FF;
       }
     }
   }

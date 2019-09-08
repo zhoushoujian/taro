@@ -20,7 +20,7 @@ class Feedback extends Component {
     }
   }
 
-  handleChange (event) {
+  handleChange = (event) => {
     this.setState({
       value: event.target.value
     })
@@ -35,6 +35,7 @@ class Feedback extends Component {
   submitFeedback = () => {
     const arr = [];
     const feedbackContent = this.state.value;
+    console.log("feedbackContent", feedbackContent)
     if(!feedbackContent) return;
     if(feedbackContent.length > 200){
       return Taro.showToast({
@@ -74,7 +75,8 @@ class Feedback extends Component {
             <Textarea
               className="feedback-textarea"
               value={this.state.value}
-              onChange={this.handleChange.bind(this)}
+              onChange={this.handleChange}
+              bindinput={this.handleChange}
               maxLength={200}
               placeholder="请详细描述你遇到的问题或建议"
               showConfirmBar

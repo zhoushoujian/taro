@@ -20,17 +20,18 @@ import './app.scss'
 const store = configStore()
 
 setGlobalData('config', {
-  domain: "http://94.191.67.225",
+  // domain: "http://94.191.67.225",
   // domain: "http://localhost",
-  // domain: "http://192.168.199.162",
-  host: "94.191.67.225",
+  domain: "http://192.168.199.162",
+  // host: "94.191.67.225",
   // host: "localhost",
-  // host: "192.168.199.162",
+  host: "192.168.199.162",
   port: "8000",
   socketPort: "8001",
   version: "1.0.0"
 })
 setGlobalData("$dispatch", store.dispatch)
+setGlobalData("$getState", store.getState)
 setGlobalData("alert", (title) => {
   Taro.showToast({
     title,
@@ -86,14 +87,14 @@ class App extends Component {
   }
 
   componentDidMount () {
-    initWebsocket()
-    if(window){
-      let url = window.location.href;
+    console.log('current environment: ',process.env.TARO_ENV)
+    if(process.env.TARO_ENV === 'h5'){
+      const url = window.location.href;
       if(url.split("/#/")[1]){
           window.location.href = url.split("/#/")[0]
       }
+      initWebsocket()
     }
-    console.log('current environment: ',process.env.TARO_ENV)
   }
 
   componentDidShow () {}

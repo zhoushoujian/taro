@@ -1,8 +1,8 @@
 // import { get as getGlobalData } from '../global_data'
 
-const hostname = `http://94.191.67.225:8000`
+// const hostname = `http://94.191.67.225:8000`
 // const hostname = `http://localhost:8000`
-// const hostname = `http://192.168.199.162:8000`
+const hostname = `http://192.168.199.162:8000`
 
 export const HTTP_URL = {
 	"resetPassword": `${hostname}/reset_password`,
@@ -21,5 +21,7 @@ export const HTTP_URL = {
 	"getUserAgreement": hostname + "/get_user_agreement",
 	"heartBeat": hostname + "/heart_beat",
   "replaceSocketLink": hostname + "/replace_socket_link",
-  "weiXinLogin": hostname + "/wei_xin_login"
+  "weiXinLogin": hostname + "/wei_xin_login",
+  "addClientOrigin": hostname + "/add_client_origin",
+  miniProgramLogin: hostname + "/mini_program_login"
 }

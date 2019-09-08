@@ -146,7 +146,8 @@ export const loginApp = async (updateUsername, updatePassword, updateToken, upda
         const newOne = result.username
         clearInterval(window.checkSocketState)
         window.ws.close()
-        await setStorage("userId", newOne);
+        await setStorage("userId", newOne, true);
+        await setStorage("tk", result.token, true);
         const data = {
           original,
           newOne
@@ -155,7 +156,7 @@ export const loginApp = async (updateUsername, updatePassword, updateToken, upda
           .then(async res => {
             if (res.data.result === "success"){
               initWebsocket()
-              await setStorage("tk", result.token);
+              await setStorage("tk", result.token, true);
             }
           })
           .catch(err => {

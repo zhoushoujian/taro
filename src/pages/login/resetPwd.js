@@ -41,7 +41,6 @@ class RestPassword extends Component {
   }
 
   resetPassword = () => {
-    console.log('1111')
     const { username, oldPassword, newPassword1, newPassword2 } = this.state;
     resetPasswordFunc("", "value", "updateIsFromLoginPage", "updateToken", "updateLastSignUpTime", "updateAlreadySignUpPersons", "updateNotSignUpPersons", "updateSignUpStatus", "updateLogOutFlag", 'updateSetNickname', 'updateSetHeadPic', username, oldPassword, newPassword1, newPassword2);
   }

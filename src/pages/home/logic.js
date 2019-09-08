@@ -94,7 +94,7 @@ export const retrieveLastLoginTime = (token, updateLastSignUpTime, updateSignUpS
 				console.info(`retrieveLastLoginTime  response`, response.data)
 				let date = new Date().format("yyyy-MM-dd");
 				let lastSignUpTime = response.data.result.lastDay;
-				if(lastSignUpTime.split(" ")[0] === date) signed(updateSignUpStatus, updateSignedFlag);
+				if(lastSignUpTime && lastSignUpTime.split(" ")[0] === date) signed(updateSignUpStatus, updateSignedFlag);
 				updateLastSignUpTime(lastSignUpTime);
       })
       .catch(err => {
@@ -129,8 +129,7 @@ export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPer
 					//更新token
 					updateToken(response.data.result.token);
 					getGlobalData('alert')("签到成功");
-					signed(updateSignUpStatus, updateSignedFlag);
-          retrieveLastLoginTime(token, updateLastSignUpTime, updateSignUpStatus)
+          retrieveLastLoginTime(token, updateLastSignUpTime, updateSignUpStatus, updateSignedFlag)
 					retrieveOthers(token, updateAlreadySignUpPersons, updateNotSignUpPersons);
 					return;
 				} else if(response.data.result.str === "error"){

@@ -112,7 +112,10 @@ render(){
           </View>
         </View>
         <View className="record-list-container">
-          {recordListLength ? recordList.map((item, index) => <UserRecordList item={item} key={item.date}/>)  : null}
+          {recordListLength ? recordList.map((item) => <View className="record-container" key={item.date}>
+            <Text className="date-record">{item.date}</Text>
+            <Text className="location-record">{item.location}</Text>
+            </View>) : null}
           {this.signDataCount > (30*clickShowMoreCount)
             ? <Text className="show-more" onClick={this.showMore}>{showMoreText}</Text>
             : <View className="show-more bottom"><Text>______________</Text>我是有底线的<Text>______________</Text></View>}

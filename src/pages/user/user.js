@@ -77,7 +77,7 @@ class User extends Component {
     let avatarText = setNickname || username
     setNickname = setNickname || "昵称未设置";
     if(!token) username = "";
-    let headPicAddress = setHeadPic ? process.env.TARO_ENV === 'weapp' ? setHeadPic : (getGlobalData('config').domain + ":" + getGlobalData('config').port + "/" + setHeadPic) : "";
+    let headPicAddress = setHeadPic ? (process.env.TARO_ENV === 'weapp' || process.env.TARO_ENV === 'alipay') ? setHeadPic : (getGlobalData('config').domain + ":" + getGlobalData('config').port + "/" + setHeadPic) : "";
     return (
       <View className="myInfo-container">
           {token ? <View className="user-info">
@@ -109,34 +109,42 @@ class User extends Component {
                 </View>
               </View>
             }
-            <View className="interval"></View>
-            <View className="menu-block">
-              <View className="sign-history menu-item" onClick={this.searchHistory}>
-                <Image className="menu-ico" src={historyPic}></Image>
-                <Text className="menu-text">签到历史</Text>
-                <Text className="menu-arrow">></Text>
-              </View>
-            </View>
-            <View className="interval"></View>
-            <View className="menu-block">
-              <View className="feedback menu-item" onClick={this.gotoFeedbackPage}>
-                <Image className="menu-ico" src={feedbackPic}></Image>
-                <Text className="menu-text">反馈</Text>
-                <Text className="menu-arrow">></Text>
-              </View>
-              {
-                (process.env.TARO_ENV !== 'weapp' && process.env.TARO_ENV !== 'alipay') && <View className="about menu-item" onClick={this.gotoAboutPage}>
-                  <Image className="menu-ico" src={aboutPic}></Image>
-                  <Text className="menu-text">关于</Text>
-                  <Text className="menu-arrow">></Text>
+            {
+              process.env.TARO_ENV !== 'alipay' ? <View>
+                <View className="interval"></View>
+                <View className="menu-block">
+                  <View className="sign-history menu-item" onClick={this.searchHistory}>
+                    <Image className="menu-ico" src={historyPic}></Image>
+                    <Text className="menu-text">签到历史</Text>
+                    <Text className="menu-arrow">></Text>
+                  </View>
                 </View>
-              }
-              <View className="system menu-item" onClick={this.gotoSystemSetup} >
-                  <Image className="menu-ico" src={systemPic}></Image>
-                  <Text className="menu-text">系统设置</Text>
-                  <Text className="menu-arrow">></Text>
+                <View className="interval"></View>
+                <View className="menu-block">
+                  <View className="feedback menu-item" onClick={this.gotoFeedbackPage}>
+                    <Image className="menu-ico" src={feedbackPic}></Image>
+                    <Text className="menu-text">反馈</Text>
+                    <Text className="menu-arrow">></Text>
+                  </View>
+                  {
+                    (process.env.TARO_ENV !== 'weapp') && <View className="about menu-item" onClick={this.gotoAboutPage}>
+                      <Image className="menu-ico" src={aboutPic}></Image>
+                      <Text className="menu-text">关于</Text>
+                      <Text className="menu-arrow">></Text>
+                    </View>
+                  }
+                  <View className="system menu-item" onClick={this.gotoSystemSetup} >
+                      <Image className="menu-ico" src={systemPic}></Image>
+                      <Text className="menu-text">系统设置</Text>
+                      <Text className="menu-arrow">></Text>
+                  </View>
+                </View>
+              </View> :
+              <View className="alipay-empty">
+                <Text className="empty-text">空空如也</Text>
               </View>
-            </View>
+            }
+
           </View>
       </View>
     );
