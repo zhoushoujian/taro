@@ -76,6 +76,7 @@ async function dealWithMiniProgramLogin(obj, updateUsername, updateToken){
       if(data.status === 'SUCCESS'){
         updateUsername(data.result.username)
         updateToken(data.result.token)
+        await setStorage("userId", data.result.username);
         await setStorage('tk', data.result.token, true)
         await setStorage('sid', data.result.sid, true)
         initWebsocket()

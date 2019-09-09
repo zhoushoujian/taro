@@ -43,14 +43,14 @@ const initMiniProgramSocket = (platform, userId, name) => {
 }
 
 export const initWebsocket = async () => {
-	let userId = 'no-ls-' + String(Date.now() + (Math.random()*10000).toFixed(0))
-	if(await getStorage("userId")){
-		userId = await getStorage("userId")
-	} else {
-		userId = parseInt(Math.random() * 1e9)
-		await setStorage("userId", userId);
-	}
 	if(process.env.TARO_ENV === 'h5'){
+    let userId = 'no-ls-' + String(Date.now() + (Math.random()*10000).toFixed(0))
+	  if(await getStorage("userId")){
+	  	userId = await getStorage("userId")
+	  } else {
+	  	userId = parseInt(Math.random() * 1e9)
+	  	await setStorage("userId", userId);
+	  }
 		window.ws = new WebSocket(`ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`);
 		window.ws.onopen = () => {
       userId += "WB"
@@ -70,12 +70,10 @@ export const initWebsocket = async () => {
 		};
 		window.ws.onmessage = (data) => incomingMessage(data);
 	} else {
+    let userId = await getStorage("userId")
     if(process.env.TARO_ENV === 'weapp'){
-      userId += "WX"
       initMiniProgramSocket(wx, userId, "weapp")
-
     } else if (process.env.TARO_ENV === 'alipay') {
-      userId += "ZFB"
       initMiniProgramSocket(my, userId, "alipay")
     }
 	}
