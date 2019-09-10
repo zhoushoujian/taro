@@ -163,16 +163,18 @@ export default class Home extends Component {
     //微信获取用户信息
     const { updateSetNickname,  updateSetHeadPic } = this.props;
     const userInfo = e.target.userInfo;
-    let { avatarUrl, nickName, gender } = userInfo;
-    console.warn("userInfo", userInfo)
-    if(gender === 1) {
-      gender = "男"
-    } else if(gender === 0) {
-      gender = "女"
-    } else {
-      gender = "未知"
+    if(userInfo){
+      let { avatarUrl, nickName, gender } = userInfo;
+      console.warn("userInfo", userInfo)
+      if(gender === 1) {
+        gender = "男"
+      } else if(gender === 0) {
+        gender = "女"
+      } else {
+        gender = "未知"
+      }
+      this.updateAndUploadInfo(updateSetNickname, updateSetHeadPic, avatarUrl, nickName, gender)
     }
-    this.updateAndUploadInfo(updateSetNickname, updateSetHeadPic, avatarUrl, nickName, gender)
   }
 
   onGetAuthorize = () => {

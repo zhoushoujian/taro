@@ -56,7 +56,7 @@ class User extends Component {
     let headPicAddress = setHeadPic ? (process.env.TARO_ENV === 'weapp' || process.env.TARO_ENV === 'alipay') ? setHeadPic : (getGlobalData('config').domain + ":" + getGlobalData('config').port + "/" + setHeadPic) : "";
     return (
       <View className="myInfo-container">
-          {token ? <View className="user-info">
+          <View className="user-info">
             <View className="user-pic">
               {
                 setHeadPic
@@ -69,12 +69,6 @@ class User extends Component {
                 <Text className="username">账号: {username}</Text>
             </View>
           </View>
-          : <Button className="not-login-user" onClick={this.gotoLoginPage} openType='getUserInfo' onGetUserInfo={this.toBegin} >
-              <View className="not-login-circus">
-                  <View className="not-login-inner-circus"></View>
-                  <Text className="not-login-text">登录</Text>
-              </View>
-            </Button>}
           <View className="user-menu">
             {
               process.env.TARO_ENV !== 'alipay' ? <View>
