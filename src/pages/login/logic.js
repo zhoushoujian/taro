@@ -1,10 +1,9 @@
 import Taro from '@tarojs/taro'
 import { HTTP_URL } from "../../constants/api"
 import { networkErr, initWebsocket, getStorage, setStorage, fetch } from "../../utils/utils"
-import { logoutApp } from "../systemSetup/logic"
 import { get as getGlobalData } from '../../global_data'
 
-export const resetPasswordFunc = (token, value, updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic, username, oldPassword, newPassword1, newPassword2) => {
+export const resetPasswordFunc = (token, value, username, oldPassword, newPassword1, newPassword2) => {
     let data = {};
     if(!token){
       if (!username || !oldPassword || !newPassword1 || !newPassword2) {
@@ -55,9 +54,6 @@ export const resetPasswordFunc = (token, value, updateIsFromLoginPage, updateTok
                   Taro.navigateTo({
                     url: '/pages/login/login'
                   })
-                  if(token){
-                    logoutApp(updateIsFromLoginPage, updateToken, updateLastSignUpTime, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLogOutFlag, updateSetNickname, updateSetHeadPic);
-                  }
                 }, 300)
               }
           } else {

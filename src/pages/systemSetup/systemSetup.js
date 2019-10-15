@@ -2,7 +2,6 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import NavBar from "../../components/navBar"
-import { logoutApp } from "./logic"
 import * as action1 from "../../store/home"
 import * as action2 from "../../store/login"
 import * as action3 from "../../store/user"

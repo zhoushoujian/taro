@@ -83,7 +83,7 @@ export default class Home extends Component {
             alipayStyle: "useVH"
           })
           if(!token) {
-            //  支付宝要求必须触发按钮的事件才能获取用户信息，无论是否已授权
+            // 支付宝要求必须触发按钮的事件才能获取用户信息，无论是否已授权
             await onLoginByAlipay(updateUsername, updateToken)
           }
         }

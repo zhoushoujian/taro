@@ -16,8 +16,8 @@ class Login extends Component {
       this.state = {
         usernamePlaceholder: "请输入用户名",
 		    passwordPlaceholder: "请输入密码",
-		    username: this.props.username || "",
-		    password: this.props.password || ""
+		    username: this.props.username || 'coffee',
+		    password: this.props.password || 'zsjkl320723'
       }
   }
 

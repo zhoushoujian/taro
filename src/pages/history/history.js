@@ -41,10 +41,6 @@ searchRecord = (slice = 30) => {
         this.setState({
           recordList: result || [],
           showMoreText: "查看更多"
-        }, () => {
-          if (this.checkBottomText) {
-            this.checkBottomText = false;
-          }
         })
       } else {
         this.setState({
@@ -81,7 +77,6 @@ showMore = () => {
     clickShowMoreCount: ++clickShowMoreCount,
     showMoreText: "正在查询..."
   }, () => this.searchRecord(clickShowMoreCount * 30))
-  this.checkBottomText = true;
 }
 
 goBack = () => {
@@ -91,15 +86,15 @@ goBack = () => {
 }
 
 render(){
-  let { recordList, searchString, clickShowMoreCount, showMoreText } = this.state;
+  let { recordList, searchString, clickShowMoreCount, showMoreText, showBottom } = this.state;
   let recordListLength = recordList.length;
     return (
       <View className="search-history-container">
         <NavBar centerText="查询签到历史" backFun={this.goBack} ></NavBar>
         <View className="search-header">
           <View className="search-input">
-            <Input className="search-input-content"  id="search-history" value={searchString} autoComplete="off" placeholder={"请输入您要搜索的用户名"}
-              onClick={this.click} onBlur={this.blur}  onKeyDown={(event) => this.keyDownEvent(event)} onChange={this.updateValue}/>
+            <Input className="search-input-content"  id="search-history" value={searchString} autoComplete="off" placeholder="搜索用户名"
+              onKeyDown={(event) => this.keyDownEvent(event)} onChange={this.updateValue}/>
           </View>
           <View className="search-button" onClick={() => {
             this.setState({
@@ -117,7 +112,7 @@ render(){
             </View>) : null}
           {this.signDataCount > (30*clickShowMoreCount)
             ? <Text className="show-more" onClick={this.showMore}>{showMoreText}</Text>
-            : <View className="show-more bottom"><Text>______________</Text>我是有底线的<Text>______________</Text></View>}
+            : null}
         </View>
       </View>
     )

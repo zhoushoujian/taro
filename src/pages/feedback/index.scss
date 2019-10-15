@@ -11,13 +11,14 @@
     padding: 2%;
     border-radius: 5px;
     outline: none;
-    font-size:36px;
+    font-size:30px;
     height: 200px;
     max-height: 80%;
     flex-direction: column;
+    border: 1px solid #000;
   }
   .feedback-textarea::-webkit-input-placeholder {
-    font-size: 18px;
+    font-size: 14px;
   }
   .submit-feedback{
     margin-top: 25px;
