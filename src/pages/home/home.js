@@ -142,9 +142,11 @@ export default class Home extends Component {
 
   signIn = async () => {
     const { isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag, setNickname } = this.props;
+    console.log("signIn token", token)
     if(token) {
       if(process.env.TARO_ENV === 'weapp' || process.env.TARO_ENV === 'alipay'){
         const sid = await getStorage('sid', true)  //使用sid作为小程序已授权的标志
+        console.log("signIn sid", sid)
         if(!sid || sid.length !== 9){
           return
         }
@@ -165,7 +167,6 @@ export default class Home extends Component {
     const userInfo = e.target.userInfo;
     if(userInfo){
       let { avatarUrl, nickName, gender } = userInfo;
-      console.warn("userInfo", userInfo)
       if(gender === 1) {
         gender = "男"
       } else if(gender === 0) {

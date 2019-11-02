@@ -104,8 +104,10 @@ export const retrieveLastLoginTime = (token, updateLastSignUpTime, updateSignUpS
 }
 
 export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag) => {
-	if(isSignedUp) return;
+  console.log("signInApp isSignedUp", isSignedUp)
+  if(isSignedUp) return;
   let signFlag;
+  console.log("signInApp signFlag", signFlag)
 	if (signFlag) return;
   signFlag = true;
 	let date = new Date().format("yyyy-MM-dd");
