@@ -95,7 +95,7 @@ class User extends Component {
                 </View>
               </View> :
               <View className="alipay-empty">
-                <Text className="empty-text">空空如也</Text>
+                {/* <Text className="empty-text">空空如也</Text> */}
               </View>
             }
 

@@ -36,8 +36,9 @@ export const autoLogin = function(token, updateUsername, updateSetNickname, upda
 				if (err.message === 'Network Error') {
 					getGlobalData('alert')("请检查网络连接");
 				} else {
-					getGlobalData('alert')(err.stack||err.toString())
-				}
+					getGlobalData('alert')(`autoLogin ${JSON.stringify(err)}`)
+        }
+        rej()
 			})
 	})
 }
@@ -143,6 +144,7 @@ export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPer
 				}
 			})
 			.catch(err => {
+        getGlobalData('alert')(`signInApp ${JSON.stringify(err)}`)
         networkErr(err);
 		  })
 	}
