@@ -258,11 +258,12 @@ export default class Home extends Component {
             }
 
         		<Text className="last-sign-time">上一次签到时间：<Text className="last-sign">{lastSignUpTime}</Text></Text>
-					  <View className="online-persons">
+            {/* 线上版本的websocket需要额外的服务器，暂时屏蔽次代码片段 */}
+					  {onlinePersons && <View className="online-persons">
 					  	<Text className="text">当前</Text>
 					  	<Text className="persons">{onlinePersons}</Text>
 					  	<Text className="text">人在线</Text>
-					  </View>
+					  </View>}
         	</View>
         	<View className="count-area">
         	  <View className="signed"><Text className="signed-text">已签到:</Text>

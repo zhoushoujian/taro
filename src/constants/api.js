@@ -1,6 +1,6 @@
 // import { get as getGlobalData } from '../global_data'
 
-const hostname = `http://94.191.67.225:8000`
+const hostname = `https://api.zhoushoujian.com`
 // const hostname = `http://localhost:8000`
 // const hostname = `http://192.168.199.162:8000`
 

@@ -53,7 +53,7 @@ class User extends Component {
     let avatarText = setNickname || username
     setNickname = setNickname || "昵称未设置";
     if(!token) username = "";
-    let headPicAddress = setHeadPic ? (process.env.TARO_ENV === 'weapp' || process.env.TARO_ENV === 'alipay') ? setHeadPic : (getGlobalData('config').domain + ":" + getGlobalData('config').port + "/" + setHeadPic) : "";
+    let headPicAddress = setHeadPic ? (process.env.TARO_ENV === 'weapp' || process.env.TARO_ENV === 'alipay') ? setHeadPic : ("https://api.zhoushoujian.com/" + setHeadPic) : "";
     return (
       <View className="myInfo-container">
           <View className="user-info">
