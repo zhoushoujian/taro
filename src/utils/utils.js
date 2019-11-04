@@ -23,7 +23,7 @@ export const networkErr = (err) => {
 
 const initMiniProgramSocket = (platform, userId, name) => {
   const socketTask = platform['connectSocket']({
-    url: `ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`,
+    url: `wss://api.zhoushoujian.com`,
     header: {
       'content-type': 'application/json'
     }
@@ -51,7 +51,7 @@ export const initWebsocket = async () => {
 	  	userId = parseInt(Math.random() * 1e9)
 	  	await setStorage("userId", userId);
 	  }
-		window.ws = new WebSocket(`ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`);
+		window.ws = new WebSocket(`wss://api.zhoushoujian.com`);
 		window.ws.onopen = () => {
       userId += "WB"
 			openWS(ws.readyState, userId)
@@ -59,7 +59,7 @@ export const initWebsocket = async () => {
 				if(window.ws.readyState !== 1){
 					window.ws.close()
 					console.warn("正在重新建立连接...");
-					window.ws = new WebSocket(`ws://${getGlobalData('config').host}:${getGlobalData('config').socketPort}`);
+					window.ws = new WebSocket(`wss://api.zhoushoujian.com`);
 					window.ws.onopen = () => openWS(window.ws.readyState, userId);
 					window.ws.onmessage = (data) => incomingMessage(data);
 				} else {
