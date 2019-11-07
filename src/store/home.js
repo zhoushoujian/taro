@@ -4,6 +4,7 @@ const ALREADY_SIGN_UP_PERSONS = "sign/alreadySignUpPersons";
 const NOT_SIGN_UP_PERSONS = "sign/notSignUpPersons";
 const ONLINE_PERSONS = "sign/onlinePersons"
 const SIGNED_FLAG = "sign/signedFlag"
+const ONLINE_PERSONS_NAME = "sign/onlinePersonsName";
 
 const INITIAL_STATE = {
   isSignedUp: false,
@@ -11,7 +12,8 @@ const INITIAL_STATE = {
   alreadySignUpPersons: "",
 	notSignUpPersons: "",
   onlinePersons: 0,
-  signedFlag: ""
+  signedFlag: "",
+  onlinePersonsName: "",
 }
 
 export const home = function (state = INITIAL_STATE, action) {
@@ -28,6 +30,8 @@ export const home = function (state = INITIAL_STATE, action) {
       return Object.assign({}, state, { onlinePersons: action.data });
     case SIGNED_FLAG:
       return Object.assign({}, state, { signedFlag: action.data });
+    case SIGNED_FLAG:
+			return Object.assign({}, state, {  onlinePersonsName: action.data });
     default:
       return state;
   }
@@ -61,3 +65,8 @@ export const updateSignedFlag = data => ({
   type: SIGNED_FLAG,
   data
 });
+
+export const updateOnlinePersonsName = data => ({
+	type: ONLINE_PERSONS_NAME,
+	data
+})

@@ -23,5 +23,6 @@ export const HTTP_URL = {
   "replaceSocketLink": hostname + "/replace_socket_link",
   "weiXinLogin": hostname + "/wei_xin_login",
   "addClientOrigin": hostname + "/add_client_origin",
-  miniProgramLogin: hostname + "/mini_program_login"
+  "miniProgramLogin": hostname + "/mini_program_login",
+  "getOnlinePersons": hostname + "/get_online_persons",
 }

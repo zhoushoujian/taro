@@ -1,0 +1,26 @@
+.online-persons-name-container{
+	.online-persons-name-content{
+		padding: 20px;
+		font-size: 32px;
+		color: #BD2833;
+		display: flex;
+		width: 100%;
+		word-break: break-all;
+		overflow: auto;
+		flex-wrap: wrap;
+		align-self: baseline;
+		box-sizing: border-box;
+		.weapp{
+			color: green;
+			margin: 2px;
+		}
+		.h5{
+			color: #81AFED;
+			margin: 2px;
+		}
+		.alipay{
+			color: blue;
+			margin: 2px;
+		}
+	}
+}

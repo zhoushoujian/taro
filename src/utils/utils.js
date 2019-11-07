@@ -3,6 +3,14 @@ import { setOthersSignInfo } from "../pages/home/logic"
 import { updateOnlinePersons } from "../store/home"
 import { get as getGlobalData, set as setGlobalData } from '../global_data'
 
+let receiveServerSocketPong = false;
+let reconnectAndSendTimeout = null;
+const callbackFunc = (index) => {
+	logger.info("callbackFunc  index", index)
+	if(reconnectAndSendTimeout) clearInterval(reconnectAndSendTimeout)
+}
+let observer1 = null;
+
 export const networkErr = (err) => {
   if(err === undefined){
     Taro.showToast({
@@ -31,6 +39,14 @@ const initMiniProgramSocket = (platform, userId, name) => {
 
   setGlobalData('socketTask', socketTask)
 
+  if(platform === 'weapp'){
+    observer1 = new wx.Observer(callbackFunc)
+    wx.subjectModel.subscribeObserver(observer1)
+  } else if(platform === "alipay"){
+    observer1 = new my.Observer(callbackFunc)
+    my.subjectModel.subscribeObserver(observer1)
+  }
+
   platform['onSocketOpen'](() => {
     return openWS(name, userId)
   })
@@ -43,6 +59,7 @@ const initMiniProgramSocket = (platform, userId, name) => {
 }
 
 export const initWebsocket = async () => {
+
 	if(process.env.TARO_ENV === 'h5'){
     let userId = 'no-ls-' + String(Date.now() + (Math.random()*10000).toFixed(0))
 	  if(await getStorage("userId")){
@@ -61,7 +78,9 @@ export const initWebsocket = async () => {
 					console.warn("正在重新建立连接...");
 					window.ws = new WebSocket(`wss://api.zhoushoujian.com`);
 					window.ws.onopen = () => openWS(window.ws.readyState, userId);
-					window.ws.onmessage = (data) => incomingMessage(data);
+          window.ws.onmessage = (data) => incomingMessage(data);
+          observer1 = new window.Observer(callbackFunc)
+		      window.subjectModel.subscribeObserver(observer1)
 				} else {
 					let message = Object.assign({},{ type:'check-connect', userId, date: "ping" });
 					window.ws.send(JSON.stringify(message));
@@ -70,7 +89,7 @@ export const initWebsocket = async () => {
 		};
 		window.ws.onmessage = (data) => incomingMessage(data);
 	} else {
-    let userId = await getStorage("userId")
+    const userId = await getStorage("userId")
     if(process.env.TARO_ENV === 'weapp'){
       initMiniProgramSocket(wx, userId, "weapp")
     } else if (process.env.TARO_ENV === 'alipay') {
@@ -87,38 +106,65 @@ export const openWS = (readyState, userId) => {
 		userId,
 		date: Date.now()
   })
-  if(window){
+  if(process.env.TARO_ENV === 'h5'){
+    console.log("windoow openWS")
     window.ws.send(JSON.stringify(msg));
+    window.websocketHeartBeatInterval = setInterval(reconnectAndSend, 60000)
   } else if(process.env.TARO_ENV === 'weapp'){
+    console.log("weapp openWS")
     wx.sendSocketMessage({data: JSON.stringify(msg)})
+    wx.websocketHeartBeatInterval = setInterval(reconnectAndSend, 60000)
   } else if(process.env.TARO_ENV === 'alipay'){
+    console.log("alipay openWS")
     my.sendSocketMessage({data: JSON.stringify(msg)})
+    my.websocketHeartBeatInterval = setInterval(reconnectAndSend, 60000)
   }
+
 }
 
-export const incomingMessage = (data) => {
+export const incomingMessage = async(data) => {
 	try {
     data = JSON.parse(data.data);
-    console.log('data', data)
+    console.log('incomingMessage data', data)
 		switch(data.type){
 			case "response-date":
 				console.info(`Roundtrip time: ${Date.now() - data.data} ms`);
 				break;
 			case "order-string":
-				console.info(data.data);
+				console.info('order-string', data.data);
 				break;
 			case "get-sign-array":
 				setOthersSignInfo(data.data)
-				console.info(data);
-				break;
-			case "heart-beat":
-				console.info(data);
+				console.info('get-sign-array', data);
 				break;
 			case "online-persons":
 				getGlobalData('$dispatch')(updateOnlinePersons(data.data));
 				console.info(`当前在线人数: ${data.data}`);
+        break;
+      case "pong":
+        logger.info('incomingMessage pong', data);
+        receiveServerSocketPong = true;
+        subjectModel.notifyObserver(observer1)
+        break;
+      case "socket-heart-beat":
+        console.info('incomingMessage server-socket-heart-beat', data);
+        const userId = await getStorage("userId")
+				const msg = {
+					type:'check-connect',
+					userId,
+					data: "reply-server-heart-beat",
+					date: Date.now()
+				}
+        if(process.env.TARO_ENV === 'h5'){
+          window.ws.send(JSON.stringify(msg));
+        } else if(process.env.TARO_ENV === 'weapp'){
+          wx.sendSocketMessage({data: JSON.stringify(msg)})
+        } else if(process.env.TARO_ENV === 'alipay'){
+          my.sendSocketMessage({data: JSON.stringify(msg)})
+        }
 				break;
 			default:
+        console.warn("default incoming data type", data)
 				break;
 		}
 	} catch (err){
@@ -247,3 +293,66 @@ export const fetch = async (url, payload, method = 'GET') => {
   })
 }
 
+async function reconnectAndSend(){
+  const message = Object.assign({},{ type:'check-connect', userId: await getStorage("userId"), data: "ping", date: Date.now() });
+  if(process.env.TARO_ENV === 'h5'){
+    if(window.ws.readyState !== 1){
+      console.warn("reconnectAndSend window.ws.readyState !== 1")
+      await reconnectSocket('heart beat')
+    } else {
+      window.ws.send(JSON.stringify(message));
+      receiveServerSocketPong = false;
+      //  10秒超时，如何收不到服务端pong响应则表示服务端已主动断开连接，此时需客户端重新开启websocket连接
+      reconnectAndSendTimeout = setTimeout(async () => {
+        console.warn("reconnectAndSendTimeout reconnectSocket")
+        reconnectAndSendTimeout = null
+        await reconnectSocket('heart beat')
+      }, 10000)
+    }
+  } else if(process.env.TARO_ENV === 'weapp'){
+    if(wx.ws.readyState !== 1){
+      console.warn("reconnectAndSend wx.ws.readyState !== 1")
+      await reconnectSocket('heart beat')
+    } else {
+      wx.ws.sendSocketMessage(JSON.stringify(message));
+      receiveServerSocketPong = false;
+      //  10秒超时，如何收不到服务端pong响应则表示服务端已主动断开连接，此时需客户端重新开启websocket连接
+      reconnectAndSendTimeout = setTimeout(async () => {
+        console.warn("reconnectAndSendTimeout reconnectSocket")
+        reconnectAndSendTimeout = null
+        await reconnectSocket('heart beat')
+      }, 10000)
+    }
+  } else if(process.env.TARO_ENV === 'alipay'){
+    if(my.ws.readyState !== 1){
+      console.warn("reconnectAndSend my.ws.readyState !== 1")
+      await reconnectSocket('heart beat')
+    } else {
+      my.ws.sendSocketMessage(JSON.stringify(message));
+      receiveServerSocketPong = false;
+      //  10秒超时，如何收不到服务端pong响应则表示服务端已主动断开连接，此时需客户端重新开启websocket连接
+      reconnectAndSendTimeout = setTimeout(async () => {
+        console.warn("reconnectAndSendTimeout reconnectSocket")
+        reconnectAndSendTimeout = null
+        await reconnectSocket('heart beat')
+      }, 10000)
+    }
+  }
+
+}
+
+export const reconnectSocket = async () => {
+  const userId = await getStorage("userId")
+  if (process.env.TARO_ENV === 'h5') {
+    if (window.ws && window.ws.close) window.ws.close()
+    if (window.websocketHeartBeatInterval) clearInterval(window.websocketHeartBeatInterval)
+    console.warn("正在重新建立websocket连接...");
+    window.ws = new WebSocket(window.config.debug ? `wss://${window.config.host}:${window.config.socketPort}` : `wss://${window.config.socketUrl}`);
+    window.ws.onopen = () => openWS(window.ws.readyState, userId);
+    window.ws.onmessage = (data) => incomingMessage(data);
+  } else if (process.env.TARO_ENV === 'weapp') {
+    initMiniProgramSocket(wx, userId, "weapp")
+  } else if (process.env.TARO_ENV === 'alipay') {
+    initMiniProgramSocket(wx, userId, "alipay")
+  }
+}

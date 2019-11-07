@@ -7,6 +7,7 @@ import configStore from './store'
 // import { initWebsocket } from "./utils/utils"
 const { initWebsocket } = require("./utils/utils")
 import { set as setGlobalData } from "./global_data"
+import "./observer"
 
 import './styles/reset.scss'
 import './app.scss'
@@ -51,6 +52,7 @@ class App extends Component {
       'pages/feedback/feedback',
       'pages/history/history',
       'pages/systemSetup/resetPasswordSys',
+      'pages/showOnlinePersons/showOnlinePersons',
       'pages/webview/webview'
     ],
     window: {

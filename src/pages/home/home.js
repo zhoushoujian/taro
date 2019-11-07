@@ -227,6 +227,12 @@ export default class Home extends Component {
     getGlobalData('alert')("只有授权才能签到");
   }
 
+  getOnlinePersons = () => {
+    Taro.navigateTo({
+      url: '/pages/showOnlinePersons/showOnlinePersons'
+    })
+	}
+
   render () {
     const { hour, minute, middle, greeting, alipayStyle } = this.state;
     let { username, token, alreadySignUpPersons=[], notSignUpPersons=[], lastSignUpTime, onlinePersons, signedFlag, isSignedUp, setNickname} = this.props;
@@ -258,8 +264,7 @@ export default class Home extends Component {
             }
 
         		<Text className="last-sign-time">上一次签到时间：<Text className="last-sign">{lastSignUpTime}</Text></Text>
-            {/* 线上版本的websocket需要额外的服务器，暂时屏蔽次代码片段 */}
-					  {onlinePersons && <View className="online-persons">
+					  {onlinePersons && <View className="online-persons"  onClick={this.getOnlinePersons}>
 					  	<Text className="text">当前</Text>
 					  	<Text className="persons">{onlinePersons}</Text>
 					  	<Text className="text">人在线</Text>
@@ -267,10 +272,14 @@ export default class Home extends Component {
         	</View>
         	<View className="count-area">
         	  <View className="signed"><Text className="signed-text">已签到:</Text>
-        	    	<ScrollView className="signed-persons" enableFlex={true} >{alreadySignUpPersons.map(item => <Text key={item.username} className={item.origin || "h5"}>{item.username + `, `}</Text>)}</ScrollView>
+                <ScrollView className="signed-persons" enableFlex={true} >
+                  {alreadySignUpPersons.map((item, index) => <Text key={item.username} className={item.origin || "h5"}>{item.username + (index === alreadySignUpPersons.length-1 ? "" : `, `)}</Text>)}
+                </ScrollView>
         	  </View>
         	  <View className="not-signed"><Text className="not-signed-text">未签到:</Text>
-        	    	<ScrollView className="not-signed-persons" enableFlex={true}>{notSignUpPersons.map(item => <Text key={item.username} className={item.origin || "h5" }>{item.username + `, `}</Text>)}</ScrollView>
+                <ScrollView className="not-signed-persons" enableFlex={true}>
+                  {notSignUpPersons.map((item, index) => <Text key={item.username} className={item.origin || "h5" }>{item.username + (index === notSignUpPersons.length-1 ? "" : `, `)}</Text>)}
+                </ScrollView>
         	  </View>
         	</View>
         </View>
