@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image , Button} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
+// import { AtAvatar } from 'taro-ui'
 import * as actions from '../../store/user'
 import nicknamePic from './assets/nickname.png'
 import historyPic from './assets/history.png'
@@ -8,6 +9,8 @@ import feedbackPic from './assets/feedback.png'
 import aboutPic from './assets/about.png'
 import systemPic from './assets/system.png'
 import { get as getGlobalData } from '../../global_data'
+
+//import "taro-ui/dist/style/components/avatar.scss";
 import './user.scss'
 
 
@@ -55,14 +58,15 @@ class User extends Component {
     if(!token) username = "";
     let headPicAddress = setHeadPic ? (process.env.TARO_ENV === 'weapp' || process.env.TARO_ENV === 'alipay') ? setHeadPic : ("https://api.zhoushoujian.com/" + setHeadPic) : "";
     return (
-      <View className="myInfo-container">
-          <View className="user-info">
+      <View style={{width:'100%', height:'100%', display: 'flex', justifyContent: 'center', paddingBottom: 100}}>
+        <Text style={{width:'100%', textAlign: 'center', fontSize: 20, display: 'flex', justifyContent: 'center'}}>差评</Text>
+        <Text style={{width:'100%', textAlign: 'center', color: "#61dafb", fontSize: 50, paddingTop: 10, display: 'flex', justifyContent: 'center'}}>React Native</Text>
+          {/* {token ? <View className="user-info">
             <View className="user-pic">
               {
                 setHeadPic
               ? <Image className="user-info-head-pic" src={headPicAddress} />
-              : <Text className="user-head-text">{avatarText.slice(0,1).toUpperCase()}</Text>
-              }
+              : <Image circle text={avatarText}></Image>}
             </View>
             <View className="user-name">
                 <Text className="nickname">{setNickname}</Text>
@@ -95,11 +99,10 @@ class User extends Component {
                 </View>
               </View> :
               <View className="alipay-empty">
-                {/* <Text className="empty-text">空空如也</Text> */}
+                <Text className="empty-text">空空如也</Text>
               </View>
-            }
-
-          </View>
+            </View>
+          </View> */}
       </View>
     );
   }

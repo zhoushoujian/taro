@@ -1,9 +1,11 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Input, Button, ScrollView } from '@tarojs/components'
+import { View, Text, Input, Button } from '@tarojs/components'
+// import { AtButton } from 'taro-ui'
 import _ from "lodash"
 import NavBar from "../../components/navBar"
 import { connect } from '@tarojs/redux'
 import { searchRecordFunc } from './logic'
+//import "taro-ui/dist/style/components/button.scss";
 import './index.scss'
 
 @connect(state => state.login, { })

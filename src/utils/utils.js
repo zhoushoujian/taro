@@ -2,14 +2,7 @@ import Taro from '@tarojs/taro'
 import { setOthersSignInfo } from "../pages/home/logic"
 import { updateOnlinePersons } from "../store/home"
 import { get as getGlobalData, set as setGlobalData } from '../global_data'
-
-let receiveServerSocketPong = false;
-let reconnectAndSendTimeout = null;
-const callbackFunc = (index) => {
-	logger.info("callbackFunc  index", index)
-	if(reconnectAndSendTimeout) clearInterval(reconnectAndSendTimeout)
-}
-let observer1 = null;
+//import "taro-ui/dist/style/components/toast.scss";
 
 export const networkErr = (err) => {
   if(err === undefined){
