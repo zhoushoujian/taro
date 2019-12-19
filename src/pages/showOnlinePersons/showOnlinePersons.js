@@ -23,7 +23,7 @@ export default class ShowOnlinePersons extends Component {
       .then(response => {
         let result = response.data.result;
         this.setState({
-          onlinePersonsName: result
+          onlinePersonsName: result.response
         })
         this.props.updateOnlinePersonsName(result)
         this.setState({
