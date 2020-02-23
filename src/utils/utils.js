@@ -134,7 +134,7 @@ export const incomingMessage = async(data) => {
 				console.info('order-string', data.data);
 				break;
 			case "get-sign-array":
-				setOthersSignInfo(data.data)
+				setOthersSignInfo(data.data.response)
 				console.info('get-sign-array', data);
 				break;
 			case "online-persons":

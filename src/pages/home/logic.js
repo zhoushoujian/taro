@@ -49,7 +49,7 @@ export const retrieveOthers = (token, updateAlreadySignUpPersons, updateNotSignU
     return fetch(HTTP_URL.retrieveOthers, data, 'post')
 			.then((response) => {
 				const responseText = response.data;
-				setOthersSignInfo(responseText.result, updateAlreadySignUpPersons, updateNotSignUpPersons)
+				setOthersSignInfo(responseText.result.response, updateAlreadySignUpPersons, updateNotSignUpPersons)
       })
       .catch(err => {
         networkErr(err);
