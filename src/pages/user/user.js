@@ -1,13 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Image , Button} from '@tarojs/components'
+import { View, Text, Image} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import * as actions from '../../store/user'
-import nicknamePic from './assets/nickname.png'
 import historyPic from './assets/history.png'
 import feedbackPic from './assets/feedback.png'
-import aboutPic from './assets/about.png'
 import systemPic from './assets/system.png'
-import { get as getGlobalData } from '../../global_data'
 import './user.scss'
 
 
@@ -37,6 +34,12 @@ class User extends Component {
   gotoFeedbackPage = () => {
     Taro.navigateTo({
       url: '/pages/feedback/feedback'
+    })
+  }
+
+  gotoMusic = () => {
+    Taro.navigateTo({
+      url: '/pages/music/music'
     })
   }
 
@@ -77,6 +80,14 @@ class User extends Component {
                   <View className="sign-history menu-item" onClick={this.searchHistory}>
                     <Image className="menu-ico" src={historyPic}></Image>
                     <Text className="menu-text">签到历史</Text>
+                    <Text className="menu-arrow">></Text>
+                  </View>
+                </View>
+                <View className="interval"></View>
+                <View className="menu-block">
+                  <View className="sign-history menu-item" onClick={this.gotoMusic}>
+                    <Image className="menu-ico" src={historyPic}></Image>
+                    <Text className="menu-text">搜索音乐</Text>
                     <Text className="menu-arrow">></Text>
                   </View>
                 </View>
