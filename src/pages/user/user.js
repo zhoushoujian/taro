@@ -37,12 +37,6 @@ class User extends Component {
     })
   }
 
-  gotoMusic = () => {
-    Taro.navigateTo({
-      url: '/pages/music/music'
-    })
-  }
-
   toBegin = (e) => {
     const { updateSetNickname,  updateSetHeadPic } = this.props;
     const userInfo = e.target.userInfo;
@@ -80,14 +74,6 @@ class User extends Component {
                   <View className="sign-history menu-item" onClick={this.searchHistory}>
                     <Image className="menu-ico" src={historyPic}></Image>
                     <Text className="menu-text">签到历史</Text>
-                    <Text className="menu-arrow">></Text>
-                  </View>
-                </View>
-                <View className="interval"></View>
-                <View className="menu-block">
-                  <View className="sign-history menu-item" onClick={this.gotoMusic}>
-                    <Image className="menu-ico" src={historyPic}></Image>
-                    <Text className="menu-text">搜索音乐</Text>
                     <Text className="menu-arrow">></Text>
                   </View>
                 </View>
