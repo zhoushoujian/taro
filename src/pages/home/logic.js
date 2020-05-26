@@ -10,13 +10,13 @@ export const signed = (updateSignUpStatus, updateSignedFlag) => {
 
 export const autoLogin = function(token, updateUsername, updateSetNickname, updateSetHeadPic){
 	return new Promise((res,rej) => {
-		let data = Object.assign({}, { token })
+		const data = Object.assign({}, { token })
     return fetch(HTTP_URL.tokenLogin, data, 'post')
 			.then((response) => {
 				console.info(`auto login  response`, response.data);
-				let result = response.data.result;
+				const result = response.data.result;
 				if (result.token && result.username) {
-					let userProfile = result.userProfile || {};
+					const userProfile = result.userProfile || {};
 					updateUsername(result.username);
 					updateSetNickname(userProfile.nickname);
 					updateSetHeadPic(userProfile.user_pic);
@@ -58,8 +58,8 @@ export const retrieveOthers = (token, updateAlreadySignUpPersons, updateNotSignU
 }
 
 export const setOthersSignInfo = (data, updateAlreadySignUpPersonsParam, updateNotSignUpPersonsParam) => {
-  if(!data) return  //this api is from websocket now, so it maybe undefined from rest api
-	let date = new Date().format("yyyy-MM-dd"),
+  if(!data) return
+	const date = new Date().format("yyyy-MM-dd"),
 	  info = data,
 		signedArray = [],
     unsignedArray = [];
@@ -107,19 +107,13 @@ export const retrieveLastLoginTime = (token, updateLastSignUpTime, updateSignUpS
 export const signInApp = (isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag) => {
   console.log("signInApp isSignedUp", isSignedUp)
   if(isSignedUp) return;
-  let signFlag;
-  console.log("signInApp signFlag", signFlag)
-	if (signFlag) return;
-  signFlag = true;
-	let date = new Date().format("yyyy-MM-dd");
 	if(token){
-		let data = Object.assign({}, {
+		const data = Object.assign({}, {
 			token,
-			CurrentTime: date
+			CurrentTime: new Date().format("yyyy-MM-dd")
 		});
 		return fetch(HTTP_URL.goSign, data, 'post')
 			.then((response) => {
-				signFlag = false;
 				console.info(`signIn  response`, response.data);
 				if (response.data.result.str === "already_signed") {
 					getGlobalData('alert')("已签到");

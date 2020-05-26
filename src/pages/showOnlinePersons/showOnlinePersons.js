@@ -11,9 +11,9 @@ import './index.scss'
 export default class ShowOnlinePersons extends Component {
 
 	constructor(props){
-		super(props)
+    super(props)
 		this.state={
-			onlinePersonsName: this.props.onlinePersonsName || [],
+			onlinePersonsName: [],
 			isSearching: true
 		}
 	}
@@ -21,14 +21,12 @@ export default class ShowOnlinePersons extends Component {
   componentDidMount() {
     return fetch(HTTP_URL.getOnlinePersons)
       .then(response => {
-        let result = response.data.result;
+        const result = response.data.result;
         this.setState({
-          onlinePersonsName: result.response
-        })
-        this.props.updateOnlinePersonsName(result)
-        this.setState({
+          onlinePersonsName: result.response,
           isSearching: false
         })
+        this.props.updateOnlinePersonsName(result)
       })
       .catch(function (error) {
         networkErr(error);

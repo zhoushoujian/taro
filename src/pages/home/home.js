@@ -141,8 +141,7 @@ export default class Home extends Component {
   }
 
   signIn = async () => {
-    const { isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag, setNickname } = this.props;
-    console.log("signIn token", token)
+    const { isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag } = this.props;
     if(token) {
       if(process.env.TARO_ENV === 'weapp' || process.env.TARO_ENV === 'alipay'){
         const sid = await getStorage('sid', true)  //使用sid作为小程序已授权的标志
@@ -152,12 +151,6 @@ export default class Home extends Component {
         }
       }
       await signInApp(isSignedUp, token, updateToken, updateAlreadySignUpPersons, updateNotSignUpPersons, updateSignUpStatus, updateLastSignUpTime, updateSignedFlag);
-    } else {
-      if(process.env.TARO_ENV !== 'weapp' && process.env.TARO_ENV !== 'alipay'){
-        Taro.navigateTo({
-          url: '/pages/login/login'
-        })
-      }
     }
   }
 
@@ -183,7 +176,7 @@ export default class Home extends Component {
     const { setNickname, setHeadPic } = this.props;
     if(setNickname || setHeadPic) return
     my.getOpenUserInfo({
-      fail: (res) => {
+      fail: () => {
         getGlobalData('alert')("只有授权才能签到");
       },
       success: (res) => {
@@ -235,55 +228,91 @@ export default class Home extends Component {
 
   render () {
     const { hour, minute, middle, greeting, alipayStyle } = this.state;
-    let { username, token, alreadySignUpPersons=[], notSignUpPersons=[], lastSignUpTime, onlinePersons, signedFlag, isSignedUp, setNickname} = this.props;
-    alreadySignUpPersons = alreadySignUpPersons ? alreadySignUpPersons : []
-    notSignUpPersons = notSignUpPersons ? notSignUpPersons : []
+    const { username, token, alreadySignUpPersons=[], notSignUpPersons=[], lastSignUpTime, onlinePersons, signedFlag, isSignedUp, setNickname} = this.props;
     return (
       <View className={`sign-main ${alipayStyle}`}>
-        <View className="header">
-					<Text className="greetings">{greeting}</Text>
-					<Text className="user">{token ? setNickname ? setNickname : username : ""}</Text>
-				</View>
-				<View className="body">
-        	<View className="sign-area">
-            {/* 支付宝兼容微信按钮但微信不兼容支付宝按钮 */}
-            { process.env.TARO_ENV === "weapp" ?
-                <Button className={`sign ${signedFlag}`} onClick={this.signIn}
-                    openType='getUserInfo' onGetUserInfo={this.toBegin}  //weapp
-                >
-                  <Text className="sign-text">{isSignedUp ? '已签到' : '签到'}</Text>
-					        <View id="now-time"><Text className="hour">{hour}</Text><Text className="middle">{middle}</Text><Text className="minute">{minute}</Text></View>
-					      </Button>
-                :
-                <Button className={`sign ${signedFlag}`} onClick={this.signIn}
-                  open-type="getAuthorize" onGetAuthorize={this.onGetAuthorize} onError={this.onAuthError} scope='userInfo' //alipay
-                >
-                  <Text className="sign-text">{isSignedUp ? '已签到' : '签到'}</Text>
-					        <View id="now-time"><Text className="hour">{hour}</Text><Text className="middle">{middle}</Text><Text className="minute">{minute}</Text></View>
-					      </Button>
-            }
-
-        		<Text className="last-sign-time">上一次签到时间：<Text className="last-sign">{lastSignUpTime}</Text></Text>
-					  {onlinePersons && <View className="online-persons"  onClick={this.getOnlinePersons}>
-					  	<Text className="text">当前</Text>
-					  	<Text className="persons">{onlinePersons}</Text>
-					  	<Text className="text">人在线</Text>
-					  </View>}
-        	</View>
-        	<View className="count-area">
-        	  <View className="signed"><Text className="signed-text">已签到:</Text>
-                <ScrollView className="signed-persons" enableFlex={true} >
-                  {alreadySignUpPersons.map((item, index) => <Text key={item.username} className={item.origin || "h5"}>{item.username + (index === alreadySignUpPersons.length-1 ? "" : `, `)}</Text>)}
-                </ScrollView>
-        	  </View>
-        	  <View className="not-signed"><Text className="not-signed-text">未签到:</Text>
-                <ScrollView className="not-signed-persons" enableFlex={true}>
-                  {notSignUpPersons.map((item, index) => <Text key={item.username} className={item.origin || "h5" }>{item.username + (index === notSignUpPersons.length-1 ? "" : `, `)}</Text>)}
-                </ScrollView>
-        	  </View>
-        	</View>
+        <View className='header'>
+          <Text className='greetings'>{greeting}</Text>
+          <Text className='user'>
+            {token ? (setNickname ? setNickname : username) : ""}
+          </Text>
         </View>
-  		</View>
-    )
+        <View className='body'>
+          <View className='sign-area'>
+            {/* 支付宝兼容微信按钮但微信不兼容支付宝按钮 */}
+            {process.env.TARO_ENV === "weapp" ? (
+              <Button
+                className={`sign ${signedFlag}`}
+                onClick={this.signIn}
+                openType='getUserInfo'
+                onGetUserInfo={this.toBegin} //weapp
+              >
+                <Text className='sign-text'>
+                  {isSignedUp ? "已签到" : "签到"}
+                </Text>
+                <View id='now-time'>
+                  <Text className='hour'>{hour}</Text>
+                  <Text className='middle'>{middle}</Text>
+                  <Text className='minute'>{minute}</Text>
+                </View>
+              </Button>
+            ) : (
+              <Button
+                className={`sign ${signedFlag}`}
+                onClick={this.signIn}
+                open-type='getAuthorize'
+                onGetAuthorize={this.onGetAuthorize}
+                onError={this.onAuthError}
+                scope='userInfo' //alipay
+              >
+                <Text className='sign-text'>
+                  {isSignedUp ? "已签到" : "签到"}
+                </Text>
+                <View id='now-time'>
+                  <Text className='hour'>{hour}</Text>
+                  <Text className='middle'>{middle}</Text>
+                  <Text className='minute'>{minute}</Text>
+                </View>
+              </Button>
+            )}
+            <Text className='last-sign-time'>
+              上一次签到时间：
+              <Text className='last-sign'>{lastSignUpTime}</Text>
+            </Text>
+            {onlinePersons && (
+              <View className='online-persons' onClick={this.getOnlinePersons}>
+                <Text className='text'>当前</Text>
+                <Text className='persons'>{onlinePersons}</Text>
+                <Text className='text'>人在线</Text>
+              </View>
+            )}
+          </View>
+          <View className='count-area'>
+            <View className='signed'>
+              <Text className='signed-text'>已签到:</Text>
+              <ScrollView className='signed-persons' enableFlex={true}>
+                {alreadySignUpPersons.map((item, index) => (
+                  <Text key={item.username} className={item.origin || "h5"}>
+                    {item.username +
+                      (index === alreadySignUpPersons.length - 1 ? "" : `, `)}
+                  </Text>
+                ))}
+              </ScrollView>
+            </View>
+            <View className='not-signed'>
+              <Text className='not-signed-text'>未签到:</Text>
+              <ScrollView className='not-signed-persons' enableFlex={true}>
+                {notSignUpPersons.map((item, index) => (
+                  <Text key={item.username} className={item.origin || "h5"}>
+                    {item.username +
+                      (index === notSignUpPersons.length - 1 ? "" : `, `)}
+                  </Text>
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
   }
 }

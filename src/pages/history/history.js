@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Input, Button, ScrollView } from '@tarojs/components'
+import { View, Text, Input, Button } from '@tarojs/components'
 import _ from "lodash"
 import NavBar from "../../components/navBar"
 import { connect } from '@tarojs/redux'
@@ -36,7 +36,7 @@ searchRecord = (slice = 30) => {
         return;
       }
       this.signDataCount = result.totalCount
-      if (this.signDataCount) {
+      if(this.signDataCount) {
         result = _.orderBy(result.signData, ['date'], ['desc'])
         this.setState({
           recordList: result || [],
@@ -86,8 +86,8 @@ goBack = () => {
 }
 
 render(){
-  let { recordList, searchString, clickShowMoreCount, showMoreText, showBottom } = this.state;
-  let recordListLength = recordList.length;
+  const { recordList, searchString, clickShowMoreCount, showMoreText } = this.state;
+  const recordListLength = recordList.length;
     return (
       <View className="search-history-container">
         <NavBar centerText="查询签到历史" backFun={this.goBack} ></NavBar>
