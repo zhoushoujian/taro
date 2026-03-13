@@ -1,7 +1,7 @@
 /**
  * React Native 原生组件
  */
-import Taro, { Component } from '@tarojs/taro'
+import { Component } from 'react'
 import { WebView } from 'react-native'
 
 export default class WebViewRN extends Component {

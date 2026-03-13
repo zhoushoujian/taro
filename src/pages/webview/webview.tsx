@@ -1,4 +1,5 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
+import { Component } from 'react'
 import { View, WebView } from '@tarojs/components'
 /**
  * // NOTE Taro 的 RN 端还未提供 WebView 组件，可以引入原生组件来解决

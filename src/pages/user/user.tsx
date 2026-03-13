@@ -1,6 +1,7 @@
-import Taro, { Component } from "@tarojs/taro";
+import Taro from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
-import { connect } from "@tarojs/redux";
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import * as actions from "../../store/user";
 import historyPic from "./assets/history.png";
 import feedbackPic from "./assets/feedback.png";
@@ -77,7 +78,7 @@ class User extends Component {
                 >
                   <Image className="menu-ico" src={historyPic}></Image>
                   <Text className="menu-text">签到历史</Text>
-                  <Text className="menu-arrow">></Text>
+                  <Text className="menu-arrow">&gt;</Text>
                 </View>
               </View>
               <View className="interval"></View>
@@ -88,7 +89,7 @@ class User extends Component {
                 >
                   <Image className="menu-ico" src={feedbackPic}></Image>
                   <Text className="menu-text">反馈</Text>
-                  <Text className="menu-arrow">></Text>
+                  <Text className="menu-arrow">&gt;</Text>
                 </View>
                 <View
                   className="system menu-item"
@@ -96,7 +97,7 @@ class User extends Component {
                 >
                   <Image className="menu-ico" src={systemPic}></Image>
                   <Text className="menu-text">系统设置</Text>
-                  <Text className="menu-arrow">></Text>
+                  <Text className="menu-arrow">&gt;</Text>
                 </View>
               </View>
             </View>

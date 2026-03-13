@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import thunkMiddleware from 'redux-thunk'
+import logger from 'redux-logger'
 import { home } from './home'
 import { user } from './user'
 import { login } from './login'
@@ -23,7 +24,7 @@ const middlewares = [
 ]
 
 if (process.env.NODE_ENV === 'development') {
-  middlewares.push(require('redux-logger').createLogger())
+  middlewares.push(logger)
 }
 
 const enhancer = composeEnhancers(

@@ -1,10 +1,11 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import NavBar from "../../components/navBar"
 import { updateOnlinePersonsName } from "../../store/home"
 import { HTTP_URL } from "../../constants/api";
-import { networkErr, fetch } from "../../utils/utils"
+import { networkErr, request } from "../../utils/utils"
 import './index.scss'
 
 @connect(state => state.home, { updateOnlinePersonsName })
@@ -19,7 +20,7 @@ export default class ShowOnlinePersons extends Component {
 	}
 
   componentDidMount() {
-    return fetch(HTTP_URL.getOnlinePersons)
+    return request(HTTP_URL.getOnlinePersons)
       .then(response => {
         const result = response.data.result;
         this.setState({

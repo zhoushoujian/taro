@@ -1,9 +1,10 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
+import { Component } from 'react'
 import { View, Button, Textarea } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
+import { connect } from 'react-redux'
 import NavBar from "../../components/navBar"
 import { HTTP_URL } from "../../constants/api";
-import { networkErr, fetch } from "../../utils/utils"
+import { networkErr, request } from "../../utils/utils"
 import './index.scss'
 
 @connect(state => state.login, {  })
@@ -42,7 +43,7 @@ class Feedback extends Component {
     arr.push(feedbackContent);
     const { username } = this.props;
     const data = Object.assign({}, { username }, { feedbackContent: arr })
-    fetch(HTTP_URL.feedback, data, 'post')
+    request(HTTP_URL.feedback, data, 'post')
       .then(() => {
         Taro.showToast({
           title: "提交成功",

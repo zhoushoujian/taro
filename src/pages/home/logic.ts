@@ -1,5 +1,5 @@
 import { HTTP_URL } from "../../constants/api";
-import { networkErr, fetch, removeStorage } from "../../utils/utils";
+import { networkErr, request, removeStorage } from "../../utils/utils";
 import {
   updateAlreadySignUpPersons,
   updateNotSignUpPersons
@@ -19,7 +19,7 @@ export const autoLogin = function(
 ) {
   return new Promise(res => {
     const data = Object.assign({}, { token });
-    return fetch(HTTP_URL.tokenLogin, data, "post")
+    return request(HTTP_URL.tokenLogin, data, "post")
       .then(async response => {
         console.info(`auto login  response`, response.data);
         const result = response.data.result;
@@ -57,7 +57,7 @@ export const retrieveOthers = (
 ) => {
   if (token) {
     const data = { token };
-    return fetch(HTTP_URL.retrieveOthers, data, "post")
+    return request(HTTP_URL.retrieveOthers, data, "post")
       .then(response => {
         const responseText = response.data;
         setOthersSignInfo(
@@ -112,7 +112,7 @@ export const retrieveLastLoginTime = (
 ) => {
   if (token) {
     const data = Object.assign({}, { token });
-    return fetch(HTTP_URL.lastSign, data, "post")
+    return request(HTTP_URL.lastSign, data, "post")
       .then(response => {
         console.info(`retrieveLastLoginTime  response`, response.data);
         let date = new Date().format("yyyy-MM-dd");
@@ -147,7 +147,7 @@ export const signInApp = (
         CurrentTime: new Date().format("yyyy-MM-dd")
       }
     );
-    return fetch(HTTP_URL.goSign, data, "post")
+    return request(HTTP_URL.goSign, data, "post")
       .then(response => {
         console.info(`signIn  response`, response.data);
         if (response.data.result.str === "already_signed") {

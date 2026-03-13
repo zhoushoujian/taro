@@ -1,8 +1,7 @@
 import Taro from '@tarojs/taro'
-import { fetch } from "./utils"
+import { request } from "./utils"
 import { HTTP_URL } from "../constants/api"
 import { setStorage, networkErr, initWebsocket } from './utils'
-import TaroAlipay from "./taro.alipay"
 import { get as getGlobalData } from '../global_data'
 
 // 微信登录
@@ -56,21 +55,23 @@ export const remindWeAppUser = (updateSetNickname, updateSetHeadPic) => {
 
 // 支付宝登录
 export const onLoginByAlipay = async(updateUsername, updateToken) => {
-  return new Promise((resolve) => {
-    TaroAlipay['getAuthCode']({
-      scopes: 'auth_user',
-      success: async(authInfo) => {
-        const authCode = authInfo.authCode;
-        const data = {code: authCode, env: "alipay"}
-        await dealWithMiniProgramLogin(data, updateUsername, updateToken)
-        resolve()
-      }
-    })
-  })
+  updateUsername
+  updateToken
+  // return new Promise((resolve) => {
+  //   TaroAlipay['getAuthCode']({
+  //     scopes: 'auth_user',
+  //     success: async(authInfo) => {
+  //       const authCode = authInfo.authCode;
+  //       const data = {code: authCode, env: "alipay"}
+  //       await dealWithMiniProgramLogin(data, updateUsername, updateToken)
+  //       resolve()
+  //     }
+  //   })
+  // })
 };
 
 async function dealWithMiniProgramLogin(obj, updateUsername, updateToken){
-  return await fetch(HTTP_URL.miniProgramLogin, obj, 'get')
+  return await request(HTTP_URL.miniProgramLogin, obj, 'get')
     .then(async (response) => {
       const data = response.data;
       if(data.status === 'SUCCESS'){

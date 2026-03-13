@@ -1,5 +1,5 @@
 import { HTTP_URL } from "../../constants/api"
-import { networkErr, fetch } from "../../utils/utils"
+import { networkErr, request } from "../../utils/utils"
 import { get as getGlobalData } from "../../global_data"
 
 export const resetPasswordFunc = (token, value) => {
@@ -17,7 +17,7 @@ export const resetPasswordFunc = (token, value) => {
           data = Object.assign({}, {newPwd, token});
       }
   }
-  fetch(HTTP_URL.resetPassword, data, 'post')
+  request(HTTP_URL.resetPassword, data, 'post')
     .then((response) => {
         console.info(`reset password response`, response.data);
         if (response.data.result === "lack_field") {

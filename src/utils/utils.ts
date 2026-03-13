@@ -228,7 +228,7 @@ export const removeStorage = (key = "", isSync = false) => {
   })
 }
 
-export const fetch = async (url, payload, method = 'GET') => {
+export const request = async (url, payload, method = 'GET') => {
   let token;
   if(payload && payload.token){
     token = payload.token

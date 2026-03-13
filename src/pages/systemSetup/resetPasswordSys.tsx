@@ -1,6 +1,7 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { View, Input, Text, Button } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import NavBar from "../../components/navBar"
 import { resetPasswordFunc } from "./logic"
 import * as action1 from "../../store/home"

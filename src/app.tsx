@@ -1,12 +1,9 @@
-import '@tarojs/async-await'
-import Taro, { Component } from '@tarojs/taro'
-import { Provider } from '@tarojs/redux'
-
-import Index from './pages/index'
+import Taro from '@tarojs/taro'
+import { Component, PropsWithChildren } from 'react'
+import { Provider } from 'react-redux'
 import configStore from './store'
 import { set as setGlobalData } from "./global_data"
 import "./observer"
-
 import './styles/reset.scss'
 import './app.scss'
 
@@ -22,8 +19,7 @@ setGlobalData("alert", (title) => {
   })
 })
 
-
-class App extends Component {
+class App extends Component<PropsWithChildren> {
   config = {
     pages: [
       'pages/home/home',
@@ -68,17 +64,15 @@ class App extends Component {
 
   componentDidHide () {}
 
-  componentCatchError () {}
-
-  componentDidCatchError () {}
-
+  // 在 App 类中的 render() 函数没有实际作用
+  // 请勿修改此函数
   render () {
     return (
       <Provider store={store}>
-        <Index />
+        {this.props.children}
       </Provider>
     )
   }
 }
 
-Taro.render(<App />, document.getElementById('app'))
+export default App

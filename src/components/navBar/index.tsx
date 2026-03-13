@@ -1,4 +1,4 @@
-import { Component } from '@tarojs/taro'
+import { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import Arrow from "./assets/back-arrow.png"
 import "./index.scss";

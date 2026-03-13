@@ -1,8 +1,9 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { View, Text, Input, Button } from '@tarojs/components'
 import _ from "lodash"
 import NavBar from "../../components/navBar"
-import { connect } from '@tarojs/redux'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import { searchRecordFunc } from './logic'
 import './index.scss'
 

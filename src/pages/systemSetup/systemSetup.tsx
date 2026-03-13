@@ -1,6 +1,7 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import NavBar from "../../components/navBar"
 import * as action1 from "../../store/home"
 import * as action2 from "../../store/login"
@@ -29,7 +30,6 @@ class SystemSetup extends Component {
   }
 
   render() {
-	  const { token } = this.props;
     return (
       <View className="system-container">
         <NavBar centerText="设置" backFun={this.goBack} ></NavBar>

@@ -9,8 +9,8 @@ const ONLINE_PERSONS_NAME = "sign/onlinePersonsName";
 const INITIAL_STATE = {
   isSignedUp: false,
   lastSignUpTime: "",
-  alreadySignUpPersons: "",
-	notSignUpPersons: "",
+  alreadySignUpPersons: [],
+	notSignUpPersons: [],
   onlinePersons: 0,
   signedFlag: "",
   onlinePersonsName: "",
@@ -30,7 +30,7 @@ export const home = function (state = INITIAL_STATE, action) {
       return Object.assign({}, state, { onlinePersons: action.data });
     case SIGNED_FLAG:
       return Object.assign({}, state, { signedFlag: action.data });
-    case SIGNED_FLAG:
+    case ONLINE_PERSONS_NAME:
 			return Object.assign({}, state, {  onlinePersonsName: action.data });
     default:
       return state;

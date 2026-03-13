@@ -1,6 +1,7 @@
-import Taro, { Component } from "@tarojs/taro";
+import Taro from "@tarojs/taro";
 import { View, Text, ScrollView, Button } from "@tarojs/components";
-import { connect } from "@tarojs/redux";
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import * as actions from "../../store/home";
 import {
   updateToken,
@@ -10,7 +11,7 @@ import {
 import { updateSetNickname, updateSetHeadPic } from "../../store/user";
 import {
   getStorage,
-  fetch,
+  request,
   initWebsocket,
   removeStorage
 } from "../../utils/utils";
@@ -292,7 +293,7 @@ export default class Home extends Component {
       username,
       token
     };
-    return fetch(HTTP_URL.updateUserInfo, data, "post").then(response => {
+    return request(HTTP_URL.updateUserInfo, data, "post").then(response => {
       console.log("response", response);
     });
   };
@@ -321,6 +322,7 @@ export default class Home extends Component {
       isSignedUp,
       setNickname
     } = this.props;
+    console.log(' this.props', this.props)
     return (
       <View className={`sign-main ${alipayStyle}`}>
         <View className="header">
