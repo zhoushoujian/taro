@@ -1,10 +1,10 @@
-const SET_NICKNAME = "myInfo/setNickname";
-const SET_HEAD_PIC = "myInfo/setHeadPic";
+const SET_NICKNAME = 'myInfo/setNickname';
+const SET_HEAD_PIC = 'myInfo/setHeadPic';
 
 const INITIAL_STATE = {
-  setNickname: "",
-  setHeadPic: ""
-}
+  setNickname: '',
+  setHeadPic: '',
+};
 
 export const user = function (state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -15,14 +15,14 @@ export const user = function (state = INITIAL_STATE, action) {
     default:
       return state;
   }
-}
+};
 
-export const updateSetNickname = data => ({
+export const updateSetNickname = (data) => ({
   type: SET_NICKNAME,
-  data
+  data,
 });
 
-export const updateSetHeadPic = data => ({
+export const updateSetHeadPic = (data) => ({
   type: SET_HEAD_PIC,
-  data
+  data,
 });

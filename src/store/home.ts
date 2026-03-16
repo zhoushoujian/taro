@@ -1,20 +1,20 @@
-const IS_SIGNED_UP = "sign/isSignedUp";
-const LAST_SIGN_UP_TIME = "sign/lastSignUpTime";
-const ALREADY_SIGN_UP_PERSONS = "sign/alreadySignUpPersons";
-const NOT_SIGN_UP_PERSONS = "sign/notSignUpPersons";
-const ONLINE_PERSONS = "sign/onlinePersons"
-const SIGNED_FLAG = "sign/signedFlag"
-const ONLINE_PERSONS_NAME = "sign/onlinePersonsName";
+const IS_SIGNED_UP = 'sign/isSignedUp';
+const LAST_SIGN_UP_TIME = 'sign/lastSignUpTime';
+const ALREADY_SIGN_UP_PERSONS = 'sign/alreadySignUpPersons';
+const NOT_SIGN_UP_PERSONS = 'sign/notSignUpPersons';
+const ONLINE_PERSONS = 'sign/onlinePersons';
+const SIGNED_FLAG = 'sign/signedFlag';
+const ONLINE_PERSONS_NAME = 'sign/onlinePersonsName';
 
 const INITIAL_STATE = {
   isSignedUp: false,
-  lastSignUpTime: "",
+  lastSignUpTime: '',
   alreadySignUpPersons: [],
-	notSignUpPersons: [],
+  notSignUpPersons: [],
   onlinePersons: 0,
-  signedFlag: "",
-  onlinePersonsName: "",
-}
+  signedFlag: '',
+  onlinePersonsName: '',
+};
 
 export const home = function (state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -31,42 +31,42 @@ export const home = function (state = INITIAL_STATE, action) {
     case SIGNED_FLAG:
       return Object.assign({}, state, { signedFlag: action.data });
     case ONLINE_PERSONS_NAME:
-			return Object.assign({}, state, {  onlinePersonsName: action.data });
+      return Object.assign({}, state, { onlinePersonsName: action.data });
     default:
       return state;
   }
-}
+};
 
-export const updateSignUpStatus = data => ({
+export const updateSignUpStatus = (data) => ({
   type: IS_SIGNED_UP,
-  data
+  data,
 });
 
-export const updateLastSignUpTime = data => ({
+export const updateLastSignUpTime = (data) => ({
   type: LAST_SIGN_UP_TIME,
-  data
+  data,
 });
-export const updateAlreadySignUpPersons = data => ({
+export const updateAlreadySignUpPersons = (data) => ({
   type: ALREADY_SIGN_UP_PERSONS,
-  data
+  data,
 });
 
-export const updateNotSignUpPersons = data => ({
+export const updateNotSignUpPersons = (data) => ({
   type: NOT_SIGN_UP_PERSONS,
-  data
+  data,
 });
 
-export const updateOnlinePersons = data => ({
+export const updateOnlinePersons = (data) => ({
   type: ONLINE_PERSONS,
-  data
+  data,
 });
 
-export const updateSignedFlag = data => ({
+export const updateSignedFlag = (data) => ({
   type: SIGNED_FLAG,
-  data
+  data,
 });
 
-export const updateOnlinePersonsName = data => ({
-	type: ONLINE_PERSONS_NAME,
-	data
-})
+export const updateOnlinePersonsName = (data) => ({
+  type: ONLINE_PERSONS_NAME,
+  data,
+});

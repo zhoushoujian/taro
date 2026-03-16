@@ -1,4 +1,5 @@
 {
+  "types": ["miniprogram-api-typings", "mini-types"],
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
@@ -19,9 +20,10 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "miniprogram-api-typings"
     ]
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types/global.d.ts"],
   "compileOnSave": false
 }

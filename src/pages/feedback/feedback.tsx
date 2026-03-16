@@ -1,107 +1,89 @@
-import Taro from '@tarojs/taro'
-import { Component } from 'react'
-import { View, Button, Textarea } from '@tarojs/components'
-import { connect } from 'react-redux'
-import NavBar from "../../components/navBar"
-import { HTTP_URL } from "../../constants/api";
-import { networkErr, request } from "../../utils/utils"
-import './index.scss'
+import { Button, Textarea, View } from '@tarojs/components';
+import Taro from '@tarojs/taro';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import NavBar from '../../components/navBar';
+import { HTTP_URL } from '../../constants/api';
+import { formatDate, networkErr, request } from '../../utils/utils';
+import './index.scss';
 
-@connect(state => state.login, {  })
-class Feedback extends Component {
-
+@connect((state) => state.login, {})
+class Feedback extends Component<any, any> {
   config = {
-    navigationBarTitleText: '反馈'
-  }
+    navigationBarTitleText: '反馈',
+  };
 
-  constructor () {
-    super(...arguments)
+  constructor(props) {
+    super(props);
     this.state = {
-      value: ''
-    }
+      value: '',
+    };
   }
 
   handleChange = (event) => {
+    console.log('event', event);
     this.setState({
-      value: event.target.value
-    })
-  }
+      value: event.target.value,
+    });
+  };
 
   submitFeedback = () => {
-    const arr = [];
+    const arr = [] as any[];
     const feedbackContent = this.state.value;
-    console.log("feedbackContent", feedbackContent)
-    if(!feedbackContent) return;
-    if(feedbackContent.length > 200){
+    console.log('feedbackContent', feedbackContent);
+    if (!feedbackContent) return;
+    if (feedbackContent.length > 200) {
       return Taro.showToast({
-        title: "不允许超过200个字",
+        title: '不允许超过200个字',
         icon: 'none',
-        duration: 2000
-      })
+        duration: 2000,
+      });
     }
-    arr.push(new Date().format("yyyy-MM-dd hh:mm:ss"));
+    const time = formatDate('yyyy-MM-dd hh:mm:ss');
+    arr.push(time);
     arr.push(feedbackContent);
     const { username } = this.props;
-    const data = Object.assign({}, { username }, { feedbackContent: arr })
+    const data = Object.assign({}, { username }, { feedbackContent: arr });
     request(HTTP_URL.feedback, data, 'post')
       .then(() => {
         Taro.showToast({
-          title: "提交成功",
+          title: '提交成功',
           icon: 'none',
-          duration: 2000
-        })
+          duration: 2000,
+        });
       })
-      .catch(err => {
+      .catch((err) => {
         return networkErr(err);
-      })
-  }
+      });
+  };
 
   goBack = () => {
     Taro.navigateTo({
-      url: '/pages/user/user'
-    })
-  }
+      url: '/pages/user/user',
+    });
+  };
 
   render() {
     return (
-      <View className="feedback-container">
-        <NavBar centerText="反馈" backFun={this.goBack} ></NavBar>
-          <View className="feedback-content">
-            <Textarea
-              className="feedback-textarea"
-              value={this.state.value}
-              onChange={this.handleChange}
-              bindinput={this.handleChange}
-              maxLength={200}
-              placeholder="请详细描述你遇到的问题或建议"
-              showConfirmBar
-            />
-            <View className="submit-feedback">
-              <Button className="button" type='default' size="default" full onClick={this.submitFeedback} >提交</Button>
-            </View>
+      <View className='feedback-container'>
+        <NavBar centerText='反馈' backFun={this.goBack}></NavBar>
+        <View className='feedback-content'>
+          <Textarea
+            className='feedback-textarea'
+            value={this.state.value}
+            onInput={this.handleChange}
+            placeholder='请详细描述你遇到的问题或建议'
+            showConfirmBar={true}
+          />
+          <View className='submit-feedback'>
+            <Button className='button' type='default' size='default' onClick={this.submitFeedback}>
+              提交
+            </Button>
           </View>
+        </View>
       </View>
     );
   }
 }
 
 export default Feedback;
-
-Date.prototype.format = function (fmt) {
-  var o = {
-    "M+": this.getMonth() + 1, //月份
-    "d+": this.getDate(), //日
-    "h+": this.getHours(), //小时
-    "m+": this.getMinutes(), //分
-    "s+": this.getSeconds(), //秒
-    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-    "S": this.getMilliseconds() //毫秒
-  };
-  if (/(y+)/.test(fmt))
-    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-  for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt))
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k])
-      .length)));
-  return fmt;
-}
