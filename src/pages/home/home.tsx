@@ -73,8 +73,6 @@ export default class Home extends Component<any, any> {
           updateToken(token);
           initWebsocket(); //有token才在这里调websocket，没有token在注册登录的时候调websocket
           await autoLogin(token, updateUsername, updateSetNickname, updateSetHeadPic);
-        }
-        if (token) {
           // 如果微信用户已授权，直接调用接口更新用户昵称和头像
           remindWeAppUser(updateSetNickname, updateSetHeadPic);
         } else {

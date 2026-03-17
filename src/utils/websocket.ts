@@ -36,9 +36,7 @@ const initMiniProgramSocket = () => {
 };
 
 export const initWebsocket = () => {
-  if (process.env.TARO_ENV === 'weapp') {
-    initMiniProgramSocket();
-  }
+  initMiniProgramSocket();
 };
 
 async function reconnectAndSend() {
@@ -46,23 +44,13 @@ async function reconnectAndSend() {
   if (process.env.TARO_ENV === 'weapp') {
     if (socketTask.readyState !== 1) {
       console.warn('reconnectAndSend wx.ws.readyState !== 1');
-      await reconnectSocket();
+      socketTask?.close({ code: 1000, reason: 'close' });
+      initMiniProgramSocket();
     } else {
       wx.sendSocketMessage({ data: JSON.stringify(message) });
-      //  10秒超时，如何收不到服务端pong响应则表示服务端已主动断开连接，此时需客户端重新开启websocket连接
-      setTimeout(async () => {
-        console.warn('reconnectAndSendTimeout reconnectSocket');
-        await reconnectSocket();
-      }, 10000);
     }
   }
 }
-
-const reconnectSocket = () => {
-  if (process.env.TARO_ENV === 'weapp') {
-    initMiniProgramSocket();
-  }
-};
 
 const incomingMessage = async (data) => {
   try {
@@ -95,9 +83,7 @@ const incomingMessage = async (data) => {
           data: 'reply-server-heart-beat',
           date: Date.now(),
         };
-        if (process.env.TARO_ENV === 'weapp') {
-          wx.sendSocketMessage({ data: JSON.stringify(msg) });
-        }
+        wx.sendSocketMessage({ data: JSON.stringify(msg) });
         break;
       }
       default:
